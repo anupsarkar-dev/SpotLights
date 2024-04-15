@@ -1,0 +1,45 @@
+{
+  "name": "SpotLights.admin",
+  "Author": "https://github.com/farzindev",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build",
+    "build:Debug": "gulp build",
+    "build:Release": "gulp release build"
+  },
+  "dependencies": {
+    "bootstrap": "~5.1.0",
+    "autosize": "^6.0.1",
+    "chart.js": "~2.9.4",
+    "easymde": "^2.18.0",
+    "highlight.js": "~10.7.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.9",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/stream": "^3.0.0",
+    "autoprefixer": "^10.4.14",
+    "cssnano": "^6.0.1",
+    "del": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-notify": "^4.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-size": "^4.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^2.0.3",
+    "gulp-uglify": "^3.0.2",
+    "rollup": "^3.23.1",
+    "rtlcss": "^3.3.0",
+    "sass": "~1.32.12",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}

@@ -1,0 +1,50 @@
+@model PostModel
+
+@{
+  var postSlug = Model.Main.AbsoluteUrl + "/post/" + Model.PostSlug.Post.Slug;
+  var share_facebook = "https://www.facebook.com/sharer/sharer.php?u=" + postSlug;
+  var share_twitter = "https://twitter.com/intent/tweet?text=" + Model.PostSlug.Post.Title + "&url=" + postSlug;
+  var share_email = "mailto:?&subject=" + Model.PostSlug.Post.Title + "&cc=&bcc=&body=" + Model.PostSlug.Post.Title + "%0" + postSlug;
+}
+
+<div class="modal fade share-modal" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="shareModalLabel">Share</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body share-modal-body">
+        <ul class="share-modal-list row g-3">
+          <li class="col">
+            <a class="share-modal-link -facebook" href="@share_facebook" target="_blank">
+              <svg width="16" height="16" class="bi bi-facebook share-modal-link-icon">
+                <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#github"></use>
+              </svg>
+              <span class="share-modal-link-label">Facebook</span>
+            </a>
+          </li>
+          <li class="col bft-share-item">
+            <a class="share-modal-link -twitter" href="@share_twitter" target="_blank">
+              <svg width="16" height="16" class="bi bi-twitter share-modal-link-icon">
+                <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#twitter"></use>
+              </svg>
+              <span class="share-modal-link-label">Twitter</span>
+            </a>
+          </li>
+          <li class="col bft-share-item">
+            <a class="share-modal-link" href="@share_email" target="_blank">
+              <svg width="16" height="16" class="bi bi-envelope-fill share-modal-link-icon">
+                <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#bi-envelope-fill"></use>
+              </svg>
+              <span class="share-modal-link-label">Email</span>
+            </a>
+          </li>
+        </ul>
+        <input id="pageShareLink" onclick="copyInput('pageShareLink')" onkeydown="copyInput('pageShareLink')"
+          title="click to copy!" type="text" class="share-modal-input" aria-label="Press enter to copy the page link"
+          value="@postSlug" data-link="@postSlug" readonly>
+      </div>
+    </div>
+  </div>
+</div>

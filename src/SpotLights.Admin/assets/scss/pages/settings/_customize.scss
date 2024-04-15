@@ -1,0 +1,98 @@
+.customize {
+  &-info {
+    @include bf-shadow();
+    margin-bottom: 0;
+    padding: 2rem;
+
+    &-cover {
+      width: 7.5rem;
+      min-width: 7.5rem;
+      height: 7.5rem;
+      overflow: hidden;
+      margin-right: 1.5rem;
+      border-radius: 0.25rem;
+      border: 1px solid $gray-200;
+    }
+    &-img {
+      min-width: 100%;
+    }
+
+    // details
+    &-details {
+      flex-grow: 1;
+    }
+
+    &-title {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    &-desc {
+      width: 100%;
+      max-width: 50rem;
+      color: $gray-700;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: $gray-700;
+      font-size: 0.875rem;
+      font-weight: 500;
+
+      li {
+        display: inline-block;
+        margin-right: 1.25rem;
+
+        a {
+          color: $gray-700;
+
+          &:hover {
+            color: $SpotLights;
+          }
+        }
+      }
+    }
+  }
+
+  &-tab {
+    &-nav {
+      .nav-link {
+        border: 0;
+        border-radius: 0;
+        color: $gray-600;
+        font-weight: 600;
+        margin-right: 0;
+        border-bottom: 1px solid $gray-300;
+        padding: 0;
+        line-height: 3.5rem;
+        &:not(:last-child) {
+          margin-right: 1.5rem;
+        }
+
+        &:hover {
+          color: $SpotLights;
+        }
+
+        &.active {
+          background: none;
+          color: $SpotLights;
+          border-color: $SpotLights;
+        }
+      }
+    }
+
+    //
+    .accordion-button {
+      padding-left: 2rem;
+      font-weight: 500;
+
+      &::after {
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+}

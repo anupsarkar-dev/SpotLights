@@ -1,0 +1,37 @@
+.section {
+  &-content {
+    width: 100%;
+    &:not(:last-child) {
+      margin-bottom: 4rem;
+    }
+
+    @media screen and (min-width: 992px) {
+      &.-full {
+        max-width: 100%;
+      }
+      &.-half {
+        max-width: 50%;
+      }
+    }
+  }
+
+  &-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    border-bottom: 1px solid $gray-200;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  &-desc {
+    &:not(.alert) {
+      color: $gray-600;
+    }
+  }
+
+  &-subtitle {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+}

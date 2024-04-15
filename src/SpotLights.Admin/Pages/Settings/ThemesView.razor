@@ -1,0 +1,19 @@
+@layout SettingsLayout
+@page "/admin/settings/themes/"
+@inject HttpClient _http
+@inject IToaster _toaster
+@inject IStringLocalizer<Resource> _localizer
+
+<PageTitleComponent Title="@_localizer["themes"]" />
+
+<h1 class="section-title">@_localizer["menus"]</h1>
+<p class="section-desc w-75">@_localizer["theme-customization-desc"]</p>
+<div class="section-content">
+  <div class="alert alert-secondary d-flex align-items-center">
+    @_localizer["under-development"].
+    <a class="ms-auto btn btn-sm btn-secondary py-1" target="_blank" href="https://github.com/SpotLightsdotnet/SpotLights/projects/">
+      @_localizer["more-info"]
+    </a>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+
+@model PostModel
+
+@inject IStringLocalizer<Resource> _localizer
+
+@{
+  Layout = "layouts/_main.cshtml";
+}
+
+@section FooterScript {
+  <script src="~/_content/@ThemesStandardConstant.AssemblyName/js/highlight.js"></script>
+}
+
+<main class="post-detail">
+  <article class="post">
+    <figure class="post-cover">
+      <img class="post-cover-img" src="@PageHelper.CheckGetCoverrUrl(Model.PostSlug.Post.Cover)" alt="@Model.PostSlug.Post.Title">
+    </figure>
+    <header class="post-header post-container">
+      <h1 class="post-title">@Model.PostSlug.Post.Title</h1>
+      <div class="post-meta d-flex align-items-center">
+        <div class="post-meta-item post-meta-date">
+          <span class="post-meta-label">@_localizer["published"]</span>
+          <time class="post-meta-date-time">@DateTimeHelper.ToFriendlyShortDateString(Model.PostSlug.Post.PublishedAt)</time>
+        </div>
+        <button class="post-meta-btn ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#shareModal">
+          <svg width="16" height="16" class="bi bi-share">
+            <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#bi-share"></use>
+          </svg>
+        </button>
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+          <a class="post-meta-btn ms-2" href="~/admin/pages/editor/@Model.PostSlug.Post.Slug">
+            <svg width="16" height="16" class="bi bi-pencil">
+              <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#bi-pencil"></use>
+            </svg>
+          </a>
+        }
+      </div>
+    </header>
+    <section class="post-content post-container">
+      @Html.Raw(Model.PostSlug.Post.ContentHtml)
+    </section>
+  </article>
+  <partial name="post/share.cshtml" />
+</main>

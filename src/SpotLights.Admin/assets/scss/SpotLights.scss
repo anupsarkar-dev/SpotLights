@@ -1,0 +1,50 @@
+﻿/*!
+
+    SpotLights v3.0 (https://SpotLights.net)
+    Copyright 2012-2021
+
+    by Farzin
+    https://farzin.dev
+
+    Using:
+    - Bootstrap v5.1 (https://getbootstrap.com/)
+
+*/
+
+// helpers
+@import "helpers/variables";
+@import "helpers/bootstrap";
+@import "helpers/mixins";
+@import "helpers/reset";
+
+// layout
+@import "layout/main";
+@import "layout/nav";
+@import "layout/sidebar";
+
+// components
+@import "include/blazor";
+@import "include/section";
+@import "include/buttons";
+@import "include/forms";
+@import "include/list";
+@import "include/highlight";
+@import "include/toaster";
+@import "include/editor";
+@import "include/tooltips";
+@import "include/icons";
+
+// pages > account
+@import "pages/account/account";
+
+// pages > dashbaord
+@import "pages/dashboard/dashboard";
+
+// pages > editor
+@import "pages/editor/editor";
+
+// pages > settings
+@import "pages/settings/settings";
+@import "pages/settings/about";
+@import "pages/settings/themes";
+@import "pages/settings/customize";

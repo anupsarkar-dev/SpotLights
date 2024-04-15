@@ -1,0 +1,13 @@
+@inherits LayoutComponentBase
+
+<AuthorizeView>
+  <Authorized>
+    <NavMenuComponent />
+    @Body
+  </Authorized>
+  <NotAuthorized>
+    <RedirectComponent />
+  </NotAuthorized>
+</AuthorizeView>
+
+<ToastContainer />

@@ -1,0 +1,38 @@
+@inject IStringLocalizer<Resource> _localizer
+@model AccountModel
+@{
+  var redirectUri = Model.RedirectUri ?? "/";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- TODO: These variables comes from customfiedls -->
+  <link rel="stylesheet" href="~/_content/@ThemesStandardConstant.AssemblyName/css/SpotLights.css">
+  <link rel="stylesheet" href="~/_content/@ThemesStandardConstant.AssemblyName/css/account.css">
+  @await RenderSectionAsync("HeaderScript", required: false)
+</head>
+
+<body>
+  <main class="SpotLights">
+    <a class="account-back link-secondary" href="@redirectUri" data-bs-toggle="tooltip" title="@_localizer["back-to-website"]" data-placement="right">
+      <svg width="24" height="24" class="bi bi-arrow-left">
+        <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#bi-arrow-left"></use>
+      </svg>
+    </a>
+    <div class="account">
+      <a class="account-logo link-SpotLights" href="http://SpotLights.net/" target="_blank" rel="nofollow external" data-bs-toggle="tooltip" title="@_localizer["powered-by-SpotLights"]">
+        <svg width="40" height="40">
+          <use xlink:href="/_content/@ThemesStandardConstant.AssemblyName/img/icon-sprites.svg#logo"></use>
+        </svg>
+      </a>
+      @RenderBody()
+    </div>
+  </main>
+  <script src="~/_content/@ThemesStandardConstant.AssemblyName/js/SpotLights.js"></script>
+</body>
+
+</html>

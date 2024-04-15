@@ -1,0 +1,166 @@
+.toolbar-sticky {
+  .bfeditor-header {
+    &::after {
+      height: 1rem;
+      position: fixed;
+      top: 3.5rem;
+      bottom: auto;
+      border: 0;
+      background-image: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0) 30%
+      );
+    }
+  }
+  @media screen and (max-width: 1199px) {
+    .editor-toolbar {
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+.bfeditor {
+  flex-grow: 1;
+  background-color: #fff;
+  // custom editor
+  .easymde-wrapper {
+    max-width: 1024px;
+    width: 100%;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .EasyMDEContainer {
+    box-shadow: none;
+    border-radius: 0;
+    padding-top: 3.5rem;
+  }
+  .CodeMirror-lines {
+    padding: 3rem 0 20rem;
+  }
+  .editor-toolbar {
+    height: 3.5rem;
+    border-bottom: 0;
+
+    &.fullscreen {
+      height: 3rem;
+      padding: 0 0.25rem;
+    }
+    i.separator {
+      height: 1rem;
+      margin: 0 0.75rem;
+    }
+    button {
+      border-radius: 0.5rem;
+      position: relative;
+      &:not(:last-child) {
+        margin-right: 0.25rem;
+      }
+      + i.separator {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  .editor-preview {
+    padding: 3rem 0;
+  }
+  .CodeMirror-fullscreen .editor-preview {
+    padding: 2.5rem;
+  }
+
+  //
+  &-actions {
+    z-index: 3;
+    position: relative;
+    background-color: rgba(#000, 0.25);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  &-header {
+    margin-top: -3rem;
+    position: relative;
+    background-color: $dark;
+    color: #fff;
+    z-index: 6;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      position: absolute;
+      bottom: -3.5rem;
+      left: 0;
+      height: 1px;
+      border-top: 1px solid $gray-200;
+    }
+
+    &-inner {
+      position: relative;
+      z-index: 2;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    &-textarea {
+      padding: 0.5rem;
+      width: 100%;
+      border: 1px dashed rgba(#fff, 0);
+      border-radius: 0.25rem;
+      background: none;
+      color: #fff;
+      outline: none !important;
+      padding-right: 25%;
+
+      &::placeholder {
+        color: rgba(#fff, 0.75);
+      }
+
+      &:focus {
+        border-color: rgba(#fff, 0.5);
+      }
+    }
+
+    &-title {
+      font-weight: 500;
+      font-size: 1.325rem;
+    }
+
+    &-desc {
+      font-size: 0.875rem;
+      color: rgba(#fff, 0.75);
+      &:focus {
+        color: #fff;
+      }
+    }
+  }
+
+  &-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  &-meta {
+    padding-left: 0.5rem;
+    margin-top: 1rem;
+
+    &-link {
+      color: rgba(#fff, 0.75);
+      &[aria-expanded="true"],
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
