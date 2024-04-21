@@ -10,8 +10,8 @@
     "build:Release": "gulp release build"
   },
   "dependencies": {
-    "bootstrap": "~5.1.0",
     "autosize": "^6.0.1",
+    "bootstrap": "~5.1.0",
     "chart.js": "~2.9.4",
     "easymde": "^2.18.0",
     "highlight.js": "~10.7.2"
@@ -26,14 +26,14 @@
     "autoprefixer": "^10.4.14",
     "cssnano": "^6.0.1",
     "del": "^7.0.0",
-    "gulp": "^4.0.2",
-    "gulp-notify": "^4.0.0",
+    "gulp": "^5.0.0",
+    "gulp-notify": "^0.4.1",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-size": "^4.0.1",
-    "gulp-sourcemaps": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-svg-sprite": "^2.0.3",
     "gulp-uglify": "^3.0.2",
     "rollup": "^3.23.1",
