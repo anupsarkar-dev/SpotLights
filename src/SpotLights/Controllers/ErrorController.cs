@@ -39,4 +39,20 @@ public class ErrorController : Controller
       return View($"~/Views/404.cshtml");
     }
   }
+
+  [Route("404")]
+  public async Task<IActionResult> Error4041()
+  {
+    try
+    {
+      var data = await _mainMamager.GetAsync();
+      var model = new MainModel(data);
+      return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "error page exception");
+      return View($"~/Views/404.cshtml");
+    }
+  }
 }
