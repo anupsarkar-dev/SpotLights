@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SpotLights.Posts;
 
-public class CategoryProvider : AppProvider<Category, int>
+public class CategoryService : AppProvider<Category, int>
 {
-  public CategoryProvider(AppDbContext dbContext) : base(dbContext)
+  public CategoryService(AppDbContext dbContext) : base(dbContext)
   {
   }
 
