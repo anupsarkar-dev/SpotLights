@@ -2,13 +2,13 @@ using SpotLights;
 using SpotLights.Admin;
 using SpotLights.Admin.Interop;
 using SpotLights.Admin.Services;
-using SpotLights.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sotsera.Blazor.Toaster.Core.Models;
 using System;
 using System.Net.Http;
+using SpotLights.Shared.Identity;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

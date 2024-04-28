@@ -1,4 +1,4 @@
-namespace SpotLights.Identity;
+namespace SpotLights.Shared.Identity;
 
 public static class SpotLightsClaimTypes
 {

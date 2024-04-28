@@ -1,8 +1,9 @@
-using SpotLights.Storages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using System.IO;
 using System.Threading.Tasks;
+using SpotLights.Data.Storages;
+using SpotLights.Shared;
 
 namespace SpotLights.Controllers;
 

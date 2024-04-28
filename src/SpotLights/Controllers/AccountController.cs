@@ -1,11 +1,13 @@
 using SpotLights.Blogs;
-using SpotLights.Identity;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
+using SpotLights.Data.Identity;
+using SpotLights.Shared.Identity;
+using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Controllers;
 

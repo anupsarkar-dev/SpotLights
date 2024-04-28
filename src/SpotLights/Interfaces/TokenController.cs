@@ -1,6 +1,6 @@
-using SpotLights.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpotLights.Shared.Identity;
 
 namespace SpotLights.Interfaces;
 

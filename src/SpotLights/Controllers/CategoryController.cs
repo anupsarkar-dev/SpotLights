@@ -3,6 +3,7 @@ using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Controllers;
 

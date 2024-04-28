@@ -1,6 +1,6 @@
-using SpotLights.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
+using SpotLights.Shared.Identity;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
