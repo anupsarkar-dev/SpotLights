@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpotLights.Admin\SpotLights.Admin.csproj" />
+    <ProjectReference Include="..\SpotLights.Data\SpotLights.Data.csproj" />
     <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
     <ProjectReference Include="..\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj" />
   </ItemGroup>

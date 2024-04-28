@@ -1,4 +1,4 @@
-using SpotLights.Identity;
+using SpotLights.Shared.Identity;
 using System.Collections.Generic;
 
 namespace SpotLights.Shared;
