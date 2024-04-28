@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace SpotLights.Identity;
+namespace SpotLights.Shared.Identity;
 
 public class SpotLightsClaims
 {

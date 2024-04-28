@@ -1,6 +1,5 @@
 using SpotLights.Posts;
 using SpotLights.Shared;
-using SpotLights.Storages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Utilities.Collections;
@@ -9,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SpotLights.Data.Storages;
+using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Interfaces;
 

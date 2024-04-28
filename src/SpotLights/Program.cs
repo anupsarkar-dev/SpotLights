@@ -2,12 +2,10 @@ using SpotLights;
 using SpotLights.Blogs;
 using SpotLights.Caches;
 using SpotLights.Data;
-using SpotLights.Identity;
-using SpotLights.Newsletters;
+using SpotLights.Shared.Extensions;
 using SpotLights.Options;
 using SpotLights.Posts;
 using SpotLights.Shared.Resources;
-using SpotLights.Storages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using SpotLights.Data.Identity;
+using SpotLights.Data.Storages;
+using SpotLights.Data.Newsletters;
+using SpotLights.Shared;
 
 
 var builderMigrations = WebApplication.CreateBuilder(args);
