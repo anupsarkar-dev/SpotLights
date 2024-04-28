@@ -33,11 +33,6 @@ public static class AppDbContextExtensions
     {
       services.AddDbContext<AppDbContext, SqlServerDbContext>(o => o.UseSqlServer(connectionString));
     }
-    else if ("MySql".Equals(provider, StringComparison.OrdinalIgnoreCase))
-    {
-      var version = ServerVersion.AutoDetect(connectionString);
-      services.AddDbContext<AppDbContext, MySqlDbContext>(o => o.UseMySql(connectionString, version));
-    }
     else if ("Postgres".Equals(provider, StringComparison.OrdinalIgnoreCase))
     {
       services.AddDbContext<AppDbContext, PostgresDbContext>(o => o.UseNpgsql(connectionString));

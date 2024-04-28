@@ -1,8 +1,8 @@
-using SpotLights.Newsletters;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using SpotLights.Data.Newsletters;
 
 namespace SpotLights.Interfaces;
 

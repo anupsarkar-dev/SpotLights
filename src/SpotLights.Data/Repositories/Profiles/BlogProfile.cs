@@ -8,7 +8,7 @@ public class BlogProfile : Profile
 {
   public BlogProfile()
   {
-    CreateMap<BlogData, MainDto>();
+    CreateMap<BlogData, MainDto>().ReverseMap();
     CreateMap<BlogData, BlogEitorDto>().ReverseMap();
   }
 }
