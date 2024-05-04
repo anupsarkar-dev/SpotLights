@@ -1,36 +1,27 @@
-using AutoMapper;
-using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Minio.DataModel.Args;
+using SpotLights.Shared;
+using Mapster;
 
 namespace SpotLights.Data.Manager.Storages;
 
 public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider, IDisposable
 {
   private readonly ILogger _logger;
-  private readonly IMapper _mapper;
   private readonly string _bucketName;
   private readonly MinioClient _minioClient;
 
   public StorageMinioProvider(
     ILogger<StorageMinioProvider> logger,
-    IMapper mapper,
     AppDbContext dbContext,
     IHttpClientFactory httpClientFactory,
     IConfigurationSection section) : base(dbContext)
   {
     _logger = logger;
-    _mapper = mapper;
     _bucketName = section.GetValue<string>("BucketName")!;
     _minioClient = (MinioClient?)new MinioClient()
      .WithEndpoint(section.GetValue<string>("Endpoint")!, section.GetValue<int>("Port"))
@@ -49,32 +40,40 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
   public async Task<StorageDto?> GetAsync(string slug, Func<Stream, CancellationToken, Task> callback)
   {
     _logger.LogInformation("Storage slug:{slug}", slug);
-    var storage = await _dbContext.Storages.FirstOrDefaultAsync(m => m.Slug == slug);
-    if (storage == null) return null;
-    var objectStat = await GetObjectAsync(slug, callback);
-    if (objectStat == null) return null;
+    Storage? storage = await _dbContext.Storages.FirstOrDefaultAsync(m => m.Slug == slug);
+    if (storage == null)
+    {
+      return null;
+    }
+
+    ObjectStat objectStat = await GetObjectAsync(slug, callback);
+    if (objectStat == null)
+    {
+      return null;
+    }
+
     storage.ContentType = objectStat.ContentType;
     storage.Length = objectStat.Size;
-    return _mapper.Map<StorageDto>(storage);
+    return storage.Adapt<StorageDto>();
   }
 
   public async Task<StorageDto?> GetCheckStoragAsync(string path)
   {
-    var query = _dbContext.Storages.AsNoTracking().Where(m => m.Path == path);
-    var storage = await _mapper.ProjectTo<StorageDto>(query).FirstOrDefaultAsync();
+    IQueryable<Storage> query = _dbContext.Storages.AsNoTracking().Where(m => m.Path == path);
+    var storage = await query.ProjectToType<StorageDto>().FirstOrDefaultAsync();
     throw new NotImplementedException();
   }
 
   // 想 minio中添加文件
   public async Task<StorageDto> AddAsync(DateTime uploadAt, int userid, string path, string fileName, Stream stream, string contentType)
   {
-    var args = new PutObjectArgs()
+    PutObjectArgs args = new PutObjectArgs()
       .WithBucket(_bucketName)
       .WithObject(path)
       .WithStreamData(stream)
       .WithContentType(contentType);
-    var result = await _minioClient.PutObjectAsync(args).ConfigureAwait(false);
-    var storage = new Storage
+    Minio.DataModel.Response.PutObjectResponse result = await _minioClient.PutObjectAsync(args).ConfigureAwait(false);
+    Storage storage = new()
     {
       UploadAt = uploadAt,
       UserId = userid,
@@ -86,18 +85,18 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
       Type = StorageType.Minio
     };
     await AddAsync(storage);
-    return _mapper.Map<StorageDto>(storage);
+    return storage.Adapt<StorageDto>();
   }
 
   public Task<StorageDto> AddAsync(DateTime uploadAt, int userid, string path, string fileName, byte[] bytes, string contentType)
   {
-    using var stream = new MemoryStream(bytes);
+    using MemoryStream stream = new(bytes);
     return AddAsync(uploadAt, userid, path, fileName, stream, contentType);
   }
 
   private async Task<ObjectStat> GetObjectAsync(string objectName, Func<Stream, CancellationToken, Task> callback)
   {
-    var args = new GetObjectArgs().WithBucket(_bucketName).WithObject(objectName).WithCallbackStream(callback);
+    GetObjectArgs args = new GetObjectArgs().WithBucket(_bucketName).WithObject(objectName).WithCallbackStream(callback);
     return await _minioClient.GetObjectAsync(args).ConfigureAwait(false);
   }
 

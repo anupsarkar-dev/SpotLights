@@ -1,35 +1,30 @@
-using AutoMapper;
-using SpotLights.Caches;
-using SpotLights.Shared;
+
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using SpotLights.Shared.Identity;
+using SpotLights.Caches;
 using SpotLights.Data.Model.Blogs;
 using SpotLights.Data.Repositories.Posts;
+using SpotLights.Shared;
+using SpotLights.Shared.Identity;
+using System.Text;
+using System.Text.Json;
 
 namespace SpotLights.Data.Repositories.Blogs;
 
 public class MainManager
 {
-  private readonly IMapper _mapper;
   private readonly IDistributedCache _distributedCache;
   private readonly IHttpContextAccessor _httpContextAccessor;
   private readonly BlogManager _blogManager;
   private readonly CategoryProvider _categoryProvider;
 
   public MainManager(
-    IMapper mapper,
     IDistributedCache distributedCache,
     IHttpContextAccessor httpContextAccessor,
     BlogManager blogManager,
     CategoryProvider categoryProvider)
   {
-    _mapper = mapper;
     _distributedCache = distributedCache;
     _httpContextAccessor = httpContextAccessor;
     _blogManager = blogManager;
@@ -38,13 +33,13 @@ public class MainManager
 
   public async Task<MainDto> GetAsync()
   {
-    var blog = await _blogManager.GetAsync();
-    var main = _mapper.Map<MainDto>(blog);
+    BlogData blog = await _blogManager.GetAsync();
+    MainDto main = blog.Adapt<MainDto>();
     main.Categories = await GetCategoryItemesAsync();
-    var httpContext = _httpContextAccessor.HttpContext;
+    HttpContext? httpContext = _httpContextAccessor.HttpContext;
     if (httpContext != null)
     {
-      var request = httpContext.Request;
+      HttpRequest request = httpContext.Request;
       main.AbsoluteUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}{request.PathBase.ToUriComponent()}";
       main.PathUrl = request.Path;
       main.Claims = SpotLightsClaims.Analysis(httpContext.User);
@@ -54,18 +49,18 @@ public class MainManager
 
   public async Task<List<CategoryItemDto>> GetCategoryItemesCacheAsync()
   {
-    var key = CacheKeys.CategoryItemes;
-    var cache = await _distributedCache.GetAsync(key);
+    string key = CacheKeys.CategoryItemes;
+    byte[]? cache = await _distributedCache.GetAsync(key);
     if (cache != null)
     {
-      var value = Encoding.UTF8.GetString(cache);
+      string value = Encoding.UTF8.GetString(cache);
       return JsonSerializer.Deserialize<List<CategoryItemDto>>(value)!;
     }
     else
     {
-      var data = await GetCategoryItemesAsync();
-      var value = JsonSerializer.Serialize(data);
-      var bytes = Encoding.UTF8.GetBytes(value);
+      List<CategoryItemDto> data = await GetCategoryItemesAsync();
+      string value = JsonSerializer.Serialize(data);
+      byte[] bytes = Encoding.UTF8.GetBytes(value);
       await _distributedCache.SetAsync(key, bytes, new() { SlidingExpiration = TimeSpan.FromMinutes(15) });
       return data;
     }

@@ -1,85 +1,84 @@
-using AutoMapper;
-using SpotLights.Blogs;
+using Microsoft.EntityFrameworkCore;
+using SpotLights.Data.Model.Blogs;
+using SpotLights.Data.Model.Posts;
 using SpotLights.Helper;
 using SpotLights.Shared;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.EntityFrameworkCore;
-using ReverseMarkdown.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
-using SpotLights.Data.Model.Posts;
+using System.Text.RegularExpressions;
+using Mapster;
 
 namespace SpotLights.Data.Repositories.Posts;
 
 public class PostProvider : AppProvider<Post, int>
 {
-  private readonly IMapper _mapper;
 
-  public PostProvider(IMapper mapper, AppDbContext dbContext)
+  public PostProvider( AppDbContext dbContext)
       : base(dbContext)
   {
-    _mapper = mapper;
   }
 
   public async Task<PostDto> FirstAsync(int id)
   {
-    var query = _dbContext.Posts.Where(p => p.Id == id);
-    return await _mapper.ProjectTo<PostDto>(query).FirstAsync();
+    IQueryable<Post> query = _dbContext.Posts.Where(p => p.Id == id);
+    return await query.ProjectToType<PostDto>().FirstAsync();
   }
 
   public async Task<PostDto> GetAsync(int id)
   {
-    var query = _dbContext.Posts.AsNoTracking().Where(p => p.Id == id);
-    return await _mapper.ProjectTo<PostDto>(query).FirstAsync();
+    IQueryable<Post> query = _dbContext.Posts.AsNoTracking().Where(p => p.Id == id);
+    return await query.ProjectToType<PostDto>().FirstAsync();
   }
 
   public async Task<IEnumerable<PostDto>> GetAsync()
   {
-    var query = _dbContext.Posts
+    IOrderedQueryable<Post> query = _dbContext.Posts
         .AsNoTracking()
         .Include(pc => pc.User)
         .OrderByDescending(m => m.CreatedAt);
-    return await _mapper.ProjectTo<PostDto>(query).ToListAsync();
+    return await query.ProjectToType<PostDto>().ToListAsync();
   }
 
   public async Task<PostSlugDto> GetAsync(string slug)
   {
-    var postQuery = _dbContext.Posts.Include(m => m.User).Where(p => p.Slug == slug);
-    var post = await _mapper.ProjectTo<PostToHtmlDto>(postQuery).FirstAsync();
-    post.Views++;
-    await _dbContext.SaveChangesAsync();
+    IQueryable<Post> postQuery = _dbContext.Posts.Include(m => m.User).Where(p => p.Slug == slug);
 
-    var olderQuery = _dbContext.Posts
+    var post = await postQuery.ProjectToType<PostToHtmlDto>().FirstAsync();
+
+    post.Views++;
+
+    _ = await _dbContext.SaveChangesAsync();
+
+    IOrderedQueryable<Post> olderQuery = _dbContext.Posts
         .AsNoTracking()
         .Where(m => m.State >= PostState.Release && m.PublishedAt > post.PublishedAt)
         .OrderBy(p => p.PublishedAt);
 
-    var older = await _mapper.ProjectTo<PostItemDto>(olderQuery).FirstOrDefaultAsync();
+    var older = await olderQuery.ProjectToType<PostItemDto>().FirstOrDefaultAsync();
 
-    var newerQuery = _dbContext.Posts
+    IOrderedQueryable<Post> newerQuery = _dbContext.Posts
         .AsNoTracking()
         .Where(m => m.State >= PostState.Release && m.PublishedAt < post.PublishedAt)
         .OrderByDescending(p => p.PublishedAt);
 
-    var newer = await _mapper.ProjectTo<PostItemDto>(newerQuery).FirstOrDefaultAsync();
+    var newer = await newerQuery.ProjectToType<PostItemDto>().FirstOrDefaultAsync();
 
-    var relatedQuery = _dbContext.Posts
+    IQueryable<Post> relatedQuery = _dbContext.Posts
         .AsNoTracking()
         .Include(m => m.User)
         .Where(m => m.State == PostState.Featured && m.Id != post.Id);
 
     if (older != null)
+    {
       relatedQuery = relatedQuery.Where(m => m.Id != older.Id);
+    }
 
     if (newer != null)
+    {
       relatedQuery = relatedQuery.Where(m => m.Id != newer.Id);
+    }
 
     relatedQuery = relatedQuery.OrderByDescending(p => p.PublishedAt).Take(3);
-    var related = await _mapper.ProjectTo<PostToHtmlDto>(relatedQuery).ToListAsync();
+    var related = await relatedQuery.ProjectToType<PostToHtmlDto>().ToListAsync();
 
     return new PostSlugDto
     {
@@ -92,38 +91,38 @@ public class PostProvider : AppProvider<Post, int>
 
   public async Task<PostPagerDto> GetPostsAsync(int page, int pageSize)
   {
-    var skip = (page - 1) * pageSize;
-    var query = _dbContext.Posts
+    int skip = (page - 1) * pageSize;
+    IQueryable<Post> query = _dbContext.Posts
         .AsNoTracking()
         .Include(pc => pc.User)
         .Where(m => m.PostType == PostType.Post && m.State >= PostState.Release);
 
-    var total = await query.CountAsync();
+    int total = await query.CountAsync();
     query = query.OrderByDescending(m => m.CreatedAt).Skip(skip).Take(pageSize);
-    var items = await _mapper.ProjectTo<PostItemDto>(query).ToListAsync();
+    var items = await query.ProjectToType<PostItemDto>().ToListAsync();
     return new PostPagerDto(items, total, page, pageSize);
   }
 
   public async Task<PostEditorDto> GetEditorAsync(string slug)
   {
-    var query = _dbContext.Posts
+    IQueryable<Post> query = _dbContext.Posts
         .AsNoTracking()
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         //.Include(m => m.StorageReferences!.Where(s => s.Type == StorageReferenceType.Post))
         .AsSingleQuery()
         .Where(p => p.Slug == slug);
-    return await _mapper.ProjectTo<PostEditorDto>(query).FirstAsync();
+    return await query.ProjectToType<PostEditorDto>().FirstAsync();
   }
 
   public async Task<List<PostEditorDto>> MatchTitleAsync(IEnumerable<string> titles)
   {
-    var query = _dbContext.Posts
+    IQueryable<Post> query = _dbContext.Posts
         .AsNoTracking()
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         .Where(p => titles.Contains(p.Title));
-    return await _mapper.ProjectTo<PostEditorDto>(query).ToListAsync();
+    return await query.ProjectToType<PostEditorDto>().ToListAsync();
   }
 
   public async Task<IEnumerable<PostItemDto>> GetAsync(
@@ -133,7 +132,7 @@ public class PostProvider : AppProvider<Post, int>
       bool isAdmin
   )
   {
-    var query = _dbContext.Posts.AsNoTracking().Where(p => p.PostType == postType);
+    IQueryable<Post> query = _dbContext.Posts.AsNoTracking().Where(p => p.PostType == postType);
 
     if (!isAdmin)
     {
@@ -151,12 +150,12 @@ public class PostProvider : AppProvider<Post, int>
       _ => query.OrderByDescending(p => p.PublishedAt).ThenByDescending(p => p.CreatedAt),
     };
 
-    return await _mapper.ProjectTo<PostItemDto>(query).ToListAsync();
+    return await query.ProjectToType<PostItemDto>().ToListAsync();
   }
 
   public async Task<PostPagerDto> GetSearchAsync(string term, int page, int pageSize)
   {
-    var query = _dbContext.Posts
+    IQueryable<PostItemDto> query = _dbContext.Posts
         .Include(pc => pc.User)
         .Include(pc => pc.PostCategories)
         .ThenInclude(pc => pc.Category)
@@ -202,27 +201,31 @@ public class PostProvider : AppProvider<Post, int>
                 }
         );
 
-    var posts = await query.ToListAsync();
+    List<PostItemDto> posts = await query.ToListAsync();
 
-    var postsSearch = new List<PostSearch>();
-    var termList = term.ToLower().Split(' ').ToList();
+    List<PostSearch> postsSearch = new();
+    List<string> termList = term.ToLower().Split(' ').ToList();
 
-    foreach (var post in posts)
+    foreach (PostItemDto? post in posts)
     {
-      var rank = 0;
-      var hits = 0;
+      int rank = 0;
+      int hits = 0;
 
-      foreach (var termItem in termList)
+      foreach (string? termItem in termList)
       {
         if (termItem.Length < 4 && rank > 0)
+        {
           continue;
+        }
 
         if (post.Categories != null)
         {
-          foreach (var category in post.Categories)
+          foreach (CategoryDto category in post.Categories)
           {
             if (category.Content.ToLower() == termItem)
+            {
               rank += 10;
+            }
           }
         }
         if (post.Title.ToLower().Contains(termItem))
@@ -247,9 +250,9 @@ public class PostProvider : AppProvider<Post, int>
       }
     }
 
-    var total = postsSearch.Count;
-    var skip = page * pageSize - pageSize;
-    var items = postsSearch
+    int total = postsSearch.Count;
+    int skip = (page * pageSize) - pageSize;
+    List<PostItemDto> items = postsSearch
         .OrderByDescending(r => r.Rank)
         .Skip(skip)
         .Take(pageSize)
@@ -267,8 +270,8 @@ public class PostProvider : AppProvider<Post, int>
       bool isAdmin
   )
   {
-    var skip = (page - 1) * pageSize;
-    var query = _dbContext.Categories
+    int skip = (page - 1) * pageSize;
+    IQueryable<Post> query = _dbContext.Categories
         .AsNoTracking()
         .Include(pc => pc.PostCategories)!
         .ThenInclude(m => m.Post)
@@ -281,64 +284,67 @@ public class PostProvider : AppProvider<Post, int>
       query = query.Where(s => s.UserId == userId);
     }
 
-    var total = await query.CountAsync();
+    int total = await query.CountAsync();
     query = query.Skip(skip).Take(pageSize);
-    var items = await _mapper.ProjectTo<PostItemDto>(query).ToListAsync();
+    var items = await query.ProjectToType<PostItemDto>().ToListAsync();
     return new PostPagerDto(items, total, page, pageSize);
   }
 
   public async Task<IEnumerable<PostItemDto>> GetSearchAsync(string term)
   {
-    var query = _dbContext.Posts.AsNoTracking();
+    IQueryable<Post> query = _dbContext.Posts.AsNoTracking();
     if ("*".Equals(term, StringComparison.Ordinal))
+    {
       query = query.Where(p => p.Title.ToLower().Contains(term.ToLower()));
-    return await _mapper.ProjectTo<PostItemDto>(query).ToListAsync();
+    }
+
+    return await query.ProjectToType<PostItemDto>().ToListAsync();
   }
 
   public Task StateAsynct(int id, PostState state)
   {
-    var query = _dbContext.Posts.Where(p => p.Id == id);
+    IQueryable<Post> query = _dbContext.Posts.Where(p => p.Id == id);
     return StateInternalAsynct(query, state);
   }
 
   public Task StateAsynct(IEnumerable<int> ids, PostState state)
   {
-    var query = _dbContext.Posts.Where(p => ids.Contains(p.Id));
+    IQueryable<Post> query = _dbContext.Posts.Where(p => ids.Contains(p.Id));
     return StateInternalAsynct(query, state);
   }
 
   public async Task StateInternalAsynct(IQueryable<Post> query, PostState state)
   {
-    await query.ExecuteUpdateAsync(setters => setters.SetProperty(b => b.State, state));
+    _ = await query.ExecuteUpdateAsync(setters => setters.SetProperty(b => b.State, state));
   }
 
   public async Task<string> AddAsync(PostEditorDto postInput, int userId)
   {
-    var post = await AddInternalAsync(postInput, userId);
-    await _dbContext.SaveChangesAsync();
+    Post post = await AddInternalAsync(postInput, userId);
+    _ = await _dbContext.SaveChangesAsync();
     return post.Slug;
   }
 
   private async Task<Post> AddInternalAsync(PostEditorDto postInput, int userId)
   {
-    var slug = await GetSlugFromTitle(postInput.Title);
-    var postCategories = await CheckPostCategories(postInput.Categories);
+    string slug = await GetSlugFromTitle(postInput.Title);
+    List<PostCategory>? postCategories = await CheckPostCategories(postInput.Categories);
 
-    var contentScriptFiltr = StringHelper
+    string contentScriptFiltr = StringHelper
         .HtmlScriptGeneratedRegex()
         .Replace(postInput.Content, string.Empty);
-    var descriptionScriptFiltr = StringHelper
+    string descriptionScriptFiltr = StringHelper
         .HtmlScriptGeneratedRegex()
         .Replace(postInput.Description, string.Empty);
-    var contentFiltr = StringHelper
+    string contentFiltr = StringHelper
         .HtmlImgGeneratedRegex()
         .Replace(contentScriptFiltr, string.Empty);
-    var descriptionFiltr = StringHelper
+    string descriptionFiltr = StringHelper
         .HtmlImgGeneratedRegex()
         .Replace(descriptionScriptFiltr, string.Empty);
 
-    var publishedAt = GetPublishedAt(postInput.PublishedAt, postInput.State);
-    var post = new Post
+    DateTime? publishedAt = GetPublishedAt(postInput.PublishedAt, postInput.State);
+    Post post = new()
     {
       UserId = userId,
       Title = postInput.Title,
@@ -351,7 +357,7 @@ public class PostProvider : AppProvider<Post, int>
       PublishedAt = publishedAt,
       PostCategories = postCategories,
     };
-    _dbContext.Posts.Add(post);
+    _ = _dbContext.Posts.Add(post);
     return post;
   }
 
@@ -359,11 +365,7 @@ public class PostProvider : AppProvider<Post, int>
   {
     if (inputState >= PostState.Release)
     {
-      if (!inputPublishedAt.HasValue)
-      {
-        return DateTime.UtcNow;
-      }
-      return inputPublishedAt;
+      return !inputPublishedAt.HasValue ? DateTime.UtcNow : inputPublishedAt;
     }
     else
     {
@@ -376,40 +378,43 @@ public class PostProvider : AppProvider<Post, int>
       int userId
   )
   {
-    var postsInput = new List<Post>();
-    foreach (var post in posts)
+    List<Post> postsInput = new();
+    foreach (PostEditorDto post in posts)
     {
-      var postInput = await AddInternalAsync(post, userId);
+      Post postInput = await AddInternalAsync(post, userId);
       postsInput.Add(postInput);
     }
-    await _dbContext.SaveChangesAsync();
-    return _mapper.Map<IEnumerable<PostEditorDto>>(postsInput);
+    _ = await _dbContext.SaveChangesAsync();
+    return postsInput.Adapt<IEnumerable<PostEditorDto>>();
   }
 
   public async Task UpdateAsync(PostEditorDto postInput, int userId)
   {
-    var post = await _dbContext.Posts
+    Post post = await _dbContext.Posts
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         .FirstAsync(m => m.Id == postInput.Id);
 
     if (post.UserId != userId)
+    {
       throw new BlogNotIitializeException();
-    var postCategories = await CheckPostCategories(postInput.Categories, post.PostCategories);
+    }
+
+    List<PostCategory>? postCategories = await CheckPostCategories(postInput.Categories, post.PostCategories);
 
     post.Slug = postInput.Slug!;
     post.Title = postInput.Title;
 
-    var contentScriptFiltr = StringHelper
+    string contentScriptFiltr = StringHelper
         .HtmlScriptGeneratedRegex()
         .Replace(postInput.Content, string.Empty);
-    var descriptionScriptFiltr = StringHelper
+    string descriptionScriptFiltr = StringHelper
         .HtmlScriptGeneratedRegex()
         .Replace(postInput.Description, string.Empty);
-    var contentFiltr = StringHelper
+    string contentFiltr = StringHelper
         .HtmlImgGeneratedRegex()
         .Replace(contentScriptFiltr, string.Empty);
-    var descriptionFiltr = StringHelper
+    string descriptionFiltr = StringHelper
         .HtmlImgGeneratedRegex()
         .Replace(descriptionScriptFiltr, string.Empty);
 
@@ -419,22 +424,28 @@ public class PostProvider : AppProvider<Post, int>
     post.PostCategories = postCategories;
     post.PublishedAt = GetPublishedAt(postInput.PublishedAt, postInput.State);
     post.State = postInput.State;
-    _dbContext.Update(post);
-    await _dbContext.SaveChangesAsync();
+    _ = _dbContext.Update(post);
+    _ = await _dbContext.SaveChangesAsync();
   }
 
   private async Task<string> GetSlugFromTitle(string title)
   {
-    var slug = title.ToSlug();
-    var i = 1;
-    var slugOriginal = slug;
+    string slug = title.ToSlug();
+    int i = 1;
+    string slugOriginal = slug;
     while (true)
     {
       if (!await _dbContext.Posts.Where(p => p.Slug == slug).AnyAsync())
+      {
         return slug;
+      }
+
       i++;
       if (i >= 100)
+      {
         throw new BlogNotIitializeException();
+      }
+
       slug = $"{slugOriginal}{i}";
     }
   }
@@ -445,42 +456,39 @@ public class PostProvider : AppProvider<Post, int>
   )
   {
     if (input == null || !input.Any())
+    {
       return null;
+    }
 
     // 去重
-    var categories = input.GroupBy(d => new { d.Content }).Select(m => m.Key.Content).ToList();
+    List<string> categories = input.GroupBy(d => new { d.Content }).Select(m => m.Key.Content).ToList();
 
-    if (original == null)
-    {
-      original = new List<PostCategory>();
-    }
-    else
-    {
-      original = original
+    original = original == null
+      ? (List<PostCategory>)([])
+      : original
           .Where(p =>
           {
-            var item = categories.FirstOrDefault(
+            string? item = categories.FirstOrDefault(
                       m => p.Category.Content.Equals(m, StringComparison.Ordinal)
                   );
             if (item != null)
             {
-              categories.Remove(item);
+              _ = categories.Remove(item);
               return true;
             }
             return false;
           })
           .ToList();
-    }
 
     if (categories.Any())
     {
-      var categoriesDb = await _dbContext.Categories
+      List<Category> categoriesDb = await _dbContext.Categories
           .Where(m => categories.Contains(m.Content))
           .ToListAsync();
 
-      foreach (var item in categories)
+      foreach (string? item in categories)
       {
-        var categoryDb = categoriesDb.FirstOrDefault(
+        Category? categoryDb = categoriesDb.FirstOrDefault(
             m => item.Equals(m.Content, StringComparison.Ordinal)
         );
         original.Add(

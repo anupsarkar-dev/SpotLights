@@ -1,4 +1,3 @@
-using AutoMapper;
 using SpotLights.Data;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SpotLights.Data.Model.Blogs;
+using Mapster;
 
 namespace SpotLights.Interfaces;
 
@@ -15,12 +15,10 @@ namespace SpotLights.Interfaces;
 [Route("api/blog")]
 public class BlogController : ControllerBase
 {
-  private readonly IMapper _mapper;
   private readonly BlogManager _blogManager;
 
-  public BlogController(IMapper mapper, BlogManager blogManager)
+  public BlogController(BlogManager blogManager)
   {
-    _mapper = mapper;
     _blogManager = blogManager;
   }
 
@@ -28,7 +26,7 @@ public class BlogController : ControllerBase
   public async Task<BlogEitorDto> GetAsync()
   {
     var data = await _blogManager.GetAsync();
-    var dataDto = _mapper.Map<BlogEitorDto>(data);
+    var dataDto = data.Adapt<BlogEitorDto>();
     return dataDto;
   }
 

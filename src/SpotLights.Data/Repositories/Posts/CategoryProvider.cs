@@ -1,11 +1,6 @@
-using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
-using ReverseMarkdown.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SpotLights.Data.Model.Posts;
+using SpotLights.Shared;
 
 namespace SpotLights.Data.Repositories.Posts;
 
@@ -17,20 +12,19 @@ public class CategoryProvider : AppProvider<Category, int>
 
   public async Task<List<CategoryItemDto>> GetItemsAsync()
   {
-    if (!_dbContext.Categories.Any())
-      return new();
-
-    return await _dbContext.Categories
-      .GroupBy(m => new { m.Id, m.Content, m.Description })
-      .Select(m => new CategoryItemDto
-      {
-        Id = m.Key.Id,
-        Category = m.Key.Content,
-        Description = m.Key.Description,
-        PostCount = _dbContext.PostCategories.Count(s => s.CategoryId == m.Key.Id)
-      })
-      .AsNoTracking()
-      .ToListAsync();
+    return !_dbContext.Categories.Any()
+      ? (List<CategoryItemDto>)([])
+      : await _dbContext.Categories
+        .GroupBy(m => new { m.Id, m.Content, m.Description })
+        .Select(m => new CategoryItemDto
+        {
+          Id = m.Key.Id,
+          Category = m.Key.Content,
+          Description = m.Key.Description,
+          PostCount = _dbContext.PostCategories.Count(s => s.CategoryId == m.Key.Id)
+        })
+        .AsNoTracking()
+        .ToListAsync();
   }
 
   public async Task<List<CategoryItemDto>> GetItemsExistPostAsync()
@@ -51,12 +45,9 @@ public class CategoryProvider : AppProvider<Category, int>
 
   public async Task<List<CategoryItemDto>> SearchCategories(string term)
   {
-    var cats = await GetItemsAsync();
+    List<CategoryItemDto> cats = await GetItemsAsync();
 
-    if (term == "*")
-      return cats;
-
-    return cats.Where(c => c.Category.ToLower().Contains(term.ToLower())).ToList();
+    return term == "*" ? cats : cats.Where(c => c.Category.ToLower().Contains(term.ToLower())).ToList();
   }
 
   public async Task<Category> GetCategory(int categoryId)
@@ -78,9 +69,12 @@ public class CategoryProvider : AppProvider<Category, int>
 
   public async Task<bool> SaveCategory(Category category)
   {
-    var dbCategory = await _dbContext.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
+    Category? dbCategory = await _dbContext.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
+
     if (dbCategory == null)
+    {
       return false;
+    }
 
     dbCategory.Content = category.Content;
     dbCategory.Description = category.Description;
@@ -89,21 +83,23 @@ public class CategoryProvider : AppProvider<Category, int>
 
   public async Task<Category> SaveCategory(string tag)
   {
-    var category = await _dbContext.Categories
+    Category? category = await _dbContext.Categories
         .AsNoTracking()
         .Where(c => c.Content == tag)
         .FirstOrDefaultAsync();
 
     if (category != null)
+    {
       return category;
+    }
 
     category = new Category()
     {
       Content = tag,
       CreatedAt = DateTime.UtcNow
     };
-    _dbContext.Categories.Add(category);
-    await _dbContext.SaveChangesAsync();
+    _ = _dbContext.Categories.Add(category);
+    _ = await _dbContext.SaveChangesAsync();
 
     return category;
   }

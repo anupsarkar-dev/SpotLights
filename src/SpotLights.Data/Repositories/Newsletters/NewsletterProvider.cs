@@ -1,48 +1,44 @@
-using AutoMapper;
-using SpotLights.Shared;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SpotLights.Data.Model.Newsletters;
+using SpotLights.Shared;
 
 namespace SpotLights.Data.Repositories.Newsletters;
 
 public class NewsletterProvider : AppProvider<Newsletter, int>
 {
-  private readonly IMapper _mapper;
 
-  public NewsletterProvider(AppDbContext dbContext, IMapper mapper)
+  public NewsletterProvider(AppDbContext dbContext)
       : base(dbContext)
   {
-    _mapper = mapper;
   }
 
   public async Task<IEnumerable<NewsletterDto>> GetItemsAsync(int userId, bool isAdmin)
   {
-    var query = _dbContext.Newsletters
+    IOrderedQueryable<Newsletter> query = _dbContext.Newsletters
         .AsNoTracking()
         .Include(n => n.Post)
         .OrderByDescending(n => n.CreatedAt);
 
-    return await _mapper.ProjectTo<NewsletterDto>(query).ToListAsync();
+    return await query.ProjectToType<NewsletterDto>().ToListAsync();
   }
 
   public async Task<NewsletterDto?> FirstOrDefaultByPostIdAsync(int postId)
   {
-    var query = _dbContext.Newsletters.Where(m => m.PostId == postId);
-    return await _mapper.ProjectTo<NewsletterDto>(query).FirstOrDefaultAsync();
+    IQueryable<Newsletter> query = _dbContext.Newsletters.Where(m => m.PostId == postId);
+
+    return await query.ProjectToType<NewsletterDto>().FirstOrDefaultAsync();
   }
 
   public async Task AddAsync(int postId, bool success)
   {
-    var entry = new Newsletter { PostId = postId, Success = success, };
+    Newsletter entry = new() { PostId = postId, Success = success, };
     await AddAsync(entry);
   }
 
   public async Task UpdateAsync(int id, bool success)
   {
-    await _dbContext.Newsletters
+    _ = await _dbContext.Newsletters
         .Where(m => m.Id == id)
         .ExecuteUpdateAsync(setters => setters.SetProperty(b => b.Success, success));
   }

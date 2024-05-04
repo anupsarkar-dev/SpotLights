@@ -1,6 +1,3 @@
-using SpotLights.Data;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SpotLights.Data.Model.Posts;

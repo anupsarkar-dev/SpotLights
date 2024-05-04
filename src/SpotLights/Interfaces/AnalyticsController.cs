@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
-using SpotLights.Data.Model.Blogs;
+using SpotLights.Data.Repositories.Blogs;
 
 namespace SpotLights.Interfaces;
 

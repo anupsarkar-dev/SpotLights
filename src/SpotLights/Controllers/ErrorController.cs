@@ -1,58 +1,52 @@
-using AutoMapper;
-using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SpotLights.Data.Repositories.Blogs;
+using SpotLights.Shared;
 using System;
 using System.Threading.Tasks;
-using SpotLights.Data.Repositories.Blogs;
 
 namespace SpotLights.Controllers;
 
 public class ErrorController : Controller
 {
-  protected readonly ILogger _logger;
-  protected readonly IMapper _mapper;
-  protected readonly MainManager _mainMamager;
+    protected readonly ILogger _logger;
+    protected readonly MainManager _mainMamager;
 
-  public ErrorController(
-    ILogger<ErrorController> logger,
-    IMapper mapper,
-    MainManager mainMamager)
-  {
-    _logger = logger;
-    _mapper = mapper;
-    _mainMamager = mainMamager;
-  }
+    public ErrorController(ILogger<ErrorController> logger, MainManager mainMamager)
+    {
+        _logger = logger;
+        _mainMamager = mainMamager;
+    }
 
-  [Route("404")]
-  public async Task<IActionResult> Error404()
-  {
-    try
+    [Route("404")]
+    public async Task<IActionResult> Error404()
     {
-      var data = await _mainMamager.GetAsync();
-      var model = new MainModel(data);
-      return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
+        try
+        {
+            MainDto data = await _mainMamager.GetAsync();
+            MainModel model = new(data);
+            return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "error page exception");
+            return View($"~/Views/404.cshtml");
+        }
     }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "error page exception");
-      return View($"~/Views/404.cshtml");
-    }
-  }
 
-  [Route("404")]
-  public async Task<IActionResult> Error4041()
-  {
-    try
+    [Route("404")]
+    public async Task<IActionResult> Error4041()
     {
-      var data = await _mainMamager.GetAsync();
-      var model = new MainModel(data);
-      return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
+        try
+        {
+            MainDto data = await _mainMamager.GetAsync();
+            MainModel model = new(data);
+            return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "error page exception");
+            return View($"~/Views/404.cshtml");
+        }
     }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "error page exception");
-      return View($"~/Views/404.cshtml");
-    }
-  }
 }

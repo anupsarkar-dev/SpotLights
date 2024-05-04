@@ -8,8 +8,8 @@ public static class IdentityExtensions
 {
   public static IServiceCollection AddIdentity(this IServiceCollection services)
   {
-    services.AddScoped<UserClaimsPrincipalFactory>();
-    services.AddIdentityCore<UserInfo>(options =>
+    _ = services.AddScoped<UserClaimsPrincipalFactory>();
+    _ = services.AddIdentityCore<UserInfo>(options =>
     {
       options.User.RequireUniqueEmail = true;
       options.Password.RequireUppercase = false;
@@ -23,11 +23,12 @@ public static class IdentityExtensions
       .AddEntityFrameworkStores<AppDbContext>()
       .AddDefaultTokenProviders()
       .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
-    services.ConfigureApplicationCookie(options =>
+    _ = services.ConfigureApplicationCookie(options =>
     {
       options.AccessDeniedPath = "/account/accessdenied";
       options.LoginPath = "/account/login";
     });
+
     return services;
   }
 }

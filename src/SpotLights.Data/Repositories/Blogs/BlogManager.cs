@@ -2,11 +2,8 @@ using SpotLights.Caches;
 using SpotLights.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using SpotLights.Blogs;
 
 namespace SpotLights.Data.Model.Blogs;
 
@@ -43,7 +40,6 @@ public class BlogManager
       var value = await _optionProvider.GetByValueAsync(key);
       if (value != null)
       {
-
         var bytes = Encoding.UTF8.GetBytes(value);
         await _distributedCache.SetAsync(key, bytes, new() { SlidingExpiration = TimeSpan.FromMinutes(15) });
         return Deserialize(value);
@@ -77,5 +73,4 @@ public class BlogManager
     await _distributedCache.SetAsync(key, bytes, new() { SlidingExpiration = TimeSpan.FromMinutes(15) });
     await _optionProvider.SetValue(key, value);
   }
-
 }

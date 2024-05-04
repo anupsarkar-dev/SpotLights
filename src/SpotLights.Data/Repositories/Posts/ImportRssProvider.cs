@@ -1,9 +1,8 @@
 using SpotLights.Shared;
-using System.Collections.Generic;
+using SpotLights.Shared.Extensions;
 using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Xml.Linq;
-using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Data.Repositories.Posts;
 
@@ -11,19 +10,19 @@ public class ImportRssProvider
 {
   public ImportDto Analysis(string feedUrl)
   {
-    using var xml = XmlReader.Create(feedUrl);
-    var feed = SyndicationFeed.Load(xml);
+    using XmlReader xml = XmlReader.Create(feedUrl);
+    SyndicationFeed feed = SyndicationFeed.Load(xml);
 
-    var result = new ImportDto
+    ImportDto result = new()
     {
       BaseUrl = feed.Id,
-      Posts = new List<PostEditorDto>(),
+      Posts = [],
     };
 
-    foreach (var item in feed.Items)
+    foreach (SyndicationItem? item in feed.Items)
     {
-      var content = ((TextSyndicationContent)item.Content).Text;
-      var post = new PostEditorDto
+      string content = ((TextSyndicationContent)item.Content).Text;
+      PostEditorDto post = new()
       {
         Slug = item.Id,
         Title = item.Title.Text,
@@ -38,33 +37,41 @@ public class ImportRssProvider
         foreach (SyndicationElementExtension ext in item.ElementExtensions)
         {
           if (ext.GetObject<XElement>().Name.LocalName == "summary")
+          {
             post.Description = GetDescription(ext.GetObject<XElement>().Value);
+          }
 
           if (ext.GetObject<XElement>().Name.LocalName == "cover")
+          {
             post.Cover = ext.GetObject<XElement>().Value;
+          }
         }
       }
 
       if (item.Categories != null)
       {
-        post.Categories ??= new List<CategoryDto>();
-        foreach (var category in item.Categories)
+        post.Categories ??= [];
+        foreach (SyndicationCategory? category in item.Categories)
         {
           post.Categories.Add(new CategoryDto
           {
             Content = category.Name
           });
         }
-      };
+      }
       result.Posts.Add(post);
     }
     return result;
   }
 
-  static string GetDescription(string description)
+  private static string GetDescription(string description)
   {
     description = description.StripHtml();
-    if (description.Length > 450) description = description.Substring(0, 446) + "...";
+    if (description.Length > 450)
+    {
+      description = description[..446] + "...";
+    }
+
     return description;
   }
 }

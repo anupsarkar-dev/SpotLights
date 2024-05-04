@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpotLights.Shared.Identity;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SpotLights.Data.Identity;
 

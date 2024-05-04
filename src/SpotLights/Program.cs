@@ -49,8 +49,12 @@ builder.Services.AddStorageStaticFiles(builder.Configuration);
 
 builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
 
+builder.Services.AddInfrastructure();
+
 // Repositories
 builder.Services.RegisterRepositories();
+
+
 
 builder.Services.AddCors(option =>
 {
@@ -83,7 +87,6 @@ builder.Services.AddControllersWithViews()
       (type, factory) => factory.Create(typeof(Resource)));
 
 builder.Services.AddRazorPages().AddViewLocalization();
-builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -116,5 +119,6 @@ app.UseOutputCache();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 app.MapFallbackToFile("admin/{*path:nonfile}", "index.html");
+
 
 await app.RunAsync();

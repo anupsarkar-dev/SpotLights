@@ -1,380 +1,461 @@
-using SpotLights.Helper;
-using SpotLights.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Net.Http;
+using SpotLights.Helper;
+using SpotLights.Shared;
+using SpotLights.Shared.Extensions;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Data.Manager.Storages;
 
 public class StorageManager
 {
-  private readonly ILogger _logger;
-  private readonly IHttpClientFactory _httpClientFactory;
-  private readonly IStorageProvider _storageProvider;
-  private readonly string[]? _fileExtensions;
-  private readonly IContentTypeProvider _contentTypeProvider;
+    private readonly ILogger _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IStorageProvider _storageProvider;
+    private readonly string[]? _fileExtensions;
+    private readonly IContentTypeProvider _contentTypeProvider;
 
-  public StorageManager(
-    ILogger<StorageManager> logger,
-    IHttpClientFactory httpClientFactory,
-    IStorageProvider storageProvider,
-    IConfiguration configuration,
-    IContentTypeProvider contentTypeProvider)
-  {
-    _logger = logger;
-    _httpClientFactory = httpClientFactory;
-    _storageProvider = storageProvider;
-    _contentTypeProvider = contentTypeProvider;
-
-    var fileExtensionsString = configuration[$"{SpotLightsConstant.Key}:FileExtensions"];
-    if (!string.IsNullOrEmpty(fileExtensionsString))
+    public StorageManager(
+        ILogger<StorageManager> logger,
+        IHttpClientFactory httpClientFactory,
+        IStorageProvider storageProvider,
+        IConfiguration configuration,
+        IContentTypeProvider contentTypeProvider
+    )
     {
-      _fileExtensions = fileExtensionsString.Split(',')!;
-    }
+        _logger = logger;
+        _httpClientFactory = httpClientFactory;
+        _storageProvider = storageProvider;
+        _contentTypeProvider = contentTypeProvider;
 
-  }
-
-  public async Task<StorageDto> UploadAsync(DateTime uploadAt, int userid, Uri baseAddress, string url, string? fileName = null)
-  {
-    using var client = _httpClientFactory.CreateClient();
-    client.BaseAddress = baseAddress;
-    using var response = await client.GetAsync(url);
-    if (!response.IsSuccessStatusCode) throw new HttpRequestException("url not content");
-
-    var folder = $"{userid}/{uploadAt.Year}{uploadAt.Month}";
-    string? path = null;
-    if (fileName == null)
-    {
-      fileName = response.Content.Headers.ContentDisposition?.FileNameStar;
-      if (!string.IsNullOrEmpty(fileName))
-      {
-        path = $"{folder}/{fileName}";
-      }
-      else
-      {
-        fileName = GetFileNameByUrl(url);
-        path = $"{folder}/{fileName}";
-      }
-    }
-    else
-    {
-      path = $"{folder}/{fileName}";
-    }
-    var storage = await _storageProvider.GetCheckStoragAsync(path);
-    if (storage != null) return storage;
-    using var stream = await response.Content.ReadAsStreamAsync();
-    var contentType = response.Content.Headers.ContentType?.ToString();
-    storage = await _storageProvider.AddAsync(uploadAt, userid, path, fileName, stream, contentType!);
-    return storage;
-  }
-
-  public async Task<StorageDto?> UploadAsync(DateTime uploadAt, int userid, IFormFile file)
-  {
-    var fileName = GetFileName(file.FileName);
-    if (!InvalidFileName(fileName))
-    {
-      _logger.LogError("Invalid file name: {fileName}", fileName);
-      return null;
-    }
-
-    var path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
-    var storage = await _storageProvider.GetCheckStoragAsync(path);
-    if (storage != null) return storage;
-
-    var stream = file.OpenReadStream();
-    storage = await _storageProvider.AddAsync(uploadAt, userid, path, fileName, stream, file.ContentType);
-    return storage;
-  }
-
-  public async Task<string> UploadsFoHtmlAsync(DateTime uploadAt, int userid, Uri baseAddress, string content)
-  {
-    var uploadeImageContent = await UploadImagesFoHtml(uploadAt, userid, baseAddress, content);
-    var uploadeFileContent = await UploadFilesFoHtml(uploadAt, userid, baseAddress, uploadeImageContent);
-    return uploadeFileContent;
-  }
-
-  public async Task<string> UploadImagesFoHtml(DateTime uploadAt, int userid, Uri baseAddress, string content)
-  {
-    var matches = StringHelper.HtmlImgTagsGeneratedRegex().Matches(content);
-    if (matches.Any())
-    {
-      var contentBuilder = new StringBuilder(content);
-      var htmlImgSrcRegex = StringHelper.HtmlImgSrcGeneratedRegex();
-      foreach (Match match in matches.Cast<Match>())
-      {
-        var tag = match.Value;
-        var matchUrl = htmlImgSrcRegex.Match(tag);
-        var urlString = matchUrl.Groups[1].Value;
-        var storage = await UploadAsync(uploadAt, userid, baseAddress, urlString);
-        var uploadTag = $"![{storage.Name}]({storage.Slug})";
-        contentBuilder.Replace(tag, uploadTag);
-      }
-      content = contentBuilder.ToString();
-    }
-    return content;
-  }
-
-  public async Task<string> UploadFilesFoHtml(DateTime uploadAt, int userid, Uri baseAddress, string content)
-  {
-    var matches = StringHelper.HtmlFileGeneratedRegex().Matches(content);
-    if (matches.Any())
-    {
-      var contentBuilder = new StringBuilder(content);
-      foreach (Match match in matches.Cast<Match>())
-      {
-        var tag = match.Value;
-        var urlString = XElement.Parse(tag).Attribute("href")!.Value;
-        if (InvalidFileName(urlString))
+        string? fileExtensionsString = configuration[$"{SpotLightsConstant.Key}:FileExtensions"];
+        if (!string.IsNullOrEmpty(fileExtensionsString))
         {
-          var storage = await UploadAsync(uploadAt, userid, baseAddress, urlString);
-          var uploadTag = $"![{storage.Name}]({storage.Slug})";
-          contentBuilder.Replace(tag, uploadTag);
+            _fileExtensions = fileExtensionsString.Split(',')!;
         }
-      }
-      content = contentBuilder.ToString();
     }
-    return content;
-  }
 
-
-  public async Task<string> UploadImagesBase64FoHtml(DateTime uploadAt, int userid, string content)
-  {
-    var dataImageBase64Matches = StringHelper.MarkdownDataImageBase64BlobGeneratedRegex().Matches(content);
-    if (dataImageBase64Matches.Count > 0)
+    public async Task<StorageDto> UploadAsync(
+        DateTime uploadAt,
+        int userid,
+        Uri baseAddress,
+        string url,
+        string? fileName = null
+    )
     {
-      var contentStringBuilder = new StringBuilder(content);
-      foreach (Match match in dataImageBase64Matches.Cast<Match>())
-      {
-        var fileNameMarkdown = match.Groups["filename"].Value;
-        var imageType = match.Groups["type"].Value;
-        var base64Data = match.Groups["data"].Value;
-        var imageDataBytes = Convert.FromBase64String(base64Data);
-        var fileName = Guid.NewGuid().ToString() + "." + imageType;
-        var path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
-        if (!_contentTypeProvider.TryGetContentType(fileName, out var contentType))
-          contentType = "text/html";
-        var storage = await _storageProvider.AddAsync(uploadAt, userid, path, fileName, imageDataBytes, contentType);
-        var uploadTag = $"![{fileNameMarkdown}]({storage.Slug})";
-        contentStringBuilder.Replace(match.Value, uploadTag);
-      }
-      content = contentStringBuilder.ToString();
-    }
-    return content;
-  }
+        using HttpClient client = _httpClientFactory.CreateClient();
+        client.BaseAddress = baseAddress;
+        using HttpResponseMessage response = await client.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException("url not content");
+        }
 
-  public async Task<string> UploadImagesBase64(DateTime uploadAt, int userid, string dataOrUrl)
-  {
-    var match = StringHelper.DataImageBase64GeneratedRegex().Match(dataOrUrl);
-    if (match.Success)
+        string folder = $"{userid}/{uploadAt.Year}{uploadAt.Month}";
+        string? path = null;
+        if (fileName == null)
+        {
+            fileName = response.Content.Headers.ContentDisposition?.FileNameStar;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                path = $"{folder}/{fileName}";
+            }
+            else
+            {
+                fileName = GetFileNameByUrl(url);
+                path = $"{folder}/{fileName}";
+            }
+        }
+        else
+        {
+            path = $"{folder}/{fileName}";
+        }
+        StorageDto? storage = await _storageProvider.GetCheckStoragAsync(path);
+        if (storage != null)
+        {
+            return storage;
+        }
+
+        using Stream stream = await response.Content.ReadAsStreamAsync();
+        string? contentType = response.Content.Headers.ContentType?.ToString();
+        storage = await _storageProvider.AddAsync(
+            uploadAt,
+            userid,
+            path,
+            fileName,
+            stream,
+            contentType!
+        );
+        return storage;
+    }
+
+    public async Task<StorageDto?> UploadAsync(DateTime uploadAt, int userid, IFormFile file)
     {
-      var imageType = match.Groups["type"].Value;
-      var base64Data = match.Groups["data"].Value;
-      var imageDataBytes = Convert.FromBase64String(base64Data);
-      var fileName = Guid.NewGuid().ToString() + "." + imageType;
-      var path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
-      if (!_contentTypeProvider.TryGetContentType(fileName, out var contentType))
-        contentType = "text/html";
-      var storage = await _storageProvider.AddAsync(uploadAt, userid, path, fileName, imageDataBytes, contentType);
-      return storage.Slug;
+        string fileName = GetFileName(file.FileName);
+        if (!InvalidFileName(fileName))
+        {
+            _logger.LogError("Invalid file name: {fileName}", fileName);
+            return null;
+        }
+
+        string path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
+        StorageDto? storage = await _storageProvider.GetCheckStoragAsync(path);
+        if (storage != null)
+        {
+            return storage;
+        }
+
+        Stream stream = file.OpenReadStream();
+        storage = await _storageProvider.AddAsync(
+            uploadAt,
+            userid,
+            path,
+            fileName,
+            stream,
+            file.ContentType
+        );
+        return storage;
     }
-    return dataOrUrl;
-  }
 
-  private bool InvalidFileName(string fileName)
-  {
-    var fileExtensions = _fileExtensions ?? SpotLightsConstant.FileExtensions;
-    return fileExtensions.Any(fileName.EndsWith);
-  }
-
-  private static string GetFileName(string fileName)
-  {
-    // some browsers pass uploaded file name as short file name
-    // and others include the path; remove path part if needed
-    const string slash = "/";
-    if (fileName.Contains(slash))
+    public async Task<string> UploadsFoHtmlAsync(
+        DateTime uploadAt,
+        int userid,
+        Uri baseAddress,
+        string content
+    )
     {
-      fileName = fileName.Substring(fileName.LastIndexOf(slash));
-      fileName = fileName.Replace(slash, "");
+        string uploadeImageContent = await UploadImagesFoHtml(
+            uploadAt,
+            userid,
+            baseAddress,
+            content
+        );
+        string uploadeFileContent = await UploadFilesFoHtml(
+            uploadAt,
+            userid,
+            baseAddress,
+            uploadeImageContent
+        );
+        return uploadeFileContent;
     }
-    // when drag-and-drop or copy image to TinyMce editor
-    // it uses "mceclip0" as file name; randomize it for multiple uploads
-    if (fileName.StartsWith("mceclip0"))
+
+    public async Task<string> UploadImagesFoHtml(
+        DateTime uploadAt,
+        int userid,
+        Uri baseAddress,
+        string content
+    )
     {
-      var rnd = new Random();
-      fileName = fileName.Replace("mceclip0", rnd.Next(100000, 999999).ToString());
+        MatchCollection matches = StringHelper.HtmlImgTagsGeneratedRegex().Matches(content);
+        if (matches.Any())
+        {
+            StringBuilder contentBuilder = new(content);
+            Regex htmlImgSrcRegex = StringHelper.HtmlImgSrcGeneratedRegex();
+            foreach (Match match in matches.Cast<Match>())
+            {
+                string tag = match.Value;
+                Match matchUrl = htmlImgSrcRegex.Match(tag);
+                string urlString = matchUrl.Groups[1].Value;
+                StorageDto storage = await UploadAsync(uploadAt, userid, baseAddress, urlString);
+                string uploadTag = $"![{storage.Name}]({storage.Slug})";
+                _ = contentBuilder.Replace(tag, uploadTag);
+            }
+            content = contentBuilder.ToString();
+        }
+        return content;
     }
-    return fileName.SanitizePath();
-  }
 
-  private static string GetFileNameByUrl(string uri)
-  {
-    var title = uri.ToLower();
-    title = title.Replace("%2f", "/");
-
-    if (title.EndsWith(".axdx"))
+    public async Task<string> UploadFilesFoHtml(
+        DateTime uploadAt,
+        int userid,
+        Uri baseAddress,
+        string content
+    )
     {
-      title = title.Replace(".axdx", "");
+        MatchCollection matches = StringHelper.HtmlFileGeneratedRegex().Matches(content);
+        if (matches.Any())
+        {
+            StringBuilder contentBuilder = new(content);
+            foreach (Match match in matches.Cast<Match>())
+            {
+                string tag = match.Value;
+                string urlString = XElement.Parse(tag).Attribute("href")!.Value;
+                if (InvalidFileName(urlString))
+                {
+                    StorageDto storage = await UploadAsync(
+                        uploadAt,
+                        userid,
+                        baseAddress,
+                        urlString
+                    );
+                    string uploadTag = $"![{storage.Name}]({storage.Slug})";
+                    _ = contentBuilder.Replace(tag, uploadTag);
+                }
+            }
+            content = contentBuilder.ToString();
+        }
+        return content;
     }
-    if (title.Contains("image.axd?picture="))
+
+    public async Task<string> UploadImagesBase64FoHtml(
+        DateTime uploadAt,
+        int userid,
+        string content
+    )
     {
-      title = title[(title.IndexOf("image.axd?picture=") + 18)..];
+        MatchCollection dataImageBase64Matches = StringHelper
+            .MarkdownDataImageBase64BlobGeneratedRegex()
+            .Matches(content);
+        if (dataImageBase64Matches.Count > 0)
+        {
+            StringBuilder contentStringBuilder = new(content);
+            foreach (Match match in dataImageBase64Matches.Cast<Match>())
+            {
+                string fileNameMarkdown = match.Groups["filename"].Value;
+                string imageType = match.Groups["type"].Value;
+                string base64Data = match.Groups["data"].Value;
+                byte[] imageDataBytes = Convert.FromBase64String(base64Data);
+                string fileName = Guid.NewGuid().ToString() + "." + imageType;
+                string path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
+                if (!_contentTypeProvider.TryGetContentType(fileName, out string? contentType))
+                {
+                    contentType = "text/html";
+                }
+
+                StorageDto storage = await _storageProvider.AddAsync(
+                    uploadAt,
+                    userid,
+                    path,
+                    fileName,
+                    imageDataBytes,
+                    contentType
+                );
+                string uploadTag = $"![{fileNameMarkdown}]({storage.Slug})";
+                _ = contentStringBuilder.Replace(match.Value, uploadTag);
+            }
+            content = contentStringBuilder.ToString();
+        }
+        return content;
     }
-    if (title.Contains("file.axd?file="))
+
+    public async Task<string> UploadImagesBase64(DateTime uploadAt, int userid, string dataOrUrl)
     {
-      title = title[(title.IndexOf("file.axd?file=") + 14)..];
+        Match match = StringHelper.DataImageBase64GeneratedRegex().Match(dataOrUrl);
+        if (match.Success)
+        {
+            string imageType = match.Groups["type"].Value;
+            string base64Data = match.Groups["data"].Value;
+            byte[] imageDataBytes = Convert.FromBase64String(base64Data);
+            string fileName = Guid.NewGuid().ToString() + "." + imageType;
+            string path = $"{userid}/{uploadAt.Year}{uploadAt.Month}/{fileName}";
+            if (!_contentTypeProvider.TryGetContentType(fileName, out string? contentType))
+            {
+                contentType = "text/html";
+            }
+
+            StorageDto storage = await _storageProvider.AddAsync(
+                uploadAt,
+                userid,
+                path,
+                fileName,
+                imageDataBytes,
+                contentType
+            );
+            return storage.Slug;
+        }
+        return dataOrUrl;
     }
-    if (title.Contains("encrypted-tbn") || title.Contains("base64,"))
+
+    private bool InvalidFileName(string fileName)
     {
-      var rnd = new Random();
-      title = string.Format("{0}.png", rnd.Next(1000, 9999));
+        string[] fileExtensions = _fileExtensions ?? SpotLightsConstant.FileExtensions;
+        return fileExtensions.Any(fileName.EndsWith);
     }
-    if (title.Contains('/'))
+
+    private static string GetFileName(string fileName)
     {
-      title = title[title.LastIndexOf("/")..];
+        // some browsers pass uploaded file name as short file name
+        // and others include the path; remove path part if needed
+        const string slash = "/";
+        if (fileName.Contains(slash))
+        {
+            fileName = fileName[fileName.LastIndexOf(slash)..];
+            fileName = fileName.Replace(slash, "");
+        }
+        // when drag-and-drop or copy image to TinyMce editor
+        // it uses "mceclip0" as file name; randomize it for multiple uploads
+        if (fileName.StartsWith("mceclip0"))
+        {
+            Random rnd = new();
+            fileName = fileName.Replace("mceclip0", rnd.Next(100000, 999999).ToString());
+        }
+        return fileName.SanitizePath();
     }
-    title = title.Replace(" ", "-");
-    return title.Replace("/", "").SanitizeFileName();
-  }
 
-  #region no use code
+    private static string GetFileNameByUrl(string uri)
+    {
+        string title = uri.ToLower();
+        title = title.Replace("%2f", "/");
 
-  //public async Task<string> UploadBase64Image(string baseImg, string root, string path = "")
-  //{
-  //  path = path.Replace("/", _slash);
-  //  var fileName = "";
+        if (title.EndsWith(".axdx"))
+        {
+            title = title.Replace(".axdx", "");
+        }
+        if (title.Contains("image.axd?picture="))
+        {
+            title = title[(title.IndexOf("image.axd?picture=") + 18)..];
+        }
+        if (title.Contains("file.axd?file="))
+        {
+            title = title[(title.IndexOf("file.axd?file=") + 14)..];
+        }
+        if (title.Contains("encrypted-tbn") || title.Contains("base64,"))
+        {
+            Random rnd = new();
+            title = string.Format("{0}.png", rnd.Next(1000, 9999));
+        }
+        if (title.Contains('/'))
+        {
+            title = title[title.LastIndexOf("/")..];
+        }
+        title = title.Replace(" ", "-");
+        return title.Replace("/", "").SanitizeFileName();
+    }
 
-  //  VerifyPath(_pathLocalRoot, path);
-  //  string imgSrc = GetImgSrcValue(baseImg);
+    #region no use code
 
-  //  var rnd = new Random();
-  //  if (imgSrc.StartsWith("data:image/png;base64,"))
-  //  {
-  //    fileName = string.Format("{0}.png", rnd.Next(1000, 9999));
-  //    imgSrc = imgSrc.Replace("data:image/png;base64,", "");
-  //  }
-  //  if (imgSrc.StartsWith("data:image/jpeg;base64,"))
-  //  {
-  //    fileName = string.Format("{0}.jpeg", rnd.Next(1000, 9999));
-  //    imgSrc = imgSrc.Replace("data:image/jpeg;base64,", "");
-  //  }
-  //  if (imgSrc.StartsWith("data:image/gif;base64,"))
-  //  {
-  //    fileName = string.Format("{0}.gif", rnd.Next(1000, 9999));
-  //    imgSrc = imgSrc.Replace("data:image/gif;base64,", "");
-  //  }
+    //public async Task<string> UploadBase64Image(string baseImg, string root, string path = "")
+    //{
+    //  path = path.Replace("/", _slash);
+    //  var fileName = "";
 
-  //  var filePath = string.IsNullOrEmpty(path) ?
-  //       Path.Combine(_pathLocalRoot, fileName) :
-  //       Path.Combine(_pathLocalRoot, path + _slash + fileName);
+    //  VerifyPath(_pathLocalRoot, path);
+    //  string imgSrc = GetImgSrcValue(baseImg);
 
-  //  await File.WriteAllBytesAsync(filePath, Convert.FromBase64String(imgSrc));
+    //  var rnd = new Random();
+    //  if (imgSrc.StartsWith("data:image/png;base64,"))
+    //  {
+    //    fileName = string.Format("{0}.png", rnd.Next(1000, 9999));
+    //    imgSrc = imgSrc.Replace("data:image/png;base64,", "");
+    //  }
+    //  if (imgSrc.StartsWith("data:image/jpeg;base64,"))
+    //  {
+    //    fileName = string.Format("{0}.jpeg", rnd.Next(1000, 9999));
+    //    imgSrc = imgSrc.Replace("data:image/jpeg;base64,", "");
+    //  }
+    //  if (imgSrc.StartsWith("data:image/gif;base64,"))
+    //  {
+    //    fileName = string.Format("{0}.gif", rnd.Next(1000, 9999));
+    //    imgSrc = imgSrc.Replace("data:image/gif;base64,", "");
+    //  }
 
-  //  return $"![{fileName}]({root}{PathToUrl(filePath)})";
-  //}
+    //  var filePath = string.IsNullOrEmpty(path) ?
+    //       Path.Combine(_pathLocalRoot, fileName) :
+    //       Path.Combine(_pathLocalRoot, path + _slash + fileName);
 
-  //static void VerifyPath(string basePath, string path)
-  //{
-  //  path = path.SanitizePath();
+    //  await File.WriteAllBytesAsync(filePath, Convert.FromBase64String(imgSrc));
 
-  //  if (!string.IsNullOrEmpty(path))
-  //  {
-  //    var dir = Path.Combine(basePath, path);
+    //  return $"![{fileName}]({root}{PathToUrl(filePath)})";
+    //}
 
-  //    if (!Directory.Exists(dir))
-  //    {
-  //      Directory.CreateDirectory(dir);
-  //    }
-  //  }
-  //}
-  //string PathToUrl(string path)
-  //{
-  //  string url = path.ReplaceIgnoreCase(_pathLocalRoot, "").Replace(_slash, "/");
-  //  return $"data/{url}";
-  //}
-  //static string GetImgSrcValue(string imgTag)
-  //{
-  //  if (!(imgTag.Contains("data:image") && imgTag.Contains("src=")))
-  //    return imgTag;
+    //static void VerifyPath(string basePath, string path)
+    //{
+    //  path = path.SanitizePath();
 
-  //  int start = imgTag.IndexOf("src=");
-  //  int srcStart = imgTag.IndexOf("\"", start) + 1;
+    //  if (!string.IsNullOrEmpty(path))
+    //  {
+    //    var dir = Path.Combine(basePath, path);
 
-  //  if (srcStart < 2)
-  //    return imgTag;
+    //    if (!Directory.Exists(dir))
+    //    {
+    //      Directory.CreateDirectory(dir);
+    //    }
+    //  }
+    //}
+    //string PathToUrl(string path)
+    //{
+    //  string url = path.ReplaceIgnoreCase(_pathLocalRoot, "").Replace(_slash, "/");
+    //  return $"data/{url}";
+    //}
+    //static string GetImgSrcValue(string imgTag)
+    //{
+    //  if (!(imgTag.Contains("data:image") && imgTag.Contains("src=")))
+    //    return imgTag;
 
-  //  int srcEnd = imgTag.IndexOf("\"", srcStart);
+    //  int start = imgTag.IndexOf("src=");
+    //  int srcStart = imgTag.IndexOf("\"", start) + 1;
 
-  //  if (srcEnd < 1 || srcEnd <= srcStart)
-  //    return imgTag;
+    //  if (srcStart < 2)
+    //    return imgTag;
 
-  //  return imgTag.Substring(srcStart, srcEnd - srcStart);
-  //}
-  #endregion
+    //  int srcEnd = imgTag.IndexOf("\"", srcStart);
 
-  #region theme no use code
+    //  if (srcEnd < 1 || srcEnd <= srcStart)
+    //    return imgTag;
 
-  //public async Task<IList<string>> GetThemesAsync()
-  //{
-  //  var themes = new List<string>();
-  //  var themesDirectory = Path.Combine(ContentRoot, $"Views{_slash}Themes");
-  //  foreach (string dir in Directory.GetDirectories(themesDirectory))
-  //  {
-  //    themes.Add(Path.GetFileName(dir));
-  //  }
-  //  return await Task.FromResult(themes);
-  //}
+    //  return imgTag.Substring(srcStart, srcEnd - srcStart);
+    //}
+    #endregion
 
-  //public async Task<ThemeSettings?> GetThemeSettingsAsync(string theme)
-  //{
-  //  var settings = new ThemeSettings();
-  //  var fileName = Path.Combine(ContentRoot, $"wwwroot{_slash}themes{_slash}{theme.ToLower()}{_slash}settings.json");
-  //  if (File.Exists(fileName))
-  //  {
-  //    try
-  //    {
-  //      string jsonString = File.ReadAllText(fileName);
-  //      settings = JsonSerializer.Deserialize<ThemeSettings>(jsonString);
-  //    }
-  //    catch (Exception ex)
-  //    {
-  //      _logger.LogError("Error reading theme settings: {Message}", ex.Message);
-  //      return null;
-  //    }
-  //  }
+    #region theme no use code
 
-  //  return await Task.FromResult(settings);
-  //}
+    //public async Task<IList<string>> GetThemesAsync()
+    //{
+    //  var themes = new List<string>();
+    //  var themesDirectory = Path.Combine(ContentRoot, $"Views{_slash}Themes");
+    //  foreach (string dir in Directory.GetDirectories(themesDirectory))
+    //  {
+    //    themes.Add(Path.GetFileName(dir));
+    //  }
+    //  return await Task.FromResult(themes);
+    //}
 
-  //public async Task<bool> SaveThemeSettingsAsync(string theme, ThemeSettings settings)
-  //{
-  //  var fileName = Path.Combine(ContentRoot, $"wwwroot{_slash}themes{_slash}{theme.ToLower()}{_slash}settings.json");
-  //  try
-  //  {
-  //    if (File.Exists(fileName))
-  //      File.Delete(fileName);
+    //public async Task<ThemeSettings?> GetThemeSettingsAsync(string theme)
+    //{
+    //  var settings = new ThemeSettings();
+    //  var fileName = Path.Combine(ContentRoot, $"wwwroot{_slash}themes{_slash}{theme.ToLower()}{_slash}settings.json");
+    //  if (File.Exists(fileName))
+    //  {
+    //    try
+    //    {
+    //      string jsonString = File.ReadAllText(fileName);
+    //      settings = JsonSerializer.Deserialize<ThemeSettings>(jsonString);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //      _logger.LogError("Error reading theme settings: {Message}", ex.Message);
+    //      return null;
+    //    }
+    //  }
 
-  //    var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
+    //  return await Task.FromResult(settings);
+    //}
 
-  //    string jsonString = JsonSerializer.Serialize(settings, options);
+    //public async Task<bool> SaveThemeSettingsAsync(string theme, ThemeSettings settings)
+    //{
+    //  var fileName = Path.Combine(ContentRoot, $"wwwroot{_slash}themes{_slash}{theme.ToLower()}{_slash}settings.json");
+    //  try
+    //  {
+    //    if (File.Exists(fileName))
+    //      File.Delete(fileName);
 
-  //    using FileStream createStream = File.Create(fileName);
-  //    await JsonSerializer.SerializeAsync(createStream, settings, options);
-  //  }
-  //  catch (Exception ex)
-  //  {
-  //    _logger.LogError("Error writing theme settings: {Message}", ex.Message);
-  //    return false;
-  //  }
-  //  return true;
-  //}
-  #endregion
+    //    var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
+
+    //    string jsonString = JsonSerializer.Serialize(settings, options);
+
+    //    using FileStream createStream = File.Create(fileName);
+    //    await JsonSerializer.SerializeAsync(createStream, settings, options);
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    _logger.LogError("Error writing theme settings: {Message}", ex.Message);
+    //    return false;
+    //  }
+    //  return true;
+    //}
+    #endregion
 }

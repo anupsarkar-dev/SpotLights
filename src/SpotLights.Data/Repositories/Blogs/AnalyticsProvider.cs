@@ -1,12 +1,7 @@
-using SpotLights.Data;
-using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpotLights.Shared;
 
-namespace SpotLights.Data.Model.Blogs;
+namespace SpotLights.Data.Repositories.Blogs;
 
 public class AnalyticsProvider
 {
@@ -57,7 +52,7 @@ public class AnalyticsProvider
       posts = posts.Where(s => s.UserId == userId);
     }
 
-    var result =
+    IQueryable<BlogSumDto> result =
         from post in posts.AsNoTracking()
         group post by new
         {
@@ -85,11 +80,12 @@ public class AnalyticsProvider
         .Take(10)
         .ToListAsync();
 
-    var barChartModel = new BarChartModel
-    {
-      Labels = chartData.Select(s => s.Title).ToList(),
-      Data = chartData.Select(s => s.Views).ToList()
-    };
+    BarChartModel barChartModel =
+        new()
+        {
+          Labels = chartData.Select(s => s.Title).ToList(),
+          Data = chartData.Select(s => s.Views).ToList()
+        };
 
     return (await result.ToListAsync(), barChartModel);
   }

@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using SpotLights.Data.Identity;
 using SpotLights.Data.Model.Blogs;
@@ -20,7 +21,7 @@ public static class DIExtentions
     sc.AddScoped<CategoryProvider>();
     sc.AddScoped<NewsletterProvider>();
     sc.AddScoped<SubscriberProvider>();
-   
+
     sc.AddScoped<OptionProvider>();
     sc.AddScoped<AnalyticsProvider>();
     sc.AddScoped<EmailManager>();
@@ -28,6 +29,13 @@ public static class DIExtentions
     sc.AddScoped<PostManager>();
     sc.AddScoped<BlogManager>();
     sc.AddScoped<MainManager>();
+
+    return sc;
+  }
+
+  public static IServiceCollection AddInfrastructure(this IServiceCollection sc)
+  {
+    sc.AddMapster();
 
     return sc;
   }
