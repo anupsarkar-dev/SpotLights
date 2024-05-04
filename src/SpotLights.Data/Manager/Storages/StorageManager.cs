@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using SpotLights.Shared.Extensions;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 public class StorageManager
 {

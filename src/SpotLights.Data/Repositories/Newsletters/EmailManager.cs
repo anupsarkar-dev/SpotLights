@@ -1,7 +1,6 @@
 using AutoMapper;
 using SpotLights.Caches;
 using SpotLights.Options;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -12,8 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using SpotLights.Data.Model.Newsletters;
+using SpotLights.Data.Repositories.Posts;
 
-namespace SpotLights.Data.Newsletters;
+namespace SpotLights.Data.Repositories.Newsletters;
 
 public class EmailManager
 {

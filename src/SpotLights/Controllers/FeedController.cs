@@ -1,5 +1,3 @@
-using SpotLights.Blogs;
-using SpotLights.Posts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +7,8 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SpotLights.Data.Model.Blogs;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 

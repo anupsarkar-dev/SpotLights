@@ -1,5 +1,4 @@
 using AutoMapper;
-using SpotLights.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,7 @@ using System.IO;
 using System.Net.Http;
 using SpotLights.Shared;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 public static class StorageExtensions
 {

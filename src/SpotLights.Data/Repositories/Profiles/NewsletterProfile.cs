@@ -1,5 +1,5 @@
 using AutoMapper;
-using SpotLights.Data.Newsletters;
+using SpotLights.Data.Model.Newsletters;
 using SpotLights.Shared;
 
 namespace SpotLights.Profiles;

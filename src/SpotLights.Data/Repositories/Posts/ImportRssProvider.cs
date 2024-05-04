@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using SpotLights.Shared.Extensions;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Repositories.Posts;
 
 public class ImportRssProvider
 {

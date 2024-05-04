@@ -1,11 +1,11 @@
 using AutoMapper;
-using SpotLights.Blogs;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
+using SpotLights.Data.Repositories.Blogs;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
@@ -14,13 +14,13 @@ public class PostController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMapper _mapper;
-    protected readonly MainMamager _mainMamager;
+    protected readonly MainManager _mainMamager;
     protected readonly PostManager _postManager;
 
     public PostController(
         ILogger<PageController> logger,
         IMapper mapper,
-        MainMamager mainMamager,
+        MainManager mainMamager,
         PostManager postManager
     )
     {

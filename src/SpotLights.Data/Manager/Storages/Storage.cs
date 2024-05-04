@@ -3,9 +3,9 @@ using SpotLights.Shared.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
-public class Storage : AppEntity<int>
+public class Storage : BaseEntity<int>
 {
   public int UserId { get; set; }
   public UserInfo User { get; set; } = default!;

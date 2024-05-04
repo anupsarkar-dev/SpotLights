@@ -1,6 +1,6 @@
 using SpotLights.Shared;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Model.Posts;
 
 public class PostSearch
 {

@@ -1,19 +1,19 @@
-using SpotLights.Blogs;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
+using SpotLights.Data.Repositories.Blogs;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
 [Route("category")]
 public class CategoryController : Controller
 {
-    private readonly MainMamager _mainMamager;
+    private readonly MainManager _mainMamager;
     private readonly PostProvider _postProvider;
 
-    public CategoryController(MainMamager mainMamager, PostProvider postProvider)
+    public CategoryController(MainManager mainMamager, PostProvider postProvider)
     {
         _mainMamager = mainMamager;
         _postProvider = postProvider;

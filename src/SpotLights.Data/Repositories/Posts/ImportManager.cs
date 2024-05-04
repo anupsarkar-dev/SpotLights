@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Data.Identity;
-using SpotLights.Data.Storages;
+using SpotLights.Data.Manager.Storages;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Repositories.Posts;
 
 public class ImportManager
 {

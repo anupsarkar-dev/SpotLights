@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpotLights.Data.Newsletters;
+using SpotLights.Data.Repositories.Newsletters;
 
 namespace SpotLights.Interfaces;
 

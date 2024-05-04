@@ -1,10 +1,10 @@
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 

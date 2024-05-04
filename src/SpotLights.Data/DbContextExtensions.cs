@@ -5,16 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+ 
 
 namespace SpotLights.Data;
 
-public static class AppDbContextExtensions
+public static class DbContextExtensions
 {
-
   public static IServiceCollection AddDbContext(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
   {
     var section = configuration.GetSection("SpotLights");
@@ -48,7 +44,6 @@ public static class AppDbContextExtensions
     }
     return services;
   }
-
 
   public static async Task<WebApplication> RunDbContextMigrateAsync(this WebApplication app)
   {

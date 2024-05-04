@@ -1,4 +1,4 @@
-namespace SpotLights.Blogs;
+namespace SpotLights.Data.Model.Blogs;
 
 public class BlogData
 {

@@ -1,4 +1,4 @@
-namespace SpotLights.Data.Newsletters;
+namespace SpotLights.Data.Model.Newsletters;
 
 public class MailSettingData
 {

@@ -33,5 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
 
 </Project>

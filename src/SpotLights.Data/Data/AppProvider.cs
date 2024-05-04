@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SpotLights.Data;
 
 public class AppProvider<T, TKey>
-    where T : AppEntity<TKey>
+    where T : BaseEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     protected readonly AppDbContext _dbContext;

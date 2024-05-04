@@ -1,10 +1,9 @@
-using SpotLights.Data;
-using SpotLights.Shared;
+using SpotLights.Data.Model.Posts;
 using System;
 
-namespace SpotLights.Data.Newsletters;
+namespace SpotLights.Data.Model.Newsletters;
 
-public class Newsletter : AppEntity<int>
+public class Newsletter : BaseEntity<int>
 {
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }

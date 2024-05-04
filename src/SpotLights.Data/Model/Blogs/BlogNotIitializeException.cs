@@ -1,6 +1,6 @@
 using System;
 
-namespace SpotLights.Blogs;
+namespace SpotLights.Data.Model.Blogs;
 
 public class BlogNotIitializeException : Exception
 {

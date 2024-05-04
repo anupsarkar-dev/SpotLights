@@ -1,6 +1,6 @@
 using Markdig;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Repositories.Posts;
 
 public class MarkdigProvider
 {

@@ -1,6 +1,5 @@
 using AutoMapper;
 using SpotLights.Caches;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
@@ -10,17 +9,20 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SpotLights.Shared.Identity;
+using SpotLights.Data.Model.Blogs;
+using SpotLights.Data.Repositories.Posts;
 
-namespace SpotLights.Blogs;
+namespace SpotLights.Data.Repositories.Blogs;
 
-public class MainMamager
+public class MainManager
 {
   private readonly IMapper _mapper;
   private readonly IDistributedCache _distributedCache;
   private readonly IHttpContextAccessor _httpContextAccessor;
   private readonly BlogManager _blogManager;
   private readonly CategoryProvider _categoryProvider;
-  public MainMamager(
+
+  public MainManager(
     IMapper mapper,
     IDistributedCache distributedCache,
     IHttpContextAccessor httpContextAccessor,

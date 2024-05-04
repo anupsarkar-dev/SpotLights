@@ -6,8 +6,9 @@ using System;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using SpotLights.Blogs;
 
-namespace SpotLights.Blogs;
+namespace SpotLights.Data.Model.Blogs;
 
 public class BlogManager
 {

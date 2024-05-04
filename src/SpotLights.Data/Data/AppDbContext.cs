@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SpotLights.Data.Newsletters;
-using SpotLights.Data.Storages;
+using SpotLights.Data.Manager.Storages;
+using SpotLights.Data.Model.Newsletters;
+using SpotLights.Data.Model.Posts;
 using SpotLights.Options;
-using SpotLights.Shared;
 using SpotLights.Shared.Identity;
 
 namespace SpotLights.Data;

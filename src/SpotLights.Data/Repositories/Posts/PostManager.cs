@@ -2,7 +2,7 @@ using SpotLights.Shared;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Repositories.Posts;
 
 public class PostManager
 {

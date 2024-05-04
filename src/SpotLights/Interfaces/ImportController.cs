@@ -1,10 +1,10 @@
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Interfaces;
 

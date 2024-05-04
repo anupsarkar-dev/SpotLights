@@ -1,5 +1,5 @@
 using AutoMapper;
-using SpotLights.Data.Storages;
+using SpotLights.Data.Manager.Storages;
 using SpotLights.Shared;
 
 namespace SpotLights.Profiles;

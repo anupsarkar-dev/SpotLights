@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 public interface IStorageProvider
 {

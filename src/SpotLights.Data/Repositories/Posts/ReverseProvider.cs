@@ -1,6 +1,6 @@
 using ReverseMarkdown;
 
-namespace SpotLights.Posts;
+namespace SpotLights.Data.Repositories.Posts;
 
 public class ReverseProvider
 {

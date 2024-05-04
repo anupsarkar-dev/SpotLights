@@ -1,5 +1,4 @@
 using AutoMapper;
-using SpotLights.Blogs;
 using SpotLights.Data;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using SpotLights.Data.Model.Blogs;
 
 namespace SpotLights.Interfaces;
 

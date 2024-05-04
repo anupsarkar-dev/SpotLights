@@ -1,4 +1,4 @@
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 
 // TOTO In the sql server implementation,

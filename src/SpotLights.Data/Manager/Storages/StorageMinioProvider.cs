@@ -1,5 +1,4 @@
 using AutoMapper;
-using SpotLights.Data;
 using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Minio.DataModel.Args;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider, IDisposable
 {

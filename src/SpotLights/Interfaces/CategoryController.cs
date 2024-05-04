@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SpotLights.Posts;
+using SpotLights.Data.Model.Posts;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Interfaces;
 

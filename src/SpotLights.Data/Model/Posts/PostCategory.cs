@@ -1,4 +1,4 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Data.Model.Posts;
 
 public class PostCategory
 {

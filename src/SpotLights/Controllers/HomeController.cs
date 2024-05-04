@@ -1,22 +1,23 @@
-using SpotLights.Blogs;
 using SpotLights.Models;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using SpotLights.Data.Model.Blogs;
+using SpotLights.Data.Repositories.Blogs;
+using SpotLights.Data.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger _logger;
-    private readonly MainMamager _mainMamager;
+    private readonly MainManager _mainMamager;
     private readonly PostProvider _postProvider;
 
     public HomeController(
         ILogger<HomeController> logger,
-        MainMamager mainMamager,
+        MainManager mainMamager,
         PostProvider postProvider
     )
     {

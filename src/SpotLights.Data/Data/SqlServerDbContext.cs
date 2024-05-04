@@ -1,10 +1,10 @@
 using SpotLights.Data.ValueGeneration;
 using SpotLights.Options;
-using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Shared.Identity;
-using SpotLights.Data.Newsletters;
-using SpotLights.Data.Storages;
+using SpotLights.Data.Model.Posts;
+using SpotLights.Data.Model.Newsletters;
+using SpotLights.Data.Manager.Storages;
 
 namespace SpotLights.Data;
 

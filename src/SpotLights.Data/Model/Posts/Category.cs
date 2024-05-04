@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SpotLights.Shared;
+namespace SpotLights.Data.Model.Posts;
 
-public class Category : AppEntity<int>
+public class Category : BaseEntity<int>
 {
   public DateTime CreatedAt { get; set; }
   [StringLength(120)]

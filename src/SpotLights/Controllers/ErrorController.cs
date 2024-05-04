@@ -1,10 +1,10 @@
 using AutoMapper;
-using SpotLights.Blogs;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using SpotLights.Data.Repositories.Blogs;
 
 namespace SpotLights.Controllers;
 
@@ -12,12 +12,12 @@ public class ErrorController : Controller
 {
   protected readonly ILogger _logger;
   protected readonly IMapper _mapper;
-  protected readonly MainMamager _mainMamager;
+  protected readonly MainManager _mainMamager;
 
   public ErrorController(
     ILogger<ErrorController> logger,
     IMapper mapper,
-    MainMamager mainMamager)
+    MainManager mainMamager)
   {
     _logger = logger;
     _mapper = mapper;

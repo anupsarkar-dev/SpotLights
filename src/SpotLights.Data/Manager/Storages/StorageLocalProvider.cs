@@ -1,5 +1,4 @@
 using AutoMapper;
-using SpotLights.Data;
 using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SpotLights.Data.Storages;
+namespace SpotLights.Data.Manager.Storages;
 
 public class StorageLocalProvider : AppProvider<Storage, int>, IStorageProvider
 {

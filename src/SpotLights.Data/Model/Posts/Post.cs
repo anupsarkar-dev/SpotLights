@@ -1,13 +1,13 @@
-
 using SpotLights.Data;
+using SpotLights.Shared;
 using SpotLights.Shared.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SpotLights.Shared;
+namespace SpotLights.Data.Model.Posts;
 
-public class Post : AppEntity<int>
+public class Post : BaseEntity<int>
 {
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }

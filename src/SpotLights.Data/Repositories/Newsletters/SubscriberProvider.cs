@@ -1,13 +1,13 @@
 using AutoMapper;
-using SpotLights.Data;
 using SpotLights.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SpotLights.Data.Model.Newsletters;
 
-namespace SpotLights.Data.Newsletters;
+namespace SpotLights.Data.Repositories.Newsletters;
 
 public class SubscriberProvider : AppProvider<Subscriber, int>
 {

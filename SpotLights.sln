@@ -36,7 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "themes", "themes", "{4155E5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Core", "src\SpotLights.Core\SpotLights.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

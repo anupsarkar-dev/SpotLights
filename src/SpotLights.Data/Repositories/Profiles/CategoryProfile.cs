@@ -1,4 +1,5 @@
 using AutoMapper;
+using SpotLights.Data.Model.Posts;
 using SpotLights.Shared;
 
 namespace SpotLights.Profiles;
