@@ -1,3 +1,4 @@
+using SpotLights.Shared.Enums;
 using System.Collections.Generic;
 
 namespace SpotLights.Shared;
@@ -11,5 +12,5 @@ public class AnalyticsDto
     public int TotalSubscribers { get; set; }
     public AnalyticsListType DisplayType { get; set; }
     public AnalyticsPeriod DisplayPeriod { get; set; }
-    public BarChartModel LatestPostViews { get; set; } = default!;
+    public BarChartViewModel LatestPostViews { get; set; } = default!;
 }

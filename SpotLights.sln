@@ -34,9 +34,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "themes", "themes", "{4155E512-4F91-48D3-823A-45B7C71125A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Core", "src\SpotLights.Core\SpotLights.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Domain", "src\SpotLights.Domain\SpotLights.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,6 +136,30 @@ Global
 		{EA9B0B03-128B-4932-8903-633B236A6151}.Release|x64.Build.0 = Release|Any CPU
 		{EA9B0B03-128B-4932-8903-633B236A6151}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA9B0B03-128B-4932-8903-633B236A6151}.Release|x86.Build.0 = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|x64.Build.0 = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Debug|x86.Build.0 = Debug|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|x64.ActiveCfg = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|x64.Build.0 = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|x86.ActiveCfg = Release|Any CPU
+		{F44E6542-4A15-4D30-A16A-D4717BB78990}.Release|x86.Build.0 = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|x64.Build.0 = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Debug|x86.Build.0 = Debug|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|x64.ActiveCfg = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|x64.Build.0 = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|x86.ActiveCfg = Release|Any CPU
+		{B4240118-6722-4544-BBB5-8CEBB3D23959}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

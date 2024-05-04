@@ -1,5 +1,3 @@
-using SpotLights.Blogs;
-using SpotLights.Posts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +7,8 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
@@ -36,50 +36,38 @@ public class FeedController : Controller
     [HttpGet("feed")]
     public async Task<IActionResult> Rss()
     {
-        var host = Request.Scheme + "://" + Request.Host;
-        var data = await _blogManager.GetAsync();
+        string host = Request.Scheme + "://" + Request.Host;
+        Domain.Model.Blogs.BlogData data = await _blogManager.GetAsync();
         var posts = await _postProvider.GetAsync();
-        var items = new List<SyndicationItem>();
+        List<SyndicationItem> items = new();
 
-        var publishedAt = DateTime.UtcNow;
+        DateTime publishedAt = DateTime.UtcNow;
         if (posts != null)
-            foreach (var post in posts)
+            foreach (Shared.PostDto post in posts)
             {
-                var url = $"{host}/posts/{post.Slug}";
-                var description = _markdigProvider.ToHtml(post.Content);
-                var item = new SyndicationItem(
-                    post.Title,
-                    description,
-                    new Uri(url),
-                    url,
-                    publishedAt
-                )
-                {
-                    PublishDate = publishedAt
-                };
+                string url = $"{host}/posts/{post.Slug}";
+                string description = _markdigProvider.ToHtml(post.Content);
+                SyndicationItem item =
+                    new(post.Title, description, new Uri(url), url, publishedAt)
+                    {
+                        PublishDate = publishedAt
+                    };
                 items.Add(item);
             }
-        var feed = new SyndicationFeed(
-            data.Title,
-            data.Description,
-            new Uri(host),
-            host,
-            publishedAt
-        )
+        SyndicationFeed feed =
+            new(data.Title, data.Description, new Uri(host), host, publishedAt) { Items = items };
+        XmlWriterSettings settings =
+            new()
+            {
+                Encoding = Encoding.UTF8,
+                NewLineHandling = NewLineHandling.Entitize,
+                NewLineOnAttributes = true,
+                Indent = true
+            };
+        using MemoryStream stream = new();
+        using (XmlWriter xmlWriter = XmlWriter.Create(stream, settings))
         {
-            Items = items
-        };
-        var settings = new XmlWriterSettings
-        {
-            Encoding = Encoding.UTF8,
-            NewLineHandling = NewLineHandling.Entitize,
-            NewLineOnAttributes = true,
-            Indent = true
-        };
-        using var stream = new MemoryStream();
-        using (var xmlWriter = XmlWriter.Create(stream, settings))
-        {
-            var rssFormatter = new Rss20FeedFormatter(feed, false);
+            Rss20FeedFormatter rssFormatter = new(feed, false);
             rssFormatter.WriteTo(xmlWriter);
             xmlWriter.Flush();
         }

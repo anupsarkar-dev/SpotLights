@@ -1,15 +1,15 @@
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using SpotLights.Data.Storages;
 using SpotLights.Shared.Extensions;
+using SpotLights.Shared.Dtos;
+using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Shared.Enums;
+using SpotLights.Infrastructure.Manager.Storages;
 
 namespace SpotLights.Interfaces;
 
@@ -31,8 +31,8 @@ public class PostController : ControllerBase
         [FromRoute] PostType postType
     )
     {
-        var userId = User.FirstUserId();
-        var isAdmin = User.IsAdmin();
+        int userId = User.FirstUserId();
+        bool isAdmin = User.IsAdmin();
         return await _postProvider.GetAsync(filter, postType, userId, isAdmin);
     }
 
@@ -55,8 +55,8 @@ public class PostController : ControllerBase
         [FromBody] PostEditorDto post
     )
     {
-        var userId = User.FirstUserId();
-        var uploadAt = DateTime.UtcNow;
+        int userId = User.FirstUserId();
+        DateTime uploadAt = DateTime.UtcNow;
         if (!string.IsNullOrEmpty(post.Cover))
         {
             var coverUrl = await storageManager.UploadImagesBase64(uploadAt, userId, post.Cover);
@@ -78,8 +78,8 @@ public class PostController : ControllerBase
         [FromBody] PostEditorDto post
     )
     {
-        var userId = User.FirstUserId();
-        var uploadAt = DateTime.UtcNow;
+        int userId = User.FirstUserId();
+        DateTime uploadAt = DateTime.UtcNow;
         if (!string.IsNullOrEmpty(post.Cover))
         {
             var coverUrl = await storageManager.UploadImagesBase64(uploadAt, userId, post.Cover);
@@ -103,7 +103,7 @@ public class PostController : ControllerBase
     [HttpPut("state/{idsString}")]
     public async Task StateAsynct([FromRoute] string idsString, [FromBody] PostState state)
     {
-        var ids = idsString.Split(',').Select(int.Parse);
+        IEnumerable<int> ids = idsString.Split(',').Select(int.Parse);
         await _postProvider.StateAsynct(ids, state);
     }
 
@@ -116,7 +116,7 @@ public class PostController : ControllerBase
     [HttpDelete("{idsString}")]
     public async Task DeleteAsync([FromRoute] string idsString)
     {
-        var ids = idsString.Split(',').Select(int.Parse);
+        IEnumerable<int> ids = idsString.Split(',').Select(int.Parse);
         await _postProvider.DeleteAsync(ids);
     }
 }

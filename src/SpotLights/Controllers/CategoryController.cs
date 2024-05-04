@@ -1,19 +1,19 @@
-using SpotLights.Blogs;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
 [Route("category")]
 public class CategoryController : Controller
 {
-    private readonly MainMamager _mainMamager;
+    private readonly MainManager _mainMamager;
     private readonly PostProvider _postProvider;
 
-    public CategoryController(MainMamager mainMamager, PostProvider postProvider)
+    public CategoryController(MainManager mainMamager, PostProvider postProvider)
     {
         _mainMamager = mainMamager;
         _postProvider = postProvider;
@@ -22,11 +22,11 @@ public class CategoryController : Controller
     [HttpGet("{category}")]
     public async Task<IActionResult> Category([FromRoute] string category, [FromQuery] int page = 1)
     {
-        var userId = User.FirstUserId();
-        var isAdmin = User.IsAdmin();
+        int userId = User.FirstUserId();
+        bool isAdmin = User.IsAdmin();
 
-        var main = await _mainMamager.GetAsync();
-        var pager = await _postProvider.GetByCategoryAsync(
+        MainDto main = await _mainMamager.GetAsync();
+        PostPagerDto pager = await _postProvider.GetByCategoryAsync(
             category,
             page,
             main.ItemsPerPage,
@@ -34,7 +34,7 @@ public class CategoryController : Controller
             isAdmin
         );
         pager.Configure(main.PathUrl, "page");
-        var model = new CategoryModel(category, pager, main);
+        CategoryViewModel model = new(category, pager, main);
         return View($"~/Views/Themes/{main.Theme}/category.cshtml", model);
     }
 }

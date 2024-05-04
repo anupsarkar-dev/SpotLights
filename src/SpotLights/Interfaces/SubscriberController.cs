@@ -1,10 +1,9 @@
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpotLights.Data.Newsletters;
+using SpotLights.Infrastructure.Repositories.Newsletters;
 
 namespace SpotLights.Interfaces;
 
@@ -36,7 +35,7 @@ public class SubscriberController : ControllerBase
     [HttpPost("apply")]
     public async Task<IActionResult> ApplyAsync([FromBody] SubscriberApplyDto input)
     {
-        var res = await _subscriberProvider.ApplyAsync(input);
+        int res = await _subscriberProvider.ApplyAsync(input);
 
         if (res == 1)
         {

@@ -1,10 +1,9 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Shared.Enums;
 
 public enum PostListType
 {
-  Blog,
-  Category,
-  Author,
-  Search,
+    Blog,
+    Category,
+    Author,
+    Search,
 }
-

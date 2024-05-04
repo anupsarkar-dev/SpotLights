@@ -4,6 +4,8 @@
  @using ChartJs.Blazor.Util
  @using ChartJs.Blazor.BarChart
  @using System.Drawing
+@using SpotLights.Shared.Entities
+@using SpotLights.Shared.Enums
  
 
 @page "/admin"
@@ -16,7 +18,7 @@
 
     protected BarConfig _config = default!;
     protected List<OptionItem> _dateOptions = default!;
-    protected List<PostVisit> _visits = default!;
+    protected List<PostVisitViewModel> _visits = default!;
     protected bool _hideGraph = false;
     protected bool _hideList = true;
     protected AnalyticsDto? _analytics;
@@ -81,9 +83,9 @@
 
 
 
-    protected void LoadData(IDataset<int> dataset, BarChartModel model)
+    protected void LoadData(IDataset<int> dataset, BarChartViewModel model)
     {
-        _visits = new List<PostVisit>();
+        _visits = new List<PostVisitViewModel>();
         var labels = model.Labels.ToList();
         var values = model.Data.ToList();
 
@@ -94,7 +96,7 @@
             _config.Data.Labels.Add(labels[i]);
             dataset.Add(values[i]);
 
-            _visits.Add(new PostVisit { Name = labels[i], Value = values[i] });
+            _visits.Add(new PostVisitViewModel { Name = labels[i], Value = values[i] });
         }
         _visits = _visits.OrderByDescending(v => v.Value).ToList();
     }

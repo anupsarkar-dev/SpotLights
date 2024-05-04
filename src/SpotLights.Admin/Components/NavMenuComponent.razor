@@ -1,3 +1,4 @@
+@using SpotLights.Shared.Entities.Identity
 @inject HttpClient _http
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _stateProvider
@@ -7,14 +8,14 @@
 
 @code {
 
-  protected SpotLightsClaims? _claims;
+  protected IdentityClaims? _claims;
 
 
   protected override async Task OnInitializedAsync()
   {
     var state = await _stateProvider.GetAuthenticationStateAsync();
     var identity = state.User.Identity;
-    _claims = SpotLightsClaims.Analysis(state.User);
+        _claims = IdentityClaims.Analysis(state.User);
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)

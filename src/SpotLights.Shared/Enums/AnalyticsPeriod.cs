@@ -1,11 +1,10 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Shared.Enums;
 
 public enum AnalyticsPeriod
 {
-  Today = 1,
-  Yesterday = 2,
-  Days7 = 3,
-  Days30 = 4,
-  Days90 = 5
+    Today = 1,
+    Yesterday = 2,
+    Days7 = 3,
+    Days30 = 4,
+    Days90 = 5
 }
-

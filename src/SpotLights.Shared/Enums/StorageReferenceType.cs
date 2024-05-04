@@ -1,6 +1,6 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Shared.Enums;
 
 public enum StorageReferenceType
 {
-  Post = 1,
+    Post = 1,
 }

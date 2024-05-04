@@ -1,22 +1,23 @@
-using SpotLights.Blogs;
 using SpotLights.Models;
-using SpotLights.Posts;
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Domain.Model.Blogs;
 
 namespace SpotLights.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger _logger;
-    private readonly MainMamager _mainMamager;
+    private readonly MainManager _mainMamager;
     private readonly PostProvider _postProvider;
 
     public HomeController(
         ILogger<HomeController> logger,
-        MainMamager mainMamager,
+        MainManager mainMamager,
         PostProvider postProvider
     )
     {
@@ -40,7 +41,7 @@ public class HomeController : Controller
         }
         var pager = await _postProvider.GetPostsAsync(page, main.ItemsPerPage);
         pager.Configure(main.PathUrl, "page");
-        var model = new IndexModel(pager, main);
+        var model = new IndexViewModel(pager, main);
         return View($"~/Views/Themes/{main.Theme}/index.cshtml", model);
     }
 }
