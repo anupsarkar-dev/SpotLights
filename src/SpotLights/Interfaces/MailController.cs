@@ -2,7 +2,7 @@ using SpotLights.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using SpotLights.Data.Repositories.Newsletters;
+using SpotLights.Infrastructure.Repositories.Newsletters;
 
 namespace SpotLights.Interfaces;
 
@@ -11,21 +11,22 @@ namespace SpotLights.Interfaces;
 [Authorize]
 public class MailController : ControllerBase
 {
-  private readonly EmailManager _emailManager;
-  public MailController(EmailManager emailManager)
-  {
-    _emailManager = emailManager;
-  }
+    private readonly EmailManager _emailManager;
 
-  [HttpGet("settings")]
-  public async Task<MailSettingDto?> GetSettingsAsync()
-  {
-    return await _emailManager.GetSettingsAsync();
-  }
+    public MailController(EmailManager emailManager)
+    {
+        _emailManager = emailManager;
+    }
 
-  [HttpPut("settings")]
-  public async Task PutSettingsAsync([FromBody] MailSettingDto input)
-  {
-    await _emailManager.PutSettingsAsync(input);
-  }
+    [HttpGet("settings")]
+    public async Task<MailSettingDto?> GetSettingsAsync()
+    {
+        return await _emailManager.GetSettingsAsync();
+    }
+
+    [HttpPut("settings")]
+    public async Task PutSettingsAsync([FromBody] MailSettingDto input)
+    {
+        await _emailManager.PutSettingsAsync(input);
+    }
 }

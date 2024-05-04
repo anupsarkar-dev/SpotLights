@@ -2,5 +2,5 @@ namespace SpotLights.Shared;
 
 public class FrontCategoryItemDto : CategoryItemDto
 {
-  public bool Selected { get; set; }
+    public bool Selected { get; set; }
 }

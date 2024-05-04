@@ -1,10 +1,10 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Shared.Enums;
 
 public enum UploadType
 {
-  Avatar,
-  Attachement,
-  AppLogo,
-  PostCover,
-  PostImage
+    Avatar,
+    Attachement,
+    AppLogo,
+    PostCover,
+    PostImage
 }

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SpotLights.Data.Repositories.Blogs;
-using SpotLights.Data.Repositories.Posts;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
+using SpotLights.Shared.Enums;
 using SpotLights.Shared.Extensions;
 using System.Threading.Tasks;
 
@@ -43,7 +44,7 @@ public class PageController : Controller
             return Redirect($"~/page/{postSlug.Post.Slug}");
         }
         string categoriesUrl = Url.Content("~/category");
-        PostModel model = new(postSlug, categoriesUrl, main);
+        PostViewModel model = new(postSlug, categoriesUrl, main);
         return View($"~/Views/Themes/{main.Theme}/post.cshtml", model);
     }
 }

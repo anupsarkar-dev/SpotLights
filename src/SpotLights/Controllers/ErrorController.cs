@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SpotLights.Data.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Shared;
 using System;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ public class ErrorController : Controller
         try
         {
             MainDto data = await _mainMamager.GetAsync();
-            MainModel model = new(data);
+            MainViewModel model = new(data);
             return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
         }
         catch (Exception ex)
@@ -40,7 +40,7 @@ public class ErrorController : Controller
         try
         {
             MainDto data = await _mainMamager.GetAsync();
-            MainModel model = new(data);
+            MainViewModel model = new(data);
             return View($"~/Views/Themes/{data.Theme}/404.cshtml", model);
         }
         catch (Exception ex)

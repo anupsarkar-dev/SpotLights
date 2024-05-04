@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpotLights.Data.Repositories.Newsletters;
+using SpotLights.Infrastructure.Repositories.Newsletters;
 
 namespace SpotLights.Interfaces;
 
@@ -23,7 +23,7 @@ public class NewsletterController : ControllerBase
     [HttpGet("items")]
     public async Task<IEnumerable<NewsletterDto>> GetItemsAsync()
     {
-    var userId = User.FirstUserId();
+        var userId = User.FirstUserId();
         var isAdmin = User.IsAdmin();
 
         return await _newsletterProvider.GetItemsAsync(userId, isAdmin);

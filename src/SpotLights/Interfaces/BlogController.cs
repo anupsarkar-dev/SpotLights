@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SpotLights.Data.Model.Blogs;
 using Mapster;
+using SpotLights.Infrastructure.Repositories.Blogs;
 
 namespace SpotLights.Interfaces;
 
@@ -15,47 +15,46 @@ namespace SpotLights.Interfaces;
 [Route("api/blog")]
 public class BlogController : ControllerBase
 {
-  private readonly BlogManager _blogManager;
+    private readonly BlogManager _blogManager;
 
-  public BlogController(BlogManager blogManager)
-  {
-    _blogManager = blogManager;
-  }
-
-  [HttpGet]
-  public async Task<BlogEitorDto> GetAsync()
-  {
-    var data = await _blogManager.GetAsync();
-    var dataDto = data.Adapt<BlogEitorDto>();
-    return dataDto;
-  }
-
-  [HttpPut]
-  public async Task PutAsync([FromBody] BlogEitorDto blog)
-  {
-    var data = await _blogManager.GetAsync();
-    data.Title = blog.Title;
-    data.Description = blog.Description;
-    data.HeaderScript = blog.HeaderScript;
-    data.FooterScript = blog.FooterScript;
-    data.IncludeFeatured = blog.IncludeFeatured;
-    data.ItemsPerPage = blog.ItemsPerPage;
-    await _blogManager.SetAsync(data);
-  }
-
-  [HttpGet("about")]
-  public AboutDto GetAboutAsync([FromServices] AppDbContext dbContext)
-  {
-    var result = new AboutDto
+    public BlogController(BlogManager blogManager)
     {
-      Version = typeof(BlogController)?
-        .GetTypeInfo()?
-        .Assembly?
-        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-        .InformationalVersion,
-      DatabaseProvider = dbContext.Database.ProviderName,
-      OperatingSystem = RuntimeInformation.OSDescription
-    };
-    return result;
-  }
+        _blogManager = blogManager;
+    }
+
+    [HttpGet]
+    public async Task<BlogEitorDto> GetAsync()
+    {
+        var data = await _blogManager.GetAsync();
+        var dataDto = data.Adapt<BlogEitorDto>();
+        return dataDto;
+    }
+
+    [HttpPut]
+    public async Task PutAsync([FromBody] BlogEitorDto blog)
+    {
+        var data = await _blogManager.GetAsync();
+        data.Title = blog.Title;
+        data.Description = blog.Description;
+        data.HeaderScript = blog.HeaderScript;
+        data.FooterScript = blog.FooterScript;
+        data.IncludeFeatured = blog.IncludeFeatured;
+        data.ItemsPerPage = blog.ItemsPerPage;
+        await _blogManager.SetAsync(data);
+    }
+
+    [HttpGet("about")]
+    public AboutDto GetAboutAsync()
+    {
+        var result = new AboutDto
+        {
+            Version = typeof(BlogController)
+                ?.GetTypeInfo()
+                ?.Assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion,
+            DatabaseProvider = "", //dbContext.Database.ProviderName,
+            OperatingSystem = RuntimeInformation.OSDescription
+        };
+        return result;
+    }
 }

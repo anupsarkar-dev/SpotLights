@@ -1,10 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpotLights.Domain;
 
-namespace SpotLights.Data;
+namespace SpotLights.Data.Data;
 
 public class AppProvider<T, TKey>
     where T : BaseEntity<TKey>
@@ -19,13 +16,13 @@ public class AppProvider<T, TKey>
 
     protected async Task AddAsync(T entity)
     {
-        _dbContext.Set<T>().Add(entity);
-        await _dbContext.SaveChangesAsync();
+        _ = _dbContext.Set<T>().Add(entity);
+        _ = await _dbContext.SaveChangesAsync();
     }
 
     public Task DeleteAsync(TKey id)
     {
-        var query = _dbContext.Set<T>().Where(m => id.Equals(m.Id));
+        IQueryable<T> query = _dbContext.Set<T>().Where(m => id.Equals(m.Id));
         return DeleteInternalAsync(query);
     }
 
@@ -33,7 +30,7 @@ public class AppProvider<T, TKey>
     {
         if (ids != null && ids.Any())
         {
-            var query = _dbContext.Set<T>().Where(m => ids.Contains(m.Id));
+            IQueryable<T> query = _dbContext.Set<T>().Where(m => ids.Contains(m.Id));
             return DeleteInternalAsync(query);
         }
         return Task.CompletedTask;
@@ -41,6 +38,6 @@ public class AppProvider<T, TKey>
 
     protected static async Task DeleteInternalAsync(IQueryable<T> query)
     {
-        await query.ExecuteDeleteAsync();
+        _ = await query.ExecuteDeleteAsync();
     }
 }

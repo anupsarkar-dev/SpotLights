@@ -1,7 +1,7 @@
-namespace SpotLights.Shared;
+namespace SpotLights.Shared.Enums;
 
 public enum UserState
 {
-  Disable = -1,
-  None = 0,
+    Disable = -1,
+    None = 0,
 }

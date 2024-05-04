@@ -1,76 +1,69 @@
-using SpotLights.Data.ValueGeneration;
-using SpotLights.Options;
 using Microsoft.EntityFrameworkCore;
-using SpotLights.Shared.Identity;
-using SpotLights.Data.Model.Posts;
-using SpotLights.Data.Model.Newsletters;
-using SpotLights.Data.Manager.Storages;
+using SpotLights.Data.ValueGeneration;
+using SpotLights.Domain.Model.Identity;
+using SpotLights.Domain.Model.Newsletters;
+using SpotLights.Domain.Model.Posts;
+using SpotLights.Domain.Model.Storage;
+using SpotLights.Domain.Options;
 
-namespace SpotLights.Data;
+namespace SpotLights.Data.Data;
 
 public class PostgresDbContext : AppDbContext
 {
-  public PostgresDbContext(DbContextOptions options) : base(options)
-  {
-  }
+    public PostgresDbContext(DbContextOptions options)
+        : base(options) { }
 
-  protected override void OnModelCreating(ModelBuilder modelBuilder)
-  {
-    base.OnModelCreating(modelBuilder);
-
-
-    modelBuilder.Entity<UserInfo>(e =>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+        base.OnModelCreating(modelBuilder);
 
-      // https://github.com/dotnet/EntityFramework.Docs/issues/3057
-      // https://github.com/dotnet/efcore/issues/19765
-      // TOTO No solution has been found
-      // This configuration is not updated when the entity is updated
-      e.Property(b => b.UpdatedAt)
-        .HasValueGenerator(typeof(DateTimetValueGenerator));
-    });
-    modelBuilder.Entity<OptionInfo>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-      e.Property(b => b.UpdatedAt)
-        .HasValueGenerator(typeof(DateTimetValueGenerator));
-    });
+        _ = modelBuilder.Entity<UserInfo>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
 
-    modelBuilder.Entity<Post>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-      e.Property(b => b.UpdatedAt)
-        .HasValueGenerator(typeof(DateTimetValueGenerator));
-    });
+            // https://github.com/dotnet/EntityFramework.Docs/issues/3057
+            // https://github.com/dotnet/efcore/issues/19765
+            // TOTO No solution has been found
+            // This configuration is not updated when the entity is updated
+            _ = e.Property(b => b.UpdatedAt).HasValueGenerator(typeof(DateTimetValueGenerator));
+        });
+        _ = modelBuilder.Entity<OptionInfo>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+            _ = e.Property(b => b.UpdatedAt).HasValueGenerator(typeof(DateTimetValueGenerator));
+        });
 
-    modelBuilder.Entity<Category>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-    });
+        _ = modelBuilder.Entity<Post>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+            _ = e.Property(b => b.UpdatedAt).HasValueGenerator(typeof(DateTimetValueGenerator));
+        });
 
-    modelBuilder.Entity<Newsletter>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-      e.Property(b => b.UpdatedAt)
-        .HasValueGenerator(typeof(DateTimetValueGenerator));
-    });
+        _ = modelBuilder.Entity<Category>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+        });
 
-    modelBuilder.Entity<Subscriber>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-      e.Property(b => b.UpdatedAt)
-        .HasValueGenerator(typeof(DateTimetValueGenerator));
-    });
+        _ = modelBuilder.Entity<Newsletter>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+            _ = e.Property(b => b.UpdatedAt).HasValueGenerator(typeof(DateTimetValueGenerator));
+        });
 
-    modelBuilder.Entity<Storage>(e =>
-    {
-      e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-    });
+        _ = modelBuilder.Entity<Subscriber>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+            _ = e.Property(b => b.UpdatedAt).HasValueGenerator(typeof(DateTimetValueGenerator));
+        });
 
-    //modelBuilder.Entity<StorageReference>(e =>
-    //{
-    //  e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
-    //});
-  }
+        _ = modelBuilder.Entity<Storage>(e =>
+        {
+            _ = e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+        });
+
+        //modelBuilder.Entity<StorageReference>(e =>
+        //{
+        //  e.Property(b => b.CreatedAt).HasDefaultValueSql("now()");
+        //});
+    }
 }

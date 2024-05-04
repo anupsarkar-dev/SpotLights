@@ -3,9 +3,9 @@ using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using SpotLights.Data.Model.Blogs;
-using SpotLights.Data.Repositories.Blogs;
-using SpotLights.Data.Repositories.Posts;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Domain.Model.Blogs;
 
 namespace SpotLights.Controllers;
 
@@ -41,7 +41,7 @@ public class HomeController : Controller
         }
         var pager = await _postProvider.GetPostsAsync(page, main.ItemsPerPage);
         pager.Configure(main.PathUrl, "page");
-        var model = new IndexModel(pager, main);
+        var model = new IndexViewModel(pager, main);
         return View($"~/Views/Themes/{main.Theme}/index.cshtml", model);
     }
 }

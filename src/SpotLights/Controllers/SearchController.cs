@@ -1,8 +1,8 @@
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using SpotLights.Data.Repositories.Blogs;
-using SpotLights.Data.Repositories.Posts;
+using SpotLights.Infrastructure.Repositories.Blogs;
+using SpotLights.Infrastructure.Repositories.Posts;
 
 namespace SpotLights.Controllers;
 
@@ -23,10 +23,10 @@ public class SearchController : Controller
     {
         if (!string.IsNullOrEmpty(term))
         {
-            var main = await _mainMamager.GetAsync();
-            var pager = await _postProvider.GetSearchAsync(term, page, main.ItemsPerPage);
+            MainDto main = await _mainMamager.GetAsync();
+            PostPagerDto pager = await _postProvider.GetSearchAsync(term, page, main.ItemsPerPage);
             pager.Configure(main.PathUrl, "page");
-            var model = new SearchModel(pager, main);
+            SearchViewModel model = new(pager, main);
             return View($"~/Views/Themes/{main.Theme}/search.cshtml", model);
         }
         else
