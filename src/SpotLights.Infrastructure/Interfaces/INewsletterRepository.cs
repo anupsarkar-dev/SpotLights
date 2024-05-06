@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces
 {
-    public interface INewsletterProvider
+    public interface INewsletterRepository
     {
         Task AddAsync(int postId, bool success);
         Task<NewsletterDto?> FirstOrDefaultByPostIdAsync(int postId);

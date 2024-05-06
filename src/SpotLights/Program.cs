@@ -54,6 +54,9 @@ builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProv
 
 builder.Services.AddInfrastructure();
 
+// Services
+builder.Services.AddServices();
+
 // Repositories
 builder.Services.AddRepositories();
 

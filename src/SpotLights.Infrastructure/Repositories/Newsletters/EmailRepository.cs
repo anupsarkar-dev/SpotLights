@@ -18,7 +18,7 @@ public class EmailRepository : IEmailRepository
 {
     private readonly ILogger _logger;
     private readonly MarkdigRepository _markdigProvider;
-    private readonly NewsletterProvider _newsletterProvider;
+    private readonly NewsletterRepository _newsletterProvider;
     private readonly OptionRepository _optionProvider;
     private readonly PostRepository _postProvider;
     private readonly SubscriberRepository _subscriberProvider;

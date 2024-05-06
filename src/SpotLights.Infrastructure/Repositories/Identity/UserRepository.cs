@@ -2,12 +2,13 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Identity;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 using SpotLights.Shared.Entities.Identity;
 
-namespace SpotLights.Infrastructure.Identity;
+namespace SpotLights.Infrastructure.Repositories.Identity;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _dbContext;
 

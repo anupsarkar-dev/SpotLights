@@ -1,11 +1,11 @@
-﻿using SpotLights.Domain.Model.Posts;
+using SpotLights.Domain.Model.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Dtos;
 using SpotLights.Shared.Enums;
 
-namespace SpotLights.Infrastructure.Interfaces
+namespace SpotLights.Core.Interfaces
 {
-    public interface IPostRepository
+    public interface IPostService
     {
         Task<IEnumerable<PostEditorDto>> AddAsync(IEnumerable<PostEditorDto> posts, int userId);
         Task<string> AddAsync(PostEditorDto postInput, int userId);
@@ -33,7 +33,7 @@ namespace SpotLights.Infrastructure.Interfaces
         Task<List<PostEditorDto>> MatchTitleAsync(IEnumerable<string> titles);
         Task StateAsync(IEnumerable<int> ids, PostState state);
         Task StateAsync(int id, PostState state);
-        Task StateInternalAsync(IQueryable<Post> query, PostState state);
+        Task StateInternalAsynct(IQueryable<Post> query, PostState state);
         Task UpdateAsync(PostEditorDto postInput, int userId);
     }
 }

@@ -97,14 +97,14 @@ public class PostController : ControllerBase
     [HttpPut("state/{id:int}")]
     public async Task StateAsynct([FromRoute] int id, [FromBody] PostState state)
     {
-        await _postProvider.StateAsynct(id, state);
+        await _postProvider.StateAsync(id, state);
     }
 
     [HttpPut("state/{idsString}")]
     public async Task StateAsynct([FromRoute] string idsString, [FromBody] PostState state)
     {
         IEnumerable<int> ids = idsString.Split(',').Select(int.Parse);
-        await _postProvider.StateAsynct(ids, state);
+        await _postProvider.StateAsync(ids, state);
     }
 
     [HttpDelete("{id:int}")]

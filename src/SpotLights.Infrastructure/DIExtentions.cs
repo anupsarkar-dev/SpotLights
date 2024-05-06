@@ -20,7 +20,7 @@ public static class DIExtentions
         sc.AddScoped<IUserRepository, UserRepository>();
         sc.AddScoped<IPostRepository, PostRepository>();
         sc.AddScoped<ICategoryRepository, CategoryRepository>();
-        sc.AddScoped<INewsletterProvider, NewsletterProvider>();
+        sc.AddScoped<INewsletterRepository, NewsletterProvider>();
         sc.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
         sc.AddScoped<IOptionRepository, OptionRepository>();

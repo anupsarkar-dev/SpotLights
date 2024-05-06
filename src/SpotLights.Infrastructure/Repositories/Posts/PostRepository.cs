@@ -305,19 +305,19 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
     return await query.ProjectToType<PostItemDto>().ToListAsync();
   }
 
-  public Task StateAsynct(int id, PostState state)
+  public Task StateAsync(int id, PostState state)
   {
     IQueryable<Post> query = _dbContext.Posts.Where(p => p.Id == id);
-    return StateInternalAsynct(query, state);
+    return StateInternalAsync(query, state);
   }
 
-  public Task StateAsynct(IEnumerable<int> ids, PostState state)
+  public Task StateAsync(IEnumerable<int> ids, PostState state)
   {
     IQueryable<Post> query = _dbContext.Posts.Where(p => ids.Contains(p.Id));
-    return StateInternalAsynct(query, state);
+    return StateInternalAsync(query, state);
   }
 
-  public async Task StateInternalAsynct(IQueryable<Post> query, PostState state)
+  public async Task StateInternalAsync(IQueryable<Post> query, PostState state)
   {
     _ = await query.ExecuteUpdateAsync(setters => setters.SetProperty(b => b.State, state));
   }
