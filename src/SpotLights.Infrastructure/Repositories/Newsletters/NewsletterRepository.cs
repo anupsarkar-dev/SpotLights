@@ -2,11 +2,12 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Newsletters;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class NewsletterProvider : AppProvider<Newsletter, int>
+public class NewsletterProvider : AppProvider<Newsletter, int>, INewsletterProvider
 {
     public NewsletterProvider(AppDbContext dbContext)
         : base(dbContext) { }

@@ -14,9 +14,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class ImportController : ControllerBase
 {
-    private readonly ImportManager _importManager;
+    private readonly ImportRepository _importManager;
 
-    public ImportController(ImportManager importManager)
+    public ImportController(ImportRepository importManager)
     {
         _importManager = importManager;
     }
@@ -24,7 +24,7 @@ public class ImportController : ControllerBase
     [HttpGet("rss")]
     public ImportDto Rss(
         [FromQuery] ImportRssDto request,
-        [FromServices] ImportRssProvider importRssProvider
+        [FromServices] ImportRssRepository importRssProvider
     )
     {
         return importRssProvider.Analysis(request.FeedUrl);

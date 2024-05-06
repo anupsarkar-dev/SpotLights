@@ -38,7 +38,7 @@ public class NewsletterController : ControllerBase
     [HttpGet("send/{postId:int}")]
     public async Task SendNewsletter(
         [FromRoute] int postId,
-        [FromServices] EmailManager emailManager
+        [FromServices] EmailRepository emailManager
     )
     {
         await emailManager.SendNewsletter(postId);

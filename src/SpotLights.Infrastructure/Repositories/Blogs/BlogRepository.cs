@@ -2,23 +2,24 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SpotLights.Domain.Model.Blogs;
 using SpotLights.Infrastructure.Caches;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Repositories.Options;
 using System.Text;
 using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;
 
-public class BlogManager
+public class BlogRepository : IBlogRepository
 {
     private readonly ILogger _logger;
     private readonly IDistributedCache _distributedCache;
-    private readonly OptionProvider _optionProvider;
+    private readonly OptionRepository _optionProvider;
     private BlogData? _blogData;
 
-    public BlogManager(
-        ILogger<BlogManager> logger,
+    public BlogRepository(
+        ILogger<BlogRepository> logger,
         IDistributedCache distributedCache,
-        OptionProvider optionProvider
+        OptionRepository optionProvider
     )
     {
         _logger = logger;

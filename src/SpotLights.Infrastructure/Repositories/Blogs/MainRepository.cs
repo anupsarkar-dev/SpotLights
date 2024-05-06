@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using SpotLights.Domain.Model.Blogs;
 using SpotLights.Infrastructure.Caches;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Entities.Identity;
@@ -11,18 +12,18 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;
 
-public class MainManager
+public class MainRepository : IMainRepository
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly BlogManager _blogManager;
-    private readonly CategoryProvider _categoryProvider;
+    private readonly BlogRepository _blogManager;
+    private readonly CategoryRepository _categoryProvider;
 
-    public MainManager(
+    public MainRepository(
         IDistributedCache distributedCache,
         IHttpContextAccessor httpContextAccessor,
-        BlogManager blogManager,
-        CategoryProvider categoryProvider
+        BlogRepository blogManager,
+        CategoryRepository categoryProvider
     )
     {
         _distributedCache = distributedCache;

@@ -10,10 +10,10 @@ namespace SpotLights.Controllers;
 [Route("category")]
 public class CategoryController : Controller
 {
-    private readonly MainManager _mainMamager;
-    private readonly PostProvider _postProvider;
+    private readonly MainRepository _mainMamager;
+    private readonly PostRepository _postProvider;
 
-    public CategoryController(MainManager mainMamager, PostProvider postProvider)
+    public CategoryController(MainRepository mainMamager, PostRepository postProvider)
     {
         _mainMamager = mainMamager;
         _postProvider = postProvider;

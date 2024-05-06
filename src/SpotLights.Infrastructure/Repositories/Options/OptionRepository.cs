@@ -3,16 +3,17 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Options;
+using SpotLights.Infrastructure.Interfaces;
 
 namespace SpotLights.Infrastructure.Repositories.Options;
 
-public class OptionProvider
+public class OptionRepository : IOptionRepository
 {
     private readonly ILogger _logger;
     private readonly AppDbContext _dbContext;
 
-    public OptionProvider(
-        ILogger<OptionProvider> logger,
+    public OptionRepository(
+        ILogger<OptionRepository> logger,
         IDistributedCache distributedCache,
         AppDbContext dbContext
     )

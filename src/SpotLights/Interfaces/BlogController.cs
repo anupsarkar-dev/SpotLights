@@ -15,9 +15,9 @@ namespace SpotLights.Interfaces;
 [Route("api/blog")]
 public class BlogController : ControllerBase
 {
-    private readonly BlogManager _blogManager;
+    private readonly BlogRepository _blogManager;
 
-    public BlogController(BlogManager blogManager)
+    public BlogController(BlogRepository blogManager)
     {
         _blogManager = blogManager;
     }

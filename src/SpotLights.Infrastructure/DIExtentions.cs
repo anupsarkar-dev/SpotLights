@@ -5,6 +5,9 @@ using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Newsletters;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Infrastructure.Repositories.Options;
+using SpotLights.Infrastructure.Provider;
+using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Repositories.Identity;
 
 namespace SpotLights.Infrastructure;
 
@@ -12,22 +15,24 @@ public static class DIExtentions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection sc)
     {
-        sc.AddScoped<MarkdigProvider>();
-        sc.AddScoped<ReverseProvider>();
-        sc.AddScoped<ImportRssProvider>();
-        sc.AddScoped<UserProvider>();
-        sc.AddScoped<PostProvider>();
-        sc.AddScoped<CategoryProvider>();
-        sc.AddScoped<NewsletterProvider>();
-        sc.AddScoped<SubscriberProvider>();
+        sc.AddScoped<IMarkdigRepository, MarkdigRepository>();
+        sc.AddScoped<IImportRssRepository, ImportRssRepository>();
+        sc.AddScoped<IUserRepository, UserRepository>();
+        sc.AddScoped<IPostRepository, PostRepository>();
+        sc.AddScoped<ICategoryRepository, CategoryRepository>();
+        sc.AddScoped<INewsletterProvider, NewsletterProvider>();
+        sc.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
-        sc.AddScoped<OptionProvider>();
-        sc.AddScoped<AnalyticsProvider>();
-        sc.AddScoped<EmailManager>();
-        sc.AddScoped<ImportManager>();
+        sc.AddScoped<IOptionRepository, OptionRepository>();
+        sc.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+        sc.AddScoped<IEmailRepository, EmailRepository>();
+        sc.AddScoped<IImportRepository, ImportRepository>();
+
+        sc.AddScoped<IBlogRepository, BlogRepository>();
+        sc.AddScoped<IMainRepository, MainRepository>();
+
         sc.AddScoped<PostManager>();
-        sc.AddScoped<BlogManager>();
-        sc.AddScoped<MainManager>();
+        sc.AddScoped<ReverseProvider>();
 
         return sc;
     }

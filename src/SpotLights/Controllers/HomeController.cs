@@ -12,13 +12,13 @@ namespace SpotLights.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger _logger;
-    private readonly MainManager _mainMamager;
-    private readonly PostProvider _postProvider;
+    private readonly MainRepository _mainMamager;
+    private readonly PostRepository _postProvider;
 
     public HomeController(
         ILogger<HomeController> logger,
-        MainManager mainMamager,
-        PostProvider postProvider
+        MainRepository mainMamager,
+        PostRepository postProvider
     )
     {
         _logger = logger;

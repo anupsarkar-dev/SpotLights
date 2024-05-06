@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Posts;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class CategoryProvider : AppProvider<Category, int>
+public class CategoryRepository : AppProvider<Category, int>, ICategoryRepository
 {
-  public CategoryProvider(AppDbContext dbContext) : base(dbContext)
+  public CategoryRepository(AppDbContext dbContext) : base(dbContext)
   {
   }
 

@@ -14,9 +14,9 @@ namespace SpotLights.Interfaces;
 [Authorize]
 public class AnalyticsController : ControllerBase
 {
-    private readonly AnalyticsProvider _analyticsProvider;
+    private readonly AnalyticsRepository _analyticsProvider;
 
-    public AnalyticsController(AnalyticsProvider analyticsProvider)
+    public AnalyticsController(AnalyticsRepository analyticsProvider)
     {
         _analyticsProvider = analyticsProvider;
     }

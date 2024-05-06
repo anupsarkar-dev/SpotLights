@@ -18,9 +18,9 @@ namespace SpotLights.Interfaces;
 [Route("api/post")]
 public class PostController : ControllerBase
 {
-    private readonly PostProvider _postProvider;
+    private readonly PostRepository _postProvider;
 
-    public PostController(PostProvider postProvider)
+    public PostController(PostRepository postProvider)
     {
         _postProvider = postProvider;
     }

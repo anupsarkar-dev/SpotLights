@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Infrastructure.Caches;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Repositories.Options;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
@@ -13,22 +14,22 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class EmailManager
+public class EmailRepository : IEmailRepository
 {
     private readonly ILogger _logger;
-    private readonly MarkdigProvider _markdigProvider;
+    private readonly MarkdigRepository _markdigProvider;
     private readonly NewsletterProvider _newsletterProvider;
-    private readonly OptionProvider _optionProvider;
-    private readonly PostProvider _postProvider;
-    private readonly SubscriberProvider _subscriberProvider;
+    private readonly OptionRepository _optionProvider;
+    private readonly PostRepository _postProvider;
+    private readonly SubscriberRepository _subscriberProvider;
 
-    public EmailManager(
-        ILogger<EmailManager> logger,
-        MarkdigProvider markdigProvider,
-        OptionProvider optionProvider,
-        PostProvider postProvider,
+    public EmailRepository(
+        ILogger<EmailRepository> logger,
+        MarkdigRepository markdigProvider,
+        OptionRepository optionProvider,
+        PostRepository postProvider,
         NewsletterProvider newsletterProvider,
-        SubscriberProvider subscriberProvider
+        SubscriberRepository subscriberProvider
     )
     {
         _logger = logger;

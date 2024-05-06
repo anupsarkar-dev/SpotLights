@@ -20,13 +20,13 @@ public class AccountController : Controller
     protected readonly ILogger _logger;
     protected readonly UserManager _userManager;
     protected readonly SignInManager _signInManager;
-    protected readonly BlogManager _blogManager;
+    protected readonly BlogRepository _blogManager;
 
     public AccountController(
         ILogger<AccountController> logger,
         UserManager userManager,
         SignInManager signInManager,
-        BlogManager blogManager
+        BlogRepository blogManager
     )
     {
         _logger = logger;

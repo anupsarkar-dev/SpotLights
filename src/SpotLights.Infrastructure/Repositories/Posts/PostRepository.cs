@@ -9,13 +9,14 @@ using SpotLights.Domain.Model.Posts;
 using SpotLights.Shared.Enums;
 using SpotLights.Shared.Dtos;
 using SpotLights.Domain.Model.Blogs;
+using SpotLights.Infrastructure.Interfaces;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostProvider : AppProvider<Post, int>
+public class PostRepository : AppProvider<Post, int>, IPostRepository
 {
 
-  public PostProvider( AppDbContext dbContext)
+  public PostRepository(AppDbContext dbContext)
       : base(dbContext)
   {
   }

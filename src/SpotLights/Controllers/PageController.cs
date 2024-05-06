@@ -13,12 +13,12 @@ namespace SpotLights.Controllers;
 public class PageController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly MainManager _mainMamager;
+    protected readonly MainRepository _mainMamager;
     protected readonly PostManager _postManager;
 
     public PageController(
         ILogger<PageController> logger,
-        MainManager mainMamager,
+        MainRepository mainMamager,
         PostManager postManager
     )
     {

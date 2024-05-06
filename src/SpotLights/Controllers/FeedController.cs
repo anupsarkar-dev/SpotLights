@@ -15,15 +15,15 @@ namespace SpotLights.Controllers;
 public class FeedController : Controller
 {
     private readonly ILogger _logger;
-    private readonly BlogManager _blogManager;
-    private readonly PostProvider _postProvider;
-    private readonly MarkdigProvider _markdigProvider;
+    private readonly BlogRepository _blogManager;
+    private readonly PostRepository _postProvider;
+    private readonly MarkdigRepository _markdigProvider;
 
     public FeedController(
         ILogger<FeedController> logger,
-        BlogManager blogManager,
-        PostProvider postProvider,
-        MarkdigProvider markdigProvider
+        BlogRepository blogManager,
+        PostRepository postProvider,
+        MarkdigRepository markdigProvider
     )
     {
         _logger = logger;

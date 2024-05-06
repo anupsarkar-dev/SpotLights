@@ -2,13 +2,14 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Newsletters;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class SubscriberProvider : AppProvider<Subscriber, int>
+public class SubscriberRepository : AppProvider<Subscriber, int>, ISubscriberRepository
 {
-    public SubscriberProvider(AppDbContext dbContext)
+    public SubscriberRepository(AppDbContext dbContext)
         : base(dbContext) { }
 
     public async Task<IEnumerable<SubscriberDto>> GetItemsAsync()

@@ -1,3 +1,4 @@
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 using SpotLights.Shared.Dtos;
 using SpotLights.Shared.Enums;
@@ -8,7 +9,7 @@ using System.Xml.Linq;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class ImportRssProvider
+public class ImportRssRepository : IImportRssRepository
 {
   public ImportDto Analysis(string feedUrl)
   {

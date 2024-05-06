@@ -7,11 +7,11 @@ using SpotLights.Shared.Entities.Identity;
 
 namespace SpotLights.Infrastructure.Identity;
 
-public class UserProvider
+public class UserRepository
 {
     private readonly AppDbContext _dbContext;
 
-    public UserProvider(AppDbContext dbContext)
+    public UserRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -10,9 +10,9 @@ namespace SpotLights.Controllers;
 public class ErrorController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly MainManager _mainMamager;
+    protected readonly MainRepository _mainMamager;
 
-    public ErrorController(ILogger<ErrorController> logger, MainManager mainMamager)
+    public ErrorController(ILogger<ErrorController> logger, MainRepository mainMamager)
     {
         _logger = logger;
         _mainMamager = mainMamager;

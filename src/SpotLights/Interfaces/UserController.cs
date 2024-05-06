@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SpotLights.Infrastructure.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Domain.Model.Identity;
+using SpotLights.Infrastructure.Repositories.Identity;
 
 namespace SpotLights.Interfaces;
 
@@ -14,9 +15,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserProvider _userProvider;
+    private readonly UserRepository _userProvider;
 
-    public UserController(UserProvider userProvider)
+    public UserController(UserRepository userProvider)
     {
         _userProvider = userProvider;
     }

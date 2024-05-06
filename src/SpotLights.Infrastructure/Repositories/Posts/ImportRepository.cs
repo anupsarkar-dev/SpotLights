@@ -1,22 +1,24 @@
-using SpotLights.Infrastructure.Identity;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Manager.Storages;
+using SpotLights.Infrastructure.Provider;
+using SpotLights.Infrastructure.Repositories.Identity;
 using SpotLights.Shared;
 using SpotLights.Shared.Dtos;
 using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class ImportManager
+public class ImportRepository : IImportRepository
 {
-  private readonly UserProvider _userProvider;
+  private readonly UserRepository _userProvider;
   private readonly ReverseProvider _reverseProvider;
-  private readonly PostProvider _postProvider;
+  private readonly PostRepository _postProvider;
   private readonly StorageManager _storageManager;
 
-  public ImportManager(
-      UserProvider userProvider,
+  public ImportRepository(
+      UserRepository userProvider,
       ReverseProvider reverseProvider,
-      PostProvider postProvider,
+      PostRepository postProvider,
       StorageManager storageManager
   )
   {

@@ -14,9 +14,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class CategoryController : ControllerBase
 {
-    private readonly CategoryProvider _categoryProvider;
+    private readonly CategoryRepository _categoryProvider;
 
-    public CategoryController(CategoryProvider categoryProvider)
+    public CategoryController(CategoryRepository categoryProvider)
     {
         _categoryProvider = categoryProvider;
     }

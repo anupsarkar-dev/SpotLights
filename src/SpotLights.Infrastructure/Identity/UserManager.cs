@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpotLights.Domain.Model.Identity;
+using SpotLights.Infrastructure.Repositories.Identity;
 
 namespace SpotLights.Infrastructure.Identity;
 
 public class UserManager : UserManager<UserInfo>
 {
-    protected readonly UserProvider _userProvider;
+    protected readonly UserRepository _userProvider;
 
     public UserManager(
         IUserStore<UserInfo> store,
@@ -19,7 +20,7 @@ public class UserManager : UserManager<UserInfo>
         IdentityErrorDescriber errors,
         IServiceProvider services,
         ILogger<UserManager<UserInfo>> logger,
-        UserProvider userProvider
+        UserRepository userProvider
     )
         : base(
             store,

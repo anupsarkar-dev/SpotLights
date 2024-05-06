@@ -11,9 +11,9 @@ namespace SpotLights.Interfaces;
 [Authorize]
 public class MailController : ControllerBase
 {
-    private readonly EmailManager _emailManager;
+    private readonly EmailRepository _emailManager;
 
-    public MailController(EmailManager emailManager)
+    public MailController(EmailRepository emailManager)
     {
         _emailManager = emailManager;
     }
