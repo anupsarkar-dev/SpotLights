@@ -24,7 +24,7 @@ public static class IdentityExtensions
             })
             .AddUserManager<UserManager>()
             .AddSignInManager<SignInManager>()
-            .AddEntityFrameworkStores<AppDbContext>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
             .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
         _ = services.ConfigureApplicationCookie(options =>

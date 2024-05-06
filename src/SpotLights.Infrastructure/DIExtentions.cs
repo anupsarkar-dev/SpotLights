@@ -8,6 +8,11 @@ using SpotLights.Infrastructure.Repositories.Options;
 using SpotLights.Infrastructure.Provider;
 using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Repositories.Identity;
+using SpotLights.Infrastructure.Interfaces.Blogs;
+using SpotLights.Infrastructure.Interfaces.Identity;
+using SpotLights.Infrastructure.Interfaces.Newsletters;
+using SpotLights.Infrastructure.Interfaces.Options;
+using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Infrastructure;
 
@@ -20,7 +25,7 @@ public static class DIExtentions
         sc.AddScoped<IUserRepository, UserRepository>();
         sc.AddScoped<IPostRepository, PostRepository>();
         sc.AddScoped<ICategoryRepository, CategoryRepository>();
-        sc.AddScoped<INewsletterRepository, NewsletterProvider>();
+        sc.AddScoped<INewsletterRepository, NewsletterRepository>();
         sc.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
         sc.AddScoped<IOptionRepository, OptionRepository>();
@@ -28,7 +33,7 @@ public static class DIExtentions
         sc.AddScoped<IEmailRepository, EmailRepository>();
         sc.AddScoped<IImportRepository, ImportRepository>();
 
-        sc.AddScoped<IBlogRepository, BlogRepository>();
+        sc.AddScoped<IBlogDataProvider, BlogDataProvider>();
         sc.AddScoped<IMainRepository, MainRepository>();
 
         sc.AddScoped<PostManager>();

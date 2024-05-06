@@ -2,19 +2,19 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Newsletters;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class NewsletterRepository : AppProvider<Newsletter, int>, INewsletterRepository
+public class NewsletterRepository : BaseContextRepository, INewsletterRepository
 {
-    public NewsletterRepository(AppDbContext dbContext)
+    public NewsletterRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }
 
     public async Task<IEnumerable<NewsletterDto>> GetItemsAsync(int userId, bool isAdmin)
     {
-        IOrderedQueryable<Newsletter> query = _dbContext.Newsletters
+        IOrderedQueryable<Newsletter> query = _context.Newsletters
             .AsNoTracking()
             .Include(n => n.Post)
             .OrderByDescending(n => n.CreatedAt);
@@ -24,21 +24,24 @@ public class NewsletterRepository : AppProvider<Newsletter, int>, INewsletterRep
 
     public async Task<NewsletterDto?> FirstOrDefaultByPostIdAsync(int postId)
     {
-        IQueryable<Newsletter> query = _dbContext.Newsletters.Where(m => m.PostId == postId);
+        IQueryable<Newsletter> query = _context.Newsletters.Where(m => m.PostId == postId);
 
         return await query.ProjectToType<NewsletterDto>().FirstOrDefaultAsync();
     }
 
-    public async Task AddAsync(int postId, bool success)
+    public async Task AddNewsletterAsync(int postId, bool success)
     {
         Newsletter entry = new() { PostId = postId, Success = success, };
         await AddAsync(entry);
+        await SaveChangesAsync();
     }
 
     public async Task UpdateAsync(int id, bool success)
     {
-        _ = await _dbContext.Newsletters
+        _ = await _context.Newsletters
             .Where(m => m.Id == id)
             .ExecuteUpdateAsync(setters => setters.SetProperty(b => b.Success, success));
+
+        await SaveChangesAsync();
     }
 }

@@ -1,12 +1,13 @@
+using SpotLights.Domain.Base;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace SpotLights.Domain.Model.Storage;
 
-public class Storage : BaseEntity<int>
+public class Storage : BaseEntity
 {
-    public int UserId { get; set; }
+    public DefaultIdType UserId { get; set; }
     public UserInfo User { get; set; } = default!;
     public DateTime CreatedAt { get; set; }
     public DateTime UploadAt { get; set; }

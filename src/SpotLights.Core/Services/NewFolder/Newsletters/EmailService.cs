@@ -1,5 +1,5 @@
 using SpotLights.Core.Interfaces;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;
 

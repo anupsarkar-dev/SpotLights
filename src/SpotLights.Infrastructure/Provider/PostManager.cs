@@ -1,4 +1,4 @@
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;

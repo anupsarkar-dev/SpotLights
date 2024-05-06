@@ -1,5 +1,5 @@
 using SpotLights.Core.Interfaces;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 

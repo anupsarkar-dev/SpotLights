@@ -1,4 +1,4 @@
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Infrastructure.Manager.Storages;
 using SpotLights.Infrastructure.Provider;
 using SpotLights.Infrastructure.Repositories.Identity;

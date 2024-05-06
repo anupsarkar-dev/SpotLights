@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SpotLights.Domain.Model.Identity;
 
-public class UserInfo : IdentityUser<int>
+public class UserInfo : IdentityUser<DefaultIdType>
 {
     public UserInfo()
         : base() { }

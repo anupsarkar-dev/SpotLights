@@ -2,20 +2,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SpotLights.Data.Data;
-using SpotLights.Domain.Options;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Domain.Dto;
+using SpotLights.Infrastructure.Interfaces.Options;
 
 namespace SpotLights.Infrastructure.Repositories.Options;
 
 public class OptionRepository : IOptionRepository
 {
     private readonly ILogger _logger;
-    private readonly AppDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
     public OptionRepository(
         ILogger<OptionRepository> logger,
         IDistributedCache distributedCache,
-        AppDbContext dbContext
+        ApplicationDbContext dbContext
     )
     {
         _logger = logger;
@@ -38,7 +38,7 @@ public class OptionRepository : IOptionRepository
 
     public async Task SetValue(string key, string value)
     {
-        Domain.Options.OptionInfo? option = await _dbContext.Options
+        OptionInfo? option = await _dbContext.Options
             .Where(m => m.Key == key)
             .FirstOrDefaultAsync();
         if (option == null)

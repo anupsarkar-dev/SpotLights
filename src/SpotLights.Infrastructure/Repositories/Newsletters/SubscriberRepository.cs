@@ -7,14 +7,14 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class SubscriberRepository : AppProvider<Subscriber, int>, ISubscriberRepository
+public class SubscriberRepository : BaseContextRepository, ISubscriberRepository
 {
-    public SubscriberRepository(AppDbContext dbContext)
+    public SubscriberRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }
 
     public async Task<IEnumerable<SubscriberDto>> GetItemsAsync()
     {
-        IOrderedQueryable<Subscriber> query = _dbContext.Subscribers
+        IOrderedQueryable<Subscriber> query = _context.Subscribers
             .AsNoTracking()
             .OrderByDescending(n => n.CreatedAt);
 
@@ -23,15 +23,15 @@ public class SubscriberRepository : AppProvider<Subscriber, int>, ISubscriberRep
 
     public async Task<int> ApplyAsync(SubscriberApplyDto input)
     {
-        if (await _dbContext.Subscribers.AnyAsync(m => m.Email == input.Email))
+        if (await _context.Subscribers.AnyAsync(m => m.Email == input.Email))
         {
             return 0;
         }
         else
         {
             Subscriber data = input.Adapt<Subscriber>();
-            _ = _dbContext.Subscribers.Add(data);
-            _ = await _dbContext.SaveChangesAsync();
+            _ = _context.Subscribers.Add(data);
+            _ = await _context.SaveChangesAsync();
 
             return 1;
         }

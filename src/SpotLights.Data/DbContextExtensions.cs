@@ -33,19 +33,19 @@ public static class DbContextExtensions
                 !string.IsNullOrEmpty(dataSourceDirectory) && !Directory.Exists(dataSourceDirectory)
             )
                 Directory.CreateDirectory(dataSourceDirectory);
-            services.AddDbContext<AppDbContext, SqliteDbContext>(
+            services.AddDbContext<ApplicationDbContext, SqliteDbContext>(
                 o => o.UseSqlite(sonnectionStringBuilder.ToString())
             );
         }
         else if ("SqlServer".Equals(provider, StringComparison.OrdinalIgnoreCase))
         {
-            services.AddDbContext<AppDbContext, SqlServerDbContext>(
+            services.AddDbContext<ApplicationDbContext, SqlServerDbContext>(
                 o => o.UseSqlServer(connectionString)
             );
         }
         else if ("Postgres".Equals(provider, StringComparison.OrdinalIgnoreCase))
         {
-            services.AddDbContext<AppDbContext, PostgresDbContext>(
+            services.AddDbContext<ApplicationDbContext, PostgresDbContext>(
                 o => o.UseNpgsql(connectionString)
             );
         }
@@ -65,7 +65,7 @@ public static class DbContextExtensions
     {
         using (var scope = app.Services.CreateScope())
         {
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             if (dbContext.Database.GetPendingMigrations().Any())
             {
                 await dbContext.Database.MigrateAsync();

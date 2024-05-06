@@ -1,14 +1,14 @@
 using SpotLights.Core.Interfaces;
-using SpotLights.Domain.Model.Blogs;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Domain.Dto;
+using SpotLights.Infrastructure.Interfaces.Blogs;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;
 
 public class BlogService : IBlogService
 {
-    private readonly IBlogRepository _blogRepository;
+    private readonly IBlogDataProvider _blogRepository;
 
-    public BlogService(IBlogRepository blogRepository)
+    public BlogService(IBlogDataProvider blogRepository)
     {
         _blogRepository = blogRepository;
     }

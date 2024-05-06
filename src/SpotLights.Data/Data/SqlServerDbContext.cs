@@ -1,15 +1,15 @@
 using SpotLights.Data.ValueGeneration;
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
-using SpotLights.Domain.Options;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Domain.Model.Storage;
+using SpotLights.Domain.Dto;
 
 namespace SpotLights.Data;
 
-public class SqlServerDbContext : AppDbContext
+public class SqlServerDbContext : ApplicationDbContext
 {
     public SqlServerDbContext(DbContextOptions<SqlServerDbContext> options)
         : base(options) { }

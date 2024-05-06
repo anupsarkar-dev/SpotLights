@@ -7,21 +7,22 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Infrastructure.Provider;
+using SpotLights.Domain.Dto;
 
 namespace SpotLights.Controllers;
 
 public class FeedController : Controller
 {
     private readonly ILogger _logger;
-    private readonly BlogRepository _blogManager;
+    private readonly BlogDataProvider _blogManager;
     private readonly PostRepository _postProvider;
     private readonly MarkdigRepository _markdigProvider;
 
     public FeedController(
         ILogger<FeedController> logger,
-        BlogRepository blogManager,
+        BlogDataProvider blogManager,
         PostRepository postProvider,
         MarkdigRepository markdigProvider
     )
@@ -37,7 +38,7 @@ public class FeedController : Controller
     public async Task<IActionResult> Rss()
     {
         string host = Request.Scheme + "://" + Request.Host;
-        Domain.Model.Blogs.BlogData data = await _blogManager.GetAsync();
+        BlogData data = await _blogManager.GetAsync();
         var posts = await _postProvider.GetAsync();
         List<SyndicationItem> items = new();
 

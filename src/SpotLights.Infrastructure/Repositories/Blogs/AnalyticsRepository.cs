@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.Data;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Blogs;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;
 
@@ -8,9 +8,9 @@ namespace SpotLights.Infrastructure.Repositories.Blogs;
 
 public class AnalyticsRepository : IAnalyticsRepository
 {
-    private readonly AppDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public AnalyticsRepository(AppDbContext dbContext)
+    public AnalyticsRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

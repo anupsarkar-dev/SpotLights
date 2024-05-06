@@ -8,34 +8,34 @@ using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Shared.Enums;
 using SpotLights.Shared.Dtos;
-using SpotLights.Domain.Model.Blogs;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
+using SpotLights.Domain.Dto;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostRepository : AppProvider<Post, int>, IPostRepository
+public class PostRepository : BaseContextRepository, IPostRepository
 {
 
-  public PostRepository(AppDbContext dbContext)
+  public PostRepository(ApplicationDbContext dbContext)
       : base(dbContext)
   {
   }
 
   public async Task<PostDto> FirstAsync(int id)
   {
-    IQueryable<Post> query = _dbContext.Posts.Where(p => p.Id == id);
+    IQueryable<Post> query = _context.Posts.Where(p => p.Id == id);
     return await query.ProjectToType<PostDto>().FirstAsync();
   }
 
   public async Task<PostDto> GetAsync(int id)
   {
-    var query = _dbContext.Posts.AsNoTracking().Where(p => p.Id == id);
+    var query = _context.Posts.AsNoTracking().Where(p => p.Id == id);
     return await query.ProjectToType<PostDto>().FirstAsync();
   }
 
   public async Task<IEnumerable<PostDto>> GetAsync()
   {
-    IOrderedQueryable<Post> query = _dbContext.Posts
+    IOrderedQueryable<Post> query = _context.Posts
         .AsNoTracking()
         .Include(pc => pc.User)
         .OrderByDescending(m => m.CreatedAt);
@@ -44,29 +44,29 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public async Task<PostSlugDto> GetAsync(string slug)
   {
-    IQueryable<Post> postQuery = _dbContext.Posts.Include(m => m.User).Where(p => p.Slug == slug);
+    IQueryable<Post> postQuery = _context.Posts.Include(m => m.User).Where(p => p.Slug == slug);
 
     var post = await postQuery.ProjectToType<PostToHtmlDto>().FirstAsync();
 
     post.Views++;
 
-    _ = await _dbContext.SaveChangesAsync();
+    _ = await _context.SaveChangesAsync();
 
-    IOrderedQueryable<Post> olderQuery = _dbContext.Posts
+    IOrderedQueryable<Post> olderQuery = _context.Posts
         .AsNoTracking()
         .Where(m => m.State >= PostState.Release && m.PublishedAt > post.PublishedAt)
         .OrderBy(p => p.PublishedAt);
 
     var older = await olderQuery.ProjectToType<PostItemDto>().FirstOrDefaultAsync();
 
-    IOrderedQueryable<Post> newerQuery = _dbContext.Posts
+    IOrderedQueryable<Post> newerQuery = _context.Posts
         .AsNoTracking()
         .Where(m => m.State >= PostState.Release && m.PublishedAt < post.PublishedAt)
         .OrderByDescending(p => p.PublishedAt);
 
     var newer = await newerQuery.ProjectToType<PostItemDto>().FirstOrDefaultAsync();
 
-    IQueryable<Post> relatedQuery = _dbContext.Posts
+    IQueryable<Post> relatedQuery = _context.Posts
         .AsNoTracking()
         .Include(m => m.User)
         .Where(m => m.State == PostState.Featured && m.Id != post.Id);
@@ -96,7 +96,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
   public async Task<PostPagerDto> GetPostsAsync(int page, int pageSize)
   {
     int skip = (page - 1) * pageSize;
-    IQueryable<Post> query = _dbContext.Posts
+    IQueryable<Post> query = _context.Posts
         .AsNoTracking()
         .Include(pc => pc.User)
         .Where(m => m.PostType == PostType.Post && m.State >= PostState.Release);
@@ -109,7 +109,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public async Task<PostEditorDto> GetEditorAsync(string slug)
   {
-    IQueryable<Post> query = _dbContext.Posts
+    IQueryable<Post> query = _context.Posts
         .AsNoTracking()
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
@@ -121,7 +121,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public async Task<List<PostEditorDto>> MatchTitleAsync(IEnumerable<string> titles)
   {
-    IQueryable<Post> query = _dbContext.Posts
+    IQueryable<Post> query = _context.Posts
         .AsNoTracking()
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
@@ -136,7 +136,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
       bool isAdmin
   )
   {
-    IQueryable<Post> query = _dbContext.Posts.AsNoTracking().Where(p => p.PostType == postType);
+    IQueryable<Post> query = _context.Posts.AsNoTracking().Where(p => p.PostType == postType);
 
     if (!isAdmin)
     {
@@ -159,7 +159,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public async Task<PostPagerDto> GetSearchAsync(string term, int page, int pageSize)
   {
-    IQueryable<PostItemDto> query = _dbContext.Posts
+    IQueryable<PostItemDto> query = _context.Posts
         .Include(pc => pc.User)
         .Include(pc => pc.PostCategories)
         .ThenInclude(pc => pc.Category)
@@ -207,7 +207,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
     List<PostItemDto> posts = await query.ToListAsync();
 
-    List<PostSearch> postsSearch = new();
+    List<PostSearchDto> postsSearch = new();
     List<string> termList = term.ToLower().Split(' ').ToList();
 
     foreach (PostItemDto? post in posts)
@@ -250,7 +250,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
       if (rank > 0)
       {
-        postsSearch.Add(new PostSearch(post, rank));
+        postsSearch.Add(new PostSearchDto(post, rank));
       }
     }
 
@@ -275,7 +275,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
   )
   {
     int skip = (page - 1) * pageSize;
-    IQueryable<Post> query = _dbContext.Categories
+    IQueryable<Post> query = _context.Categories
         .AsNoTracking()
         .Include(pc => pc.PostCategories)!
         .ThenInclude(m => m.Post)
@@ -296,7 +296,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public async Task<IEnumerable<PostItemDto>> GetSearchAsync(string term)
   {
-    IQueryable<Post> query = _dbContext.Posts.AsNoTracking();
+    IQueryable<Post> query = _context.Posts.AsNoTracking();
     if ("*".Equals(term, StringComparison.Ordinal))
     {
       query = query.Where(p => p.Title.ToLower().Contains(term.ToLower()));
@@ -307,13 +307,13 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
   public Task StateAsync(int id, PostState state)
   {
-    IQueryable<Post> query = _dbContext.Posts.Where(p => p.Id == id);
+    IQueryable<Post> query = _context.Posts.Where(p => p.Id == id);
     return StateInternalAsync(query, state);
   }
 
   public Task StateAsync(IEnumerable<int> ids, PostState state)
   {
-    IQueryable<Post> query = _dbContext.Posts.Where(p => ids.Contains(p.Id));
+    IQueryable<Post> query = _context.Posts.Where(p => ids.Contains(p.Id));
     return StateInternalAsync(query, state);
   }
 
@@ -325,7 +325,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
   public async Task<string> AddAsync(PostEditorDto postInput, int userId)
   {
     Post post = await AddInternalAsync(postInput, userId);
-    _ = await _dbContext.SaveChangesAsync();
+    _ = await _context.SaveChangesAsync();
     return post.Slug;
   }
 
@@ -361,7 +361,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
       PublishedAt = publishedAt,
       PostCategories = postCategories,
     };
-    _ = _dbContext.Posts.Add(post);
+    _ = _context.Posts.Add(post);
     return post;
   }
 
@@ -388,13 +388,13 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
       Post postInput = await AddInternalAsync(post, userId);
       postsInput.Add(postInput);
     }
-    _ = await _dbContext.SaveChangesAsync();
+    _ = await _context.SaveChangesAsync();
     return postsInput.Adapt<IEnumerable<PostEditorDto>>();
   }
 
   public async Task UpdateAsync(PostEditorDto postInput, int userId)
   {
-    Post post = await _dbContext.Posts
+    Post post = await _context.Posts
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         .FirstAsync(m => m.Id == postInput.Id);
@@ -428,8 +428,8 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
     post.PostCategories = postCategories;
     post.PublishedAt = GetPublishedAt(postInput.PublishedAt, postInput.State);
     post.State = postInput.State;
-    _ = _dbContext.Update(post);
-    _ = await _dbContext.SaveChangesAsync();
+    _ = _context.Update(post);
+    _ = await _context.SaveChangesAsync();
   }
 
   private async Task<string> GetSlugFromTitle(string title)
@@ -439,7 +439,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
     string slugOriginal = slug;
     while (true)
     {
-      if (!await _dbContext.Posts.Where(p => p.Slug == slug).AnyAsync())
+      if (!await _context.Posts.Where(p => p.Slug == slug).AnyAsync())
       {
         return slug;
       }
@@ -486,7 +486,7 @@ public class PostRepository : AppProvider<Post, int>, IPostRepository
 
     if (categories.Any())
     {
-      List<Category> categoriesDb = await _dbContext.Categories
+      List<Category> categoriesDb = await _context.Categories
           .Where(m => categories.Contains(m.Content))
           .ToListAsync();
 

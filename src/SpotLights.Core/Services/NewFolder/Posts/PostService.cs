@@ -2,8 +2,8 @@ using SpotLights.Shared;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Shared.Enums;
 using SpotLights.Shared.Dtos;
-using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Core.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 

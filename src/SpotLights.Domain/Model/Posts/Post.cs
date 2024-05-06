@@ -1,14 +1,15 @@
+using SpotLights.Domain.Base;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace SpotLights.Domain.Model.Posts;
 
-public class Post : BaseEntity<int>
+public class Post : BaseEntity
 {
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public int UserId { get; set; }
+    public DefaultIdType UserId { get; set; }
     public UserInfo User { get; set; } = default!;
 
     [Required]

@@ -1,5 +1,5 @@
 using SpotLights.Core.Interfaces;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Blogs;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;

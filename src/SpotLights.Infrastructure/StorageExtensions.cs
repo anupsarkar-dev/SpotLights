@@ -19,7 +19,7 @@ public static class StorageExtensions
     {
         services.AddScoped<IStorageProvider>(sp =>
         {
-            AppDbContext dbContext = sp.GetRequiredService<AppDbContext>();
+            ApplicationDbContext dbContext = sp.GetRequiredService<ApplicationDbContext>();
             IConfigurationSection section = configuration.GetSection("SpotLights:Minio");
             bool enable = section.GetValue<bool>("Enable");
             if (enable)

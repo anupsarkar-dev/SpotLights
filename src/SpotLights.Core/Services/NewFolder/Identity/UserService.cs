@@ -1,6 +1,6 @@
 using SpotLights.Core.Interfaces;
 using SpotLights.Domain.Model.Identity;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Identity;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Identity;

@@ -28,9 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpotLights.Admin\SpotLights.Admin.csproj" />
-    <ProjectReference Include="..\SpotLights.Data\SpotLights.Data.csproj" />
+    <ProjectReference Include="..\SpotLights.Core\SpotLights.Core.csproj" />
     <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
-    <ProjectReference Include="..\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj" />
     <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
     <ProjectReference Include="..\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj" />
   </ItemGroup>

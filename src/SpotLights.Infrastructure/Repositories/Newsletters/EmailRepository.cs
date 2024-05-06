@@ -3,9 +3,9 @@ using MailKit.Security;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using SpotLights.Domain.Model.Newsletters;
+using SpotLights.Domain.Options;
 using SpotLights.Infrastructure.Caches;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Infrastructure.Repositories.Options;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
@@ -28,7 +28,7 @@ public class EmailRepository : IEmailRepository
         MarkdigRepository markdigProvider,
         OptionRepository optionProvider,
         PostRepository postProvider,
-        NewsletterProvider newsletterProvider,
+        NewsletterRepository newsletterProvider,
         SubscriberRepository subscriberProvider
     )
     {
@@ -92,7 +92,7 @@ public class EmailRepository : IEmailRepository
         bool sent = await Send(settings, subscribers, subject, content);
         if (newsletter == null)
         {
-            await _newsletterProvider.AddAsync(postId, sent);
+            await _newsletterProvider.AddNewsletterAsync(postId, sent);
         }
         else
         {

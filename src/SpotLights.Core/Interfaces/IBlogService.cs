@@ -1,4 +1,4 @@
-using SpotLights.Domain.Model.Blogs;
+using SpotLights.Domain.Dto;
 
 namespace SpotLights.Core.Interfaces
 {

@@ -1,4 +1,4 @@
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Dtos;
 using SpotLights.Shared.Enums;

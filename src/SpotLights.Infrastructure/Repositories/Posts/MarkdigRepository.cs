@@ -1,9 +1,9 @@
 using Markdig;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class MarkdigRepository : IMarkdigRepository, IMarkdigRepository1
+public class MarkdigRepository : IMarkdigRepository
 {
     private readonly MarkdownPipeline _markdownPipeline;
 

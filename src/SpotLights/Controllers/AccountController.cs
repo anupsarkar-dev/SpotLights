@@ -6,11 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
 using SpotLights.Infrastructure.Identity;
-using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Domain.Model.Blogs;
 using SpotLights.Shared.Constants;
+using SpotLights.Infrastructure.Provider;
 
 namespace SpotLights.Controllers;
 
@@ -20,13 +20,13 @@ public class AccountController : Controller
     protected readonly ILogger _logger;
     protected readonly UserManager _userManager;
     protected readonly SignInManager _signInManager;
-    protected readonly BlogRepository _blogManager;
+    protected readonly BlogDataProvider _blogManager;
 
     public AccountController(
         ILogger<AccountController> logger,
         UserManager userManager,
         SignInManager signInManager,
-        BlogRepository blogManager
+        BlogDataProvider blogManager
     )
     {
         _logger = logger;

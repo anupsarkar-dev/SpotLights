@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Data.ValueGeneration;
+using SpotLights.Domain.Dto;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Domain.Model.Storage;
-using SpotLights.Domain.Options;
 
 namespace SpotLights.Data.Data;
 
-public class PostgresDbContext : AppDbContext
+public class PostgresDbContext : ApplicationDbContext
 {
     public PostgresDbContext(DbContextOptions options)
         : base(options) { }

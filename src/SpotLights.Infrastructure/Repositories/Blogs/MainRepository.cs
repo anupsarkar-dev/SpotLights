@@ -1,9 +1,10 @@
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
-using SpotLights.Domain.Model.Blogs;
+using SpotLights.Domain.Dto;
 using SpotLights.Infrastructure.Caches;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Blogs;
+using SpotLights.Infrastructure.Provider;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Entities.Identity;
@@ -16,13 +17,13 @@ public class MainRepository : IMainRepository
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly BlogRepository _blogManager;
+    private readonly BlogDataProvider _blogManager;
     private readonly CategoryRepository _categoryProvider;
 
     public MainRepository(
         IDistributedCache distributedCache,
         IHttpContextAccessor httpContextAccessor,
-        BlogRepository blogManager,
+        BlogDataProvider blogManager,
         CategoryRepository categoryProvider
     )
     {

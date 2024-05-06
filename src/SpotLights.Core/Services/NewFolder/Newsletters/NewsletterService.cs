@@ -1,5 +1,5 @@
 using SpotLights.Core.Interfaces;
-using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
@@ -15,7 +15,7 @@ public class NewsletterService : INewsletterService
 
     public async Task AddAsync(int postId, bool success)
     {
-        await _newsletterRepository.AddAsync(postId, success);
+        await _newsletterRepository.AddNewsletterAsync(postId, success);
     }
 
     public async Task<NewsletterDto?> FirstOrDefaultByPostIdAsync(int postId)

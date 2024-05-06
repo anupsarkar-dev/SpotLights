@@ -4,20 +4,22 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Storage;
+using SpotLights.Infrastructure.Interfaces;
+using SpotLights.Infrastructure.Repositories;
 using SpotLights.Shared;
 using SpotLights.Shared.Constants;
 using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Manager.Storages;
 
-public class StorageLocalProvider : AppProvider<Storage, int>, IStorageProvider
+public class StorageLocalProvider : BaseContextRepository, IStorageProvider
 {
     private readonly ILogger _logger;
     private readonly string _pathLocalRoot;
 
     public StorageLocalProvider(
         ILogger<StorageLocalProvider> logger,
-        AppDbContext dbContext,
+        ApplicationDbContext dbContext,
         IHostEnvironment hostEnvironment
     )
         : base(dbContext)
@@ -41,7 +43,7 @@ public class StorageLocalProvider : AppProvider<Storage, int>, IStorageProvider
 
     public async Task<StorageDto?> GetCheckStoragAsync(string path)
     {
-        IQueryable<Storage> query = _dbContext.Storages.AsNoTracking().Where(m => m.Path == path);
+        IQueryable<Storage> query = _context.Storages.AsNoTracking().Where(m => m.Path == path);
         StorageDto? storage = await query.ProjectToType<StorageDto>().FirstOrDefaultAsync();
         bool existsing = Exists(path);
         if (storage == null)
@@ -55,7 +57,7 @@ public class StorageLocalProvider : AppProvider<Storage, int>, IStorageProvider
         {
             if (!existsing)
             {
-                await DeleteAsync(storage.Id);
+                await DeleteAsync<Storage>(storage.Id);
                 return null;
             }
         }

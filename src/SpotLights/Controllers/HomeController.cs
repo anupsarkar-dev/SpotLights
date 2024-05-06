@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Posts;
-using SpotLights.Domain.Model.Blogs;
+using SpotLights.Domain.Dto;
 
 namespace SpotLights.Controllers;
 
