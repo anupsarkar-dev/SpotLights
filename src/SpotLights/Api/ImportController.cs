@@ -14,9 +14,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class ImportController : ControllerBase
 {
-    private readonly ImportRepository _importManager;
+    private readonly IImportService _importManager;
 
-    public ImportController(ImportRepository importManager)
+    public ImportController(IImportService importManager)
     {
         _importManager = importManager;
     }

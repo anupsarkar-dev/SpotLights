@@ -5,10 +5,10 @@ namespace SpotLights.Infrastructure.Repositories.Posts;
 
 public class PostManager : IPostManagerRepository
 {
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
     private readonly MarkdigRepository _markdigProvider;
 
-    public PostManager(PostRepository postProvider, MarkdigRepository markdigProvider)
+    public PostManager(IPostService postProvider, MarkdigRepository markdigProvider)
     {
         _postProvider = postProvider;
         _markdigProvider = markdigProvider;

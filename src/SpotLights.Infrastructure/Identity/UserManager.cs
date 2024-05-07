@@ -8,7 +8,7 @@ namespace SpotLights.Infrastructure.Identity;
 
 public class UserManager : UserManager<UserInfo>
 {
-    protected readonly UserRepository _userProvider;
+    protected readonly IUserService _userProvider;
 
     public UserManager(
         IUserStore<UserInfo> store,
@@ -20,7 +20,7 @@ public class UserManager : UserManager<UserInfo>
         IdentityErrorDescriber errors,
         IServiceProvider services,
         ILogger<UserManager<UserInfo>> logger,
-        UserRepository userProvider
+        IUserService userProvider
     )
         : base(
             store,

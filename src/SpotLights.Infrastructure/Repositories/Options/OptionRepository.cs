@@ -7,7 +7,7 @@ using SpotLights.Infrastructure.Interfaces.Options;
 
 namespace SpotLights.Infrastructure.Repositories.Options;
 
-public class OptionRepository : IOptionRepository
+public class OptionRepository : BaseContextRepository, IOptionRepository
 {
     private readonly ILogger _logger;
     private readonly ApplicationDbContext _dbContext;
@@ -17,6 +17,7 @@ public class OptionRepository : IOptionRepository
         IDistributedCache distributedCache,
         ApplicationDbContext dbContext
     )
+        : base(dbContext)
     {
         _logger = logger;
         _dbContext = dbContext;

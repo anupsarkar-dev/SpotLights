@@ -10,9 +10,9 @@ namespace SpotLights.Infrastructure.Interfaces
             where T : BaseEntity;
         Task DeleteAsync<T>(T entity)
             where T : BaseEntity;
-        Task DeleteAsync<T>(IEnumerable<int>? ids)
+        Task DeleteAsync<T>(IEnumerable<DefaultIdType>? ids)
             where T : BaseEntity;
-        Task DeleteAsync<T>(int id)
+        Task DeleteAsync<T>(DefaultIdType id)
             where T : BaseEntity;
         Task<int> SaveChangesAsync();
     }

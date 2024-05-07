@@ -13,9 +13,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class SubscriberController : ControllerBase
 {
-    private readonly SubscriberRepository _subscriberProvider;
+    private readonly ISubscriberService _subscriberProvider;
 
-    public SubscriberController(SubscriberRepository subscriberProvider)
+    public SubscriberController(ISubscriberService subscriberProvider)
     {
         _subscriberProvider = subscriberProvider;
     }

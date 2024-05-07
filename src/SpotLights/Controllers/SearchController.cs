@@ -10,9 +10,9 @@ namespace SpotLights.Controllers;
 public class SearchController : Controller
 {
     private readonly MainRepository _mainMamager;
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
 
-    public SearchController(MainRepository mainMamager, PostRepository postProvider)
+    public SearchController(MainRepository mainMamager, IPostService postProvider)
     {
         _mainMamager = mainMamager;
         _postProvider = postProvider;

@@ -1,11 +1,11 @@
-﻿using SpotLights.Domain.Model.Posts;
+using SpotLights.Domain.Model.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Dtos;
 using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Interfaces.Posts
 {
-    public interface IPostRepository
+    public interface IPostRepository : IBaseContextRepository
     {
         Task<IEnumerable<PostEditorDto>> AddAsync(IEnumerable<PostEditorDto> posts, int userId);
         Task<string> AddAsync(PostEditorDto postInput, int userId);

@@ -10,9 +10,9 @@ namespace SpotLights.Controllers;
 
 public class SitemapController : ControllerBase
 {
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
 
-    public SitemapController(PostRepository postProvider)
+    public SitemapController(IPostService postProvider)
     {
         _postProvider = postProvider;
     }

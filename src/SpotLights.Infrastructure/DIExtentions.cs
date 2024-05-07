@@ -22,16 +22,16 @@ public static class DIExtentions
     {
         sc.AddScoped<IMarkdigRepository, MarkdigRepository>();
         sc.AddScoped<IImportRssRepository, ImportRssRepository>();
-        sc.AddScoped<IUserRepository, UserRepository>();
-        sc.AddScoped<IPostRepository, PostRepository>();
+        sc.AddScoped<IUserRepository, IUserService>();
+        sc.AddScoped<IPostRepository, IPostService>();
         sc.AddScoped<ICategoryRepository, CategoryRepository>();
         sc.AddScoped<INewsletterRepository, NewsletterRepository>();
-        sc.AddScoped<ISubscriberRepository, SubscriberRepository>();
+        sc.AddScoped<ISubscriberRepository, ISubscriberService>();
 
         sc.AddScoped<IOptionRepository, OptionRepository>();
         sc.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
-        sc.AddScoped<IEmailRepository, EmailRepository>();
-        sc.AddScoped<IImportRepository, ImportRepository>();
+        sc.AddScoped<IEmailRepository, IEmailRepository>();
+        sc.AddScoped<IImportRepository, IImportService>();
 
         sc.AddScoped<IBlogDataProvider, BlogDataProvider>();
         sc.AddScoped<IMainRepository, MainRepository>();

@@ -13,12 +13,12 @@ public class HomeController : Controller
 {
     private readonly ILogger _logger;
     private readonly MainRepository _mainMamager;
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
 
     public HomeController(
         ILogger<HomeController> logger,
         MainRepository mainMamager,
-        PostRepository postProvider
+        IPostService postProvider
     )
     {
         _logger = logger;

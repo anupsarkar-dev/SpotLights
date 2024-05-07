@@ -1,6 +1,6 @@
-﻿namespace SpotLights.Infrastructure.Interfaces.Options
+namespace SpotLights.Infrastructure.Interfaces.Options
 {
-    public interface IOptionRepository
+    public interface IOptionRepository : IBaseContextRepository
     {
         Task<bool> AnyKeyAsync(string key);
         Task<string?> GetByValueAsync(string key);

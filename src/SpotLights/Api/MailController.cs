@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using SpotLights.Infrastructure.Repositories.Newsletters;
+using SpotLights.Core.Interfaces.Newsletter;
 
 namespace SpotLights.Interfaces;
 
@@ -11,9 +12,9 @@ namespace SpotLights.Interfaces;
 [Authorize]
 public class MailController : ControllerBase
 {
-    private readonly EmailRepository _emailManager;
+    private readonly IEmailService _emailManager;
 
-    public MailController(EmailRepository emailManager)
+    public MailController(IEmailService emailManager)
     {
         _emailManager = emailManager;
     }

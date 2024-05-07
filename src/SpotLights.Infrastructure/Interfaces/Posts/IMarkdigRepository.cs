@@ -1,4 +1,4 @@
-﻿namespace SpotLights.Infrastructure.Interfaces.Posts
+namespace SpotLights.Infrastructure.Interfaces.Posts
 {
     public interface IMarkdigRepository
     {

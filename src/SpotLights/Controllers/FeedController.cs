@@ -17,13 +17,13 @@ public class FeedController : Controller
 {
     private readonly ILogger _logger;
     private readonly BlogDataProvider _blogManager;
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
     private readonly MarkdigRepository _markdigProvider;
 
     public FeedController(
         ILogger<FeedController> logger,
         BlogDataProvider blogManager,
-        PostRepository postProvider,
+        IPostService postProvider,
         MarkdigRepository markdigProvider
     )
     {

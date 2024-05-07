@@ -15,9 +15,9 @@ namespace SpotLights.Interfaces;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserRepository _userProvider;
+    private readonly IUserService _userProvider;
 
-    public UserController(UserRepository userProvider)
+    public UserController(IUserService userProvider)
     {
         _userProvider = userProvider;
     }

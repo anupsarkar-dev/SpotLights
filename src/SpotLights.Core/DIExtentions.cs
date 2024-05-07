@@ -1,10 +1,15 @@
 using Microsoft.Extensions.DependencyInjection;
-using SpotLights.Infrastructure.Identity;
-using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Newsletters;
-using SpotLights.Infrastructure.Repositories.Posts;
-using SpotLights.Infrastructure.Repositories.Options;
 using SpotLights.Core.Interfaces;
+using SpotLights.Core.Services.Blogs;
+using SpotLights.Core.Services.Identity;
+using SpotLights.Core.Services.Options;
+using SpotLights.Core.Services.Posts;
+using SpotLights.Core.Interfaces.Blogs;
+using SpotLights.Core.Interfaces.Post;
+using SpotLights.Core.Interfaces.Newsletter;
+using SpotLights.Core.Interfaces.Identity;
+using SpotLights.Core.Interfaces.Options;
 
 namespace SpotLights.Infrastructure;
 
@@ -17,12 +22,12 @@ public static class DIExtentions
         sc.AddScoped<IUserService, UserService>();
         sc.AddScoped<IPostService, PostService>();
         sc.AddScoped<ICategoryService, CategoryService>();
-        sc.AddScoped<INewsletterService, NewsletterService>();
-        sc.AddScoped<ISubscriberService, SubscriberService>();
+        sc.AddScoped<INewsletterService, INewsletterService>();
+        sc.AddScoped<Core.Interfaces.ISubscriberService, SubscriberService>();
 
         sc.AddScoped<IOptionService, OptionService>();
         sc.AddScoped<IAnalyticsService, AnalyticsService>();
-        sc.AddScoped<IEmailService, EmailService>();
+        sc.AddScoped<Core.Interfaces.Newsletter.IEmailService, EmailService>();
         sc.AddScoped<IImportService, ImportService>();
 
         sc.AddScoped<IBlogService, BlogService>();

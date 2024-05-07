@@ -14,22 +14,22 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class EmailRepository : IEmailRepository
+public class EmailService : IEmailRepository
 {
     private readonly ILogger _logger;
     private readonly MarkdigRepository _markdigProvider;
     private readonly NewsletterRepository _newsletterProvider;
     private readonly OptionRepository _optionProvider;
-    private readonly PostRepository _postProvider;
-    private readonly SubscriberRepository _subscriberProvider;
+    private readonly IPostService _postProvider;
+    private readonly ISubscriberService _subscriberProvider;
 
-    public EmailRepository(
-        ILogger<EmailRepository> logger,
+    public EmailService(
+        ILogger<EmailService> logger,
         MarkdigRepository markdigProvider,
         OptionRepository optionProvider,
-        PostRepository postProvider,
+        IPostService postProvider,
         NewsletterRepository newsletterProvider,
-        SubscriberRepository subscriberProvider
+        ISubscriberService subscriberProvider
     )
     {
         _logger = logger;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SpotLights.Infrastructure.Repositories.Newsletters;
 using SpotLights.Domain.Model.Newsletters;
+using SpotLights.Core.Interfaces.Newsletter;
 
 namespace SpotLights.Interfaces;
 
@@ -14,9 +15,9 @@ namespace SpotLights.Interfaces;
 [Authorize]
 public class NewsletterController : ControllerBase
 {
-    private readonly NewsletterService _newsletterProvider;
+    private readonly INewsletterService _newsletterProvider;
 
-    public NewsletterController(NewsletterService newsletterProvider)
+    public NewsletterController(INewsletterService newsletterProvider)
     {
         _newsletterProvider = newsletterProvider;
     }
@@ -39,7 +40,7 @@ public class NewsletterController : ControllerBase
     [HttpGet("send/{postId:int}")]
     public async Task SendNewsletter(
         [FromRoute] int postId,
-        [FromServices] EmailRepository emailManager
+        [FromServices] IEmailService emailManager
     )
     {
         await emailManager.SendNewsletter(postId);

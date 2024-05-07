@@ -3,7 +3,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Posts
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IBaseContextRepository
     {
         Task<Category> GetCategory(int categoryId);
         Task<List<CategoryItemDto>> GetItemsAsync();

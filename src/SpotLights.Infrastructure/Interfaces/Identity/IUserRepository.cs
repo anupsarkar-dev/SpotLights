@@ -1,4 +1,4 @@
-﻿using SpotLights.Domain.Model.Identity;
+using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Identity

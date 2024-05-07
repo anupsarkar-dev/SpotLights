@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
 using SpotLights.Shared.Enums;
-using SpotLights.Core.Interfaces;
+using SpotLights.Core.Interfaces.Blogs;
 
 namespace SpotLights.Interfaces;
 

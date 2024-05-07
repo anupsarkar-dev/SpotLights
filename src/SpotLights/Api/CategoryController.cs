@@ -31,14 +31,14 @@ public class CategoryController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task DeleteAsync([FromRoute] int id)
     {
-        await _categoryService.DeleteAsync(id);
+        await _categoryService.DeleteAsync<Category>(id);
     }
 
     [HttpDelete("{idsString}")]
     public async Task DeleteAsync([FromRoute] string idsString)
     {
         IEnumerable<int> ids = idsString.Split(',').Select(int.Parse);
-        await _categoryService.DeleteAsync(ids);
+        await _categoryService.DeleteAsync<Category>(ids);
     }
 
     [HttpGet("{postId:int}")]

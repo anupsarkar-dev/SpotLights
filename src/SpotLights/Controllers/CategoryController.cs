@@ -11,9 +11,9 @@ namespace SpotLights.Controllers;
 public class CategoryController : Controller
 {
     private readonly MainRepository _mainMamager;
-    private readonly PostRepository _postProvider;
+    private readonly IPostService _postProvider;
 
-    public CategoryController(MainRepository mainMamager, PostRepository postProvider)
+    public CategoryController(MainRepository mainMamager, IPostService postProvider)
     {
         _mainMamager = mainMamager;
         _postProvider = postProvider;

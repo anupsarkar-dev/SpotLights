@@ -1,4 +1,4 @@
-﻿using SpotLights.Shared;
+using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Blogs
 {
