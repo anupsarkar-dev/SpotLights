@@ -5,12 +5,13 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
-using SpotLights.Infrastructure.Identity;
-using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
-using SpotLights.Domain.Model.Blogs;
 using SpotLights.Shared.Constants;
+using SpotLights.Infrastructure.Provider;
+using SpotLights.Domain.Dto;
+using SpotLights.Core.Identity;
+using SpotLights.Core.Interfaces;
 
 namespace SpotLights.Controllers;
 
@@ -18,21 +19,21 @@ namespace SpotLights.Controllers;
 public class AccountController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly UserManager _userManager;
+    protected readonly UsersManager _userManager;
     protected readonly SignInManager _signInManager;
-    protected readonly BlogManager _blogManager;
+    protected readonly IBlogService _blogService;
 
     public AccountController(
         ILogger<AccountController> logger,
-        UserManager userManager,
+        UsersManager userManager,
         SignInManager signInManager,
-        BlogManager blogManager
+        IBlogService blogManager
     )
     {
         _logger = logger;
         _userManager = userManager;
         _signInManager = signInManager;
-        _blogManager = blogManager;
+        _blogService = blogManager;
     }
 
     [HttpGet]
@@ -43,8 +44,8 @@ public class AccountController : Controller
     [HttpGet("login")]
     public async Task<IActionResult> Login([FromQuery] AccountViewModel parameter)
     {
-        var data = await _blogManager.GetAsync();
-        var model = new AccountLoginViewModel { RedirectUri = parameter.RedirectUri };
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
+        AccountLoginViewModel model = new() { RedirectUri = parameter.RedirectUri };
         return View($"~/Views/Themes/{data.Theme}/login.cshtml", model);
     }
 
@@ -53,15 +54,16 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            UserInfo? user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                    user,
-                    model.Password,
-                    true,
-                    lockoutOnFailure: true
-                );
+                Microsoft.AspNetCore.Identity.SignInResult result =
+                    await _signInManager.PasswordSignInAsync(
+                        user,
+                        model.Password,
+                        true,
+                        lockoutOnFailure: true
+                    );
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -72,15 +74,15 @@ public class AccountController : Controller
             }
         }
         model.ShowError = true;
-        var data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/login.cshtml", model);
     }
 
     [HttpGet("register")]
     public async Task<IActionResult> Register([FromQuery] AccountViewModel parameter)
     {
-        var model = new AccountRegisterViewModel { RedirectUri = parameter.RedirectUri };
-        var data = await _blogManager.GetAsync();
+        AccountRegisterViewModel model = new() { RedirectUri = parameter.RedirectUri };
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/register.cshtml", model);
     }
 
@@ -89,12 +91,11 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new UserInfo(model.UserName)
-            {
-                NickName = model.NickName,
-                Email = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            UserInfo user = new(model.UserName) { NickName = model.NickName, Email = model.Email };
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
+                user,
+                model.Password
+            );
             if (result.Succeeded)
             {
                 return RedirectToAction(
@@ -104,7 +105,7 @@ public class AccountController : Controller
             }
         }
         model.ShowError = true;
-        var data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/register.cshtml", model);
     }
 
@@ -118,17 +119,17 @@ public class AccountController : Controller
     [HttpGet("initialize")]
     public async Task<IActionResult> Initialize([FromQuery] AccountViewModel parameter)
     {
-        if (await _blogManager.AnyAsync())
+        if (await _blogService.AnyAsync())
             return RedirectToAction("login", routeValues: parameter);
 
-        var model = new AccountInitializeViewModel { RedirectUri = parameter.RedirectUri };
+        AccountInitializeViewModel model = new() { RedirectUri = parameter.RedirectUri };
         return View($"~/Views/Themes/{SpotLightsConstant.DefaultTheme}/initialize.cshtml", model);
     }
 
     [HttpPost("initialize")]
     public async Task<IActionResult> InitializeForm([FromForm] AccountInitializeViewModel model)
     {
-        if (await _blogManager.AnyAsync())
+        if (await _blogService.AnyAsync())
             return RedirectToAction(
                 "login",
                 routeValues: new AccountViewModel { RedirectUri = model.RedirectUri }
@@ -136,13 +137,17 @@ public class AccountController : Controller
 
         if (ModelState.IsValid)
         {
-            var user = new UserInfo(model.UserName)
-            {
-                NickName = model.NickName,
-                Email = model.Email,
-                Type = UserType.Administrator,
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            UserInfo user =
+                new(model.UserName)
+                {
+                    NickName = model.NickName,
+                    Email = model.Email,
+                    Type = UserType.Administrator,
+                };
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
+                user,
+                model.Password
+            );
             if (result.Succeeded)
             {
                 var blogData = new BlogData
@@ -154,7 +159,7 @@ public class AccountController : Controller
                     Version = SpotLightsConstant.DefaultVersion,
                     Logo = SpotLightsSharedConstant.DefaultLogo
                 };
-                await _blogManager.SetAsync(blogData);
+                await _blogService.SetAsync(blogData);
                 return Redirect("~/");
             }
         }
@@ -166,18 +171,19 @@ public class AccountController : Controller
     [HttpGet("profile")]
     public async Task<IActionResult> Profile([FromQuery] AccountViewModel parameter)
     {
-        var userId = User.FirstUserId();
-        var user = await _userManager.FindByIdAsync(userId);
-        var model = new AccountProfileEditViewModel
-        {
-            RedirectUri = parameter.RedirectUri,
-            IsProfile = true,
-            Email = user.Email,
-            NickName = user.NickName,
-            Avatar = user.Avatar,
-            Bio = user.Bio,
-        };
-        var data = await _blogManager.GetAsync();
+        int userId = User.FirstUserId();
+        UserInfo user = await _userManager.FindByIdAsync(userId);
+        AccountProfileEditViewModel model =
+            new()
+            {
+                RedirectUri = parameter.RedirectUri,
+                IsProfile = true,
+                Email = user.Email,
+                NickName = user.NickName,
+                Avatar = user.Avatar,
+                Bio = user.Bio,
+            };
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/profile.cshtml", model);
     }
 
@@ -187,13 +193,15 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var userId = User.FirstUserId();
-            var user = await _userManager.FindByIdAsync(userId);
+            int userId = User.FirstUserId();
+            UserInfo user = await _userManager.FindByIdAsync(userId);
             user.Email = model.Email;
             user.NickName = model.NickName;
             user.Avatar = model.Avatar;
             user.Bio = model.Bio;
-            var result = await _userManager.UpdateAsync(user);
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.UpdateAsync(
+                user
+            );
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: true);
@@ -203,7 +211,7 @@ public class AccountController : Controller
                 model.Error = result.Errors.FirstOrDefault()?.Description;
             }
         }
-        var data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/profile.cshtml", model);
     }
 
@@ -211,12 +219,9 @@ public class AccountController : Controller
     [HttpGet("password")]
     public async Task<IActionResult> Password([FromQuery] AccountViewModel parameter)
     {
-        var model = new AccountProfilePasswordModel
-        {
-            RedirectUri = parameter.RedirectUri,
-            IsPassword = true,
-        };
-        var data = await _blogManager.GetAsync();
+        AccountProfilePasswordModel model =
+            new() { RedirectUri = parameter.RedirectUri, IsPassword = true, };
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/password.cshtml", model);
     }
 
@@ -226,10 +231,11 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var userId = User.FirstUserId();
-            var user = await _userManager.FindByIdAsync(userId);
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+            int userId = User.FirstUserId();
+            UserInfo user = await _userManager.FindByIdAsync(userId);
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await _userManager.ResetPasswordAsync(user, token, model.Password);
             if (result.Succeeded)
             {
                 return await Logout();
@@ -239,7 +245,7 @@ public class AccountController : Controller
                 model.Error = result.Errors.FirstOrDefault()?.Description;
             }
         }
-        var data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/password.cshtml", model);
     }
 }

@@ -5,14 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
 public class SitemapController : ControllerBase
 {
-    private readonly PostProvider _postProvider;
+    private readonly IPostService _postProvider;
 
-    public SitemapController(PostProvider postProvider)
+    public SitemapController(IPostService postProvider)
     {
         _postProvider = postProvider;
     }

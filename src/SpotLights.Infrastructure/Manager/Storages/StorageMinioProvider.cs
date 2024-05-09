@@ -7,12 +7,14 @@ using Minio.DataModel;
 using Minio.DataModel.Args;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Storage;
+using SpotLights.Infrastructure.Interfaces.Storages;
+using SpotLights.Infrastructure.Repositories;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Manager.Storages;
 
-public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider, IDisposable
+public class StorageMinioProvider : BaseContextRepository, IStorageProvider, IDisposable
 {
     private readonly ILogger _logger;
     private readonly string _bucketName;
@@ -20,7 +22,7 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
 
     public StorageMinioProvider(
         ILogger<StorageMinioProvider> logger,
-        AppDbContext dbContext,
+        ApplicationDbContext dbContext,
         IHttpClientFactory httpClientFactory,
         IConfigurationSection section
     )
@@ -51,7 +53,7 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
     )
     {
         _logger.LogInformation("Storage slug:{slug}", slug);
-        Storage? storage = await _dbContext.Storages.FirstOrDefaultAsync(m => m.Slug == slug);
+        Storage? storage = await _context.Storages.FirstOrDefaultAsync(m => m.Slug == slug);
         if (storage == null)
         {
             return null;
@@ -70,7 +72,7 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
 
     public async Task<StorageDto?> GetCheckStoragAsync(string path)
     {
-        IQueryable<Storage> query = _dbContext.Storages.AsNoTracking().Where(m => m.Path == path);
+        IQueryable<Storage> query = _context.Storages.AsNoTracking().Where(m => m.Path == path);
         StorageDto? storage = await query.ProjectToType<StorageDto>().FirstOrDefaultAsync();
         throw new NotImplementedException();
     }
@@ -105,6 +107,7 @@ public class StorageMinioProvider : AppProvider<Storage, int>, IStorageProvider,
                 Type = StorageType.Minio
             };
         await AddAsync(storage);
+        await SaveChangesAsync();
         return storage.Adapt<StorageDto>();
     }
 

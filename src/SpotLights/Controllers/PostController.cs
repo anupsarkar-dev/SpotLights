@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SpotLights.Core.Interfaces;
+using SpotLights.Core.Interfaces.Blogs;
 using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
@@ -13,13 +15,13 @@ namespace SpotLights.Controllers;
 public class PostController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly MainManager _mainMamager;
-    protected readonly PostManager _postManager;
+    protected readonly IMainService _mainMamager;
+    protected readonly IPostProviderService _postManager;
 
     public PostController(
-        ILogger<PageController> logger,
-        MainManager mainMamager,
-        PostManager postManager
+        ILogger<PostController> logger,
+        IMainService mainMamager,
+        IPostProviderService postManager
     )
     {
         _logger = logger;

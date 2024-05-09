@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using SpotLights.Shared.Constants;
 using SpotLights.Data.Data;
 using SpotLights.Infrastructure.Manager.Storages;
+using SpotLights.Infrastructure.Interfaces.Storages;
 
 namespace SpotLights.Infrastructure;
 
@@ -19,7 +20,7 @@ public static class StorageExtensions
     {
         services.AddScoped<IStorageProvider>(sp =>
         {
-            AppDbContext dbContext = sp.GetRequiredService<AppDbContext>();
+            ApplicationDbContext dbContext = sp.GetRequiredService<ApplicationDbContext>();
             IConfigurationSection section = configuration.GetSection("SpotLights:Minio");
             bool enable = section.GetValue<bool>("Enable");
             if (enable)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SpotLights.Helper;
+using SpotLights.Infrastructure.Interfaces.Storages;
 using SpotLights.Shared;
 using SpotLights.Shared.Constants;
 using SpotLights.Shared.Extensions;

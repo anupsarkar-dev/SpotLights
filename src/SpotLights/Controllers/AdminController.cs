@@ -6,7 +6,7 @@ namespace SpotLights.Controllers;
 
 public class AdminController : Controller
 {
-  [HttpGet("/admin")]
-  [Authorize]
-  public Task<VirtualFileResult> Admin() => Task.FromResult(File("~/index.html", "text/html"));
+    [HttpGet("/admin")]
+    [Authorize]
+    public Task<VirtualFileResult> Admin() => Task.FromResult(File("~/index.html", "text/html"));
 }
