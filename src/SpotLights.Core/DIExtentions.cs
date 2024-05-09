@@ -16,6 +16,7 @@ using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using SpotLights.Infrastructure.Repositories.Posts;
 
 namespace SpotLights.Infrastructure;
 
@@ -27,6 +28,7 @@ public static class DIExtentions
         sc.AddScoped<IImportRssService, ImportRssService>();
         sc.AddScoped<IUserService, UserService>();
         sc.AddScoped<IPostService, PostService>();
+        sc.AddScoped<IPostProviderService, PostProviderService>();
         sc.AddScoped<ICategoryService, CategoryService>();
         sc.AddScoped<INewsletterService, NewsletterService>();
         sc.AddScoped<ISubscriberService, SubscriberService>();

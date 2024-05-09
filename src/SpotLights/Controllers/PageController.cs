@@ -17,12 +17,12 @@ public class PageController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMainService _mainMamager;
-    protected readonly IPostManagerService _postManager;
+    protected readonly IPostProviderService _postManager;
 
     public PageController(
         ILogger<PageController> logger,
         IMainService mainMamager,
-        IPostManagerService postManager
+        IPostProviderService postManager
     )
     {
         _logger = logger;

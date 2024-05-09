@@ -1,14 +1,15 @@
+using SpotLights.Core.Interfaces;
 using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostProvider : IPostProvider
+public class PostProviderService : IPostProviderService
 {
     private readonly IPostRepository _postProvider;
     private readonly IMarkdigRepository _markdigProvider;
 
-    public PostProvider(IPostRepository postProvider, IMarkdigRepository markdigProvider)
+    public PostProviderService(IPostRepository postProvider, IMarkdigRepository markdigProvider)
     {
         _postProvider = postProvider;
         _markdigProvider = markdigProvider;

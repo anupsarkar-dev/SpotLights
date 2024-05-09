@@ -36,7 +36,6 @@ public static class DIExtentions
         sc.AddScoped<IBlogDataProvider, BlogDataProvider>();
         sc.AddScoped<IMainRepository, MainRepository>();
 
-        sc.AddScoped<PostProvider>();
         sc.AddScoped<ReverseProvider>();
 
         return sc;
