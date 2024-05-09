@@ -38,9 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Core", "src\SpotLights.Core\SpotLights.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Domain", "src\SpotLights.Domain\SpotLights.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Domain", "src\SpotLights.Domain\SpotLights.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
