@@ -3,12 +3,12 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostManager : IPostManagerRepository
+public class PostProvider : IPostProvider
 {
-    private readonly IPostService _postProvider;
-    private readonly MarkdigRepository _markdigProvider;
+    private readonly IPostRepository _postProvider;
+    private readonly IMarkdigRepository _markdigProvider;
 
-    public PostManager(IPostService postProvider, MarkdigRepository markdigProvider)
+    public PostProvider(IPostRepository postProvider, IMarkdigRepository markdigProvider)
     {
         _postProvider = postProvider;
         _markdigProvider = markdigProvider;

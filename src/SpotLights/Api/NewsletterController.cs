@@ -40,7 +40,7 @@ public class NewsletterController : ControllerBase
     [HttpGet("send/{postId:int}")]
     public async Task SendNewsletter(
         [FromRoute] int postId,
-        [FromServices] IEmailService emailManager
+        [FromServices] IEmailsService emailManager
     )
     {
         await emailManager.SendNewsletter(postId);

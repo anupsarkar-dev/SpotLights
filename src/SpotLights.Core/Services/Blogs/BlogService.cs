@@ -6,25 +6,25 @@ namespace SpotLights.Core.Services.Blogs;
 
 public class BlogService : IBlogService
 {
-    private readonly IBlogDataProvider _blogRepository;
+    private readonly IBlogDataProvider _repo;
 
-    public BlogService(IBlogDataProvider blogRepository)
+    public BlogService(IBlogDataProvider repo)
     {
-        _blogRepository = blogRepository;
+        _repo = repo;
     }
 
     public async Task<bool> AnyAsync()
     {
-        return await _blogRepository.AnyAsync();
+        return await _repo.AnyAsync();
     }
 
     public Task<BlogData> GetAsync()
     {
-        return _blogRepository.GetAsync();
+        return _repo.GetAsync();
     }
 
     public Task SetAsync(BlogData blogData)
     {
-        return _blogRepository.SetAsync(blogData);
+        return _repo.SetAsync(blogData);
     }
 }

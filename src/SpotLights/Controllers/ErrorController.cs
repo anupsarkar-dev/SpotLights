@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SpotLights.Core.Interfaces.Blogs;
 using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Shared;
 using System;
@@ -10,9 +11,9 @@ namespace SpotLights.Controllers;
 public class ErrorController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly MainRepository _mainMamager;
+    protected readonly IMainService _mainMamager;
 
-    public ErrorController(ILogger<ErrorController> logger, MainRepository mainMamager)
+    public ErrorController(ILogger<ErrorController> logger, IMainService mainMamager)
     {
         _logger = logger;
         _mainMamager = mainMamager;

@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
 using SpotLights.Infrastructure.Manager.Storages;
+using SpotLights.Infrastructure.Interfaces.Storages;
 
 namespace SpotLights.Interfaces;
 

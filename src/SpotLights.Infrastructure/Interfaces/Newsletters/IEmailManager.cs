@@ -3,7 +3,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Interfaces.Newsletters
 {
-    public interface IEmailRepository
+    public interface IEmailManager
     {
         Task<MailSettingDto?> GetSettingsAsync();
         Task PutSettingsAsync(MailSettingDto input);

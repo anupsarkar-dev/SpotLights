@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Posts
 {
-    public interface IPostManagerRepository
+    public interface IPostProvider
     {
         Task<PostSlugDto> GetToHtmlAsync(string slug);
     }

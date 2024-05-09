@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SpotLights.Domain.Dto;
 using SpotLights.Infrastructure.Caches;
 using SpotLights.Infrastructure.Interfaces.Blogs;
+using SpotLights.Infrastructure.Interfaces.Options;
 using SpotLights.Infrastructure.Repositories.Options;
 using System.Text;
 using System.Text.Json;
@@ -13,13 +14,13 @@ public class BlogDataProvider : IBlogDataProvider
 {
     private readonly ILogger _logger;
     private readonly IDistributedCache _distributedCache;
-    private readonly OptionRepository _optionProvider;
+    private readonly IOptionRepository _optionProvider;
     private BlogData? _blogData;
 
     public BlogDataProvider(
         ILogger<BlogDataProvider> logger,
         IDistributedCache distributedCache,
-        OptionRepository optionProvider
+        IOptionRepository optionProvider
     )
     {
         _logger = logger;

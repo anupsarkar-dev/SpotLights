@@ -1,3 +1,4 @@
+using SpotLights.Infrastructure.Interfaces.Identity;
 using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Infrastructure.Manager.Storages;
 using SpotLights.Infrastructure.Provider;
@@ -8,17 +9,17 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class IImportService : IImportRepository
+public class ImportRepository :  IImportRepository
 {
-  private readonly IUserService _userProvider;
+  private readonly IUserRepository _userProvider;
   private readonly ReverseProvider _reverseProvider;
-  private readonly IPostService _postProvider;
+  private readonly IPostRepository _postProvider;
   private readonly StorageManager _storageManager;
 
-  public IImportService(
-      IUserService userProvider,
+  public ImportRepository(
+      IUserRepository userProvider,
       ReverseProvider reverseProvider,
-      IPostService postProvider,
+      IPostRepository postProvider,
       StorageManager storageManager
   )
   {

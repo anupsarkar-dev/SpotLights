@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using SpotLights.Shared.Constants;
 using SpotLights.Data.Data;
 using SpotLights.Infrastructure.Manager.Storages;
+using SpotLights.Infrastructure.Interfaces.Storages;
 
 namespace SpotLights.Infrastructure;
 

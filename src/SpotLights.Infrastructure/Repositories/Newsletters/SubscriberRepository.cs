@@ -7,9 +7,9 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class ISubscriberService : BaseContextRepository, ISubscriberRepository
+public class SubscriberRepository : BaseContextRepository, ISubscriberRepository
 {
-    public ISubscriberService(ApplicationDbContext dbContext)
+    public SubscriberRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }
 
     public async Task<IEnumerable<SubscriberDto>> GetItemsAsync()

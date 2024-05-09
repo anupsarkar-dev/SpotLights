@@ -1,6 +1,5 @@
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
-using SpotLights.Infrastructure.Identity;
 using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Infrastructure.Repositories.Newsletters;
 using SpotLights.Infrastructure.Repositories.Posts;
@@ -13,6 +12,7 @@ using SpotLights.Infrastructure.Interfaces.Identity;
 using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Infrastructure.Interfaces.Options;
 using SpotLights.Infrastructure.Interfaces.Posts;
+using SpotLights.Infrastructure.Manager.Email;
 
 namespace SpotLights.Infrastructure;
 
@@ -22,21 +22,21 @@ public static class DIExtentions
     {
         sc.AddScoped<IMarkdigRepository, MarkdigRepository>();
         sc.AddScoped<IImportRssRepository, ImportRssRepository>();
-        sc.AddScoped<IUserRepository, IUserService>();
-        sc.AddScoped<IPostRepository, IPostService>();
+        sc.AddScoped<IUserRepository, UserRepository>();
+        sc.AddScoped<IPostRepository, PostRepository>();
         sc.AddScoped<ICategoryRepository, CategoryRepository>();
         sc.AddScoped<INewsletterRepository, NewsletterRepository>();
-        sc.AddScoped<ISubscriberRepository, ISubscriberService>();
+        sc.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
         sc.AddScoped<IOptionRepository, OptionRepository>();
         sc.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
-        sc.AddScoped<IEmailRepository, IEmailRepository>();
-        sc.AddScoped<IImportRepository, IImportService>();
+        sc.AddScoped<IEmailManager, EmailManager>();
+        sc.AddScoped<IImportRepository, ImportRepository>();
 
         sc.AddScoped<IBlogDataProvider, BlogDataProvider>();
         sc.AddScoped<IMainRepository, MainRepository>();
 
-        sc.AddScoped<PostManager>();
+        sc.AddScoped<PostProvider>();
         sc.AddScoped<ReverseProvider>();
 
         return sc;
@@ -45,7 +45,6 @@ public static class DIExtentions
     public static IServiceCollection AddInfrastructure(this IServiceCollection sc)
     {
         sc.AddMapster();
-        sc.AddIdentity();
 
         return sc;
     }

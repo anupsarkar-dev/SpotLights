@@ -4,7 +4,7 @@ using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using System.Security.Claims;
 
-namespace SpotLights.Infrastructure.Identity;
+namespace SpotLights.Core.Identity;
 
 public class UserClaimsPrincipalFactory : UserClaimsPrincipalFactory<UserInfo>
 {

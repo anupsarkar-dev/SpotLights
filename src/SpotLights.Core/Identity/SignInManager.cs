@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpotLights.Domain.Model.Identity;
 
-namespace SpotLights.Infrastructure.Identity;
+namespace SpotLights.Core.Identity;
 
 public class SignInManager : SignInManager<UserInfo>
 {

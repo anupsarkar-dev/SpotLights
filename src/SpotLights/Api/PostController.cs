@@ -11,6 +11,7 @@ using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared.Enums;
 using SpotLights.Infrastructure.Manager.Storages;
 using SpotLights.Domain.Model.Posts;
+using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Interfaces;
 

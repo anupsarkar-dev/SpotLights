@@ -5,12 +5,13 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
-using SpotLights.Infrastructure.Identity;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Shared.Constants;
 using SpotLights.Infrastructure.Provider;
 using SpotLights.Domain.Dto;
+using SpotLights.Core.Identity;
+using SpotLights.Core.Interfaces;
 
 namespace SpotLights.Controllers;
 
@@ -18,21 +19,21 @@ namespace SpotLights.Controllers;
 public class AccountController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly UserManager _userManager;
+    protected readonly UsersManager _userManager;
     protected readonly SignInManager _signInManager;
-    protected readonly BlogDataProvider _blogManager;
+    protected readonly IBlogService _blogService;
 
     public AccountController(
         ILogger<AccountController> logger,
-        UserManager userManager,
+        UsersManager userManager,
         SignInManager signInManager,
-        BlogDataProvider blogManager
+        IBlogService blogManager
     )
     {
         _logger = logger;
         _userManager = userManager;
         _signInManager = signInManager;
-        _blogManager = blogManager;
+        _blogService = blogManager;
     }
 
     [HttpGet]
@@ -43,7 +44,7 @@ public class AccountController : Controller
     [HttpGet("login")]
     public async Task<IActionResult> Login([FromQuery] AccountViewModel parameter)
     {
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         AccountLoginViewModel model = new() { RedirectUri = parameter.RedirectUri };
         return View($"~/Views/Themes/{data.Theme}/login.cshtml", model);
     }
@@ -73,7 +74,7 @@ public class AccountController : Controller
             }
         }
         model.ShowError = true;
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/login.cshtml", model);
     }
 
@@ -81,7 +82,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Register([FromQuery] AccountViewModel parameter)
     {
         AccountRegisterViewModel model = new() { RedirectUri = parameter.RedirectUri };
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/register.cshtml", model);
     }
 
@@ -104,7 +105,7 @@ public class AccountController : Controller
             }
         }
         model.ShowError = true;
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/register.cshtml", model);
     }
 
@@ -118,7 +119,7 @@ public class AccountController : Controller
     [HttpGet("initialize")]
     public async Task<IActionResult> Initialize([FromQuery] AccountViewModel parameter)
     {
-        if (await _blogManager.AnyAsync())
+        if (await _blogService.AnyAsync())
             return RedirectToAction("login", routeValues: parameter);
 
         AccountInitializeViewModel model = new() { RedirectUri = parameter.RedirectUri };
@@ -128,7 +129,7 @@ public class AccountController : Controller
     [HttpPost("initialize")]
     public async Task<IActionResult> InitializeForm([FromForm] AccountInitializeViewModel model)
     {
-        if (await _blogManager.AnyAsync())
+        if (await _blogService.AnyAsync())
             return RedirectToAction(
                 "login",
                 routeValues: new AccountViewModel { RedirectUri = model.RedirectUri }
@@ -158,7 +159,7 @@ public class AccountController : Controller
                     Version = SpotLightsConstant.DefaultVersion,
                     Logo = SpotLightsSharedConstant.DefaultLogo
                 };
-                await _blogManager.SetAsync(blogData);
+                await _blogService.SetAsync(blogData);
                 return Redirect("~/");
             }
         }
@@ -182,7 +183,7 @@ public class AccountController : Controller
                 Avatar = user.Avatar,
                 Bio = user.Bio,
             };
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/profile.cshtml", model);
     }
 
@@ -210,7 +211,7 @@ public class AccountController : Controller
                 model.Error = result.Errors.FirstOrDefault()?.Description;
             }
         }
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/profile.cshtml", model);
     }
 
@@ -220,7 +221,7 @@ public class AccountController : Controller
     {
         AccountProfilePasswordModel model =
             new() { RedirectUri = parameter.RedirectUri, IsPassword = true, };
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/password.cshtml", model);
     }
 
@@ -244,7 +245,7 @@ public class AccountController : Controller
                 model.Error = result.Errors.FirstOrDefault()?.Description;
             }
         }
-        Domain.Dto.BlogData data = await _blogManager.GetAsync();
+        Domain.Dto.BlogData data = await _blogService.GetAsync();
         return View($"~/Views/Themes/{data.Theme}/password.cshtml", model);
     }
 }

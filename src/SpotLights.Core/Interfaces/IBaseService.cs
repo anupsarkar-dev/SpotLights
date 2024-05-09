@@ -1,6 +1,6 @@
 using SpotLights.Domain.Base;
 
-namespace SpotLights.Core;
+namespace SpotLights.Core.Interfaces;
 
 public interface IBaseService<T, TKey>
     where T : BaseEntity<TKey>

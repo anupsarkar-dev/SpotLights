@@ -3,21 +3,21 @@ using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using SpotLights.Infrastructure.Repositories.Blogs;
-using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Domain.Dto;
+using SpotLights.Core.Interfaces.Blogs;
+using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger _logger;
-    private readonly MainRepository _mainMamager;
+    private readonly IMainService _mainMamager;
     private readonly IPostService _postProvider;
 
     public HomeController(
         ILogger<HomeController> logger,
-        MainRepository mainMamager,
+        IMainService mainMamager,
         IPostService postProvider
     )
     {
@@ -39,9 +39,9 @@ public class HomeController : Controller
             _logger.LogError(ex, "blgo not iitialize redirect");
             return Redirect("~/account/initialize");
         }
-        var pager = await _postProvider.GetPostsAsync(page, main.ItemsPerPage);
+        PostPagerDto pager = await _postProvider.GetPostsAsync(page, main.ItemsPerPage);
         pager.Configure(main.PathUrl, "page");
-        var model = new IndexViewModel(pager, main);
+        IndexViewModel model = new(pager, main);
         return View($"~/Views/Themes/{main.Theme}/index.cshtml", model);
     }
 }

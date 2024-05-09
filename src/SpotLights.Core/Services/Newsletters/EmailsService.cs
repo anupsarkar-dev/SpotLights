@@ -5,27 +5,27 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class EmailService : IEmailService
+public class EmailsService : IEmailsService
 {
-    private readonly IEmailRepository _emailRepository;
+    private readonly IEmailManager _emailManager;
 
-    public EmailService(IEmailRepository emailRepository)
+    public EmailsService(IEmailManager emailManager)
     {
-        _emailRepository = emailRepository;
+        _emailManager = emailManager;
     }
 
     public async Task<MailSettingDto?> GetSettingsAsync()
     {
-        return await _emailRepository.GetSettingsAsync();
+        return await _emailManager.GetSettingsAsync();
     }
 
     public async Task PutSettingsAsync(MailSettingDto input)
     {
-        await _emailRepository.PutSettingsAsync(input);
+        await _emailManager.PutSettingsAsync(input);
     }
 
     public async Task<SendNewsletterState> SendNewsletter(int postId)
     {
-        return await _emailRepository.SendNewsletter(postId);
+        return await _emailManager.SendNewsletter(postId);
     }
 }

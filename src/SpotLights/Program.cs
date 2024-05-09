@@ -56,6 +56,7 @@ builder.Services.AddInfrastructure();
 
 // Services
 builder.Services.AddServices();
+builder.Services.AddIdentity();
 
 // Repositories
 builder.Services.AddRepositories();

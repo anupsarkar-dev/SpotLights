@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 

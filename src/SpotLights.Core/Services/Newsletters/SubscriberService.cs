@@ -1,14 +1,16 @@
 using SpotLights.Core.Interfaces;
+using SpotLights.Core.Services;
 using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class SubscriberService : Core.Interfaces.ISubscriberService
+public class SubscriberService : BaseContextService, ISubscriberService
 {
     private readonly ISubscriberRepository _subscriberRepository;
 
     public SubscriberService(ISubscriberRepository subscriberRepository)
+        : base(subscriberRepository)
     {
         _subscriberRepository = subscriberRepository;
     }

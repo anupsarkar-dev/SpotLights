@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SpotLights.Infrastructure.Repositories.Newsletters;
 using SpotLights.Domain.Model.Newsletters;
-using Markdig.Extensions.MediaLinks;
+using SpotLights.Core.Interfaces;
 
 namespace SpotLights.Interfaces;
 

@@ -7,11 +7,12 @@ using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Core.Services.Posts;
 
-public class PostService : IPostService
+public class PostService : BaseContextService, IPostService
 {
     private readonly IPostRepository _postRepository;
 
     public PostService(IPostRepository postRepository)
+        : base(postRepository)
     {
         _postRepository = postRepository;
     }

@@ -10,6 +10,12 @@ using SpotLights.Core.Interfaces.Post;
 using SpotLights.Core.Interfaces.Newsletter;
 using SpotLights.Core.Interfaces.Identity;
 using SpotLights.Core.Interfaces.Options;
+using Mapster;
+using SpotLights.Core.Identity;
+using SpotLights.Data.Data;
+using SpotLights.Domain.Model.Identity;
+using SpotLights.Shared.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace SpotLights.Infrastructure;
 
@@ -22,16 +28,16 @@ public static class DIExtentions
         sc.AddScoped<IUserService, UserService>();
         sc.AddScoped<IPostService, PostService>();
         sc.AddScoped<ICategoryService, CategoryService>();
-        sc.AddScoped<INewsletterService, INewsletterService>();
-        sc.AddScoped<Core.Interfaces.ISubscriberService, SubscriberService>();
+        sc.AddScoped<INewsletterService, NewsletterService>();
+        sc.AddScoped<ISubscriberService, SubscriberService>();
 
         sc.AddScoped<IOptionService, OptionService>();
         sc.AddScoped<IAnalyticsService, AnalyticsService>();
-        sc.AddScoped<Core.Interfaces.Newsletter.IEmailService, EmailService>();
         sc.AddScoped<IImportService, ImportService>();
 
         sc.AddScoped<IBlogService, BlogService>();
         sc.AddScoped<IMainService, MainService>();
+        sc.AddScoped<IEmailsService, EmailsService>();
 
         return sc;
     }
@@ -39,5 +45,33 @@ public static class DIExtentions
     public static IServiceCollection AddCore(this IServiceCollection sc)
     {
         return sc;
+    }
+
+    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    {
+        services.AddScoped<UserClaimsPrincipalFactory>();
+        services
+            .AddIdentityCore<UserInfo>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.ClaimsIdentity.UserIdClaimType = IdentityClaimTypes.UserId;
+                options.ClaimsIdentity.UserNameClaimType = IdentityClaimTypes.UserName;
+                options.ClaimsIdentity.EmailClaimType = IdentityClaimTypes.Email;
+                options.ClaimsIdentity.SecurityStampClaimType = IdentityClaimTypes.SecurityStamp;
+            })
+            .AddUserManager<UsersManager>()
+            .AddSignInManager<SignInManager>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.AccessDeniedPath = "/account/accessdenied";
+            options.LoginPath = "/account/login";
+        });
+
+        return services;
     }
 }

@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SpotLights.Infrastructure.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Infrastructure.Repositories.Identity;
+using SpotLights.Core.Interfaces.Identity;
+using SpotLights.Core.Identity;
 
 namespace SpotLights.Interfaces;
 
@@ -40,7 +41,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> EditorAsync(
         [FromRoute] int? id,
         [FromBody] UserEditorDto input,
-        [FromServices] UserManager userManager
+        [FromServices] UsersManager userManager
     )
     {
         bool isAdmin = User.IsAdmin();

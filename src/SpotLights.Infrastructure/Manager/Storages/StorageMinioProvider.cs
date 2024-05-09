@@ -7,6 +7,7 @@ using Minio.DataModel;
 using Minio.DataModel.Args;
 using SpotLights.Data.Data;
 using SpotLights.Domain.Model.Storage;
+using SpotLights.Infrastructure.Interfaces.Storages;
 using SpotLights.Infrastructure.Repositories;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;

@@ -8,11 +8,11 @@ using SpotLights.Shared.Entities.Identity;
 
 namespace SpotLights.Infrastructure.Repositories.Identity;
 
-public class IUserService : IUserRepository
+public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public IUserService(ApplicationDbContext dbContext)
+    public UserRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

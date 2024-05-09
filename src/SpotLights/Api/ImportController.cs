@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SpotLights.Shared.Extensions;
 using SpotLights.Shared.Dtos;
 using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Interfaces;
 

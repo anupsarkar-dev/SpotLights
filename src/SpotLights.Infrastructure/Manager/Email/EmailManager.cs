@@ -5,31 +5,32 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using SpotLights.Domain.Options;
 using SpotLights.Infrastructure.Caches;
+using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Interfaces.Newsletters;
-using SpotLights.Infrastructure.Repositories.Options;
-using SpotLights.Infrastructure.Repositories.Posts;
+using SpotLights.Infrastructure.Interfaces.Options;
+using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;
 using System.Text.Json;
 
-namespace SpotLights.Infrastructure.Repositories.Newsletters;
+namespace SpotLights.Infrastructure.Manager.Email;
 
-public class EmailService : IEmailRepository
+public class EmailManager : IEmailManager
 {
     private readonly ILogger _logger;
-    private readonly MarkdigRepository _markdigProvider;
-    private readonly NewsletterRepository _newsletterProvider;
-    private readonly OptionRepository _optionProvider;
-    private readonly IPostService _postProvider;
-    private readonly ISubscriberService _subscriberProvider;
+    private readonly IMarkdigRepository _markdigProvider;
+    private readonly INewsletterRepository _newsletterProvider;
+    private readonly IOptionRepository _optionProvider;
+    private readonly IPostRepository _postProvider;
+    private readonly ISubscriberRepository _subscriberRepository;
 
-    public EmailService(
-        ILogger<EmailService> logger,
-        MarkdigRepository markdigProvider,
-        OptionRepository optionProvider,
-        IPostService postProvider,
-        NewsletterRepository newsletterProvider,
-        ISubscriberService subscriberProvider
+    public EmailManager(
+        ILogger<EmailManager> logger,
+        IMarkdigRepository markdigProvider,
+        IOptionRepository optionProvider,
+        IPostRepository postProvider,
+        INewsletterRepository newsletterProvider,
+        ISubscriberRepository subscriberRepository
     )
     {
         _logger = logger;
@@ -37,7 +38,7 @@ public class EmailService : IEmailRepository
         _optionProvider = optionProvider;
         _postProvider = postProvider;
         _newsletterProvider = newsletterProvider;
-        _subscriberProvider = subscriberProvider;
+        _subscriberRepository = subscriberRepository;
     }
 
     public async Task<MailSettingDto?> GetSettingsAsync()
@@ -74,7 +75,7 @@ public class EmailService : IEmailRepository
             return SendNewsletterState.NotPost;
         }
 
-        IEnumerable<SubscriberDto> subscribers = await _subscriberProvider.GetItemsAsync();
+        IEnumerable<SubscriberDto> subscribers = await _subscriberRepository.GetItemsAsync();
         if (!subscribers.Any())
         {
             return SendNewsletterState.NotSubscriber;

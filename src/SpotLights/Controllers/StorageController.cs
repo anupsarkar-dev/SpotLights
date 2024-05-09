@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using System.IO;
 using System.Threading.Tasks;
 using SpotLights.Shared.Constants;
-using SpotLights.Infrastructure.Manager.Storages;
+using SpotLights.Infrastructure.Interfaces.Storages;
 
 namespace SpotLights.Controllers;
 

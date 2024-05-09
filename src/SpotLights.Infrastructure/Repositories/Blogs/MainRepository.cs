@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using SpotLights.Domain.Dto;
 using SpotLights.Infrastructure.Caches;
 using SpotLights.Infrastructure.Interfaces.Blogs;
+using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Infrastructure.Provider;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
@@ -17,14 +18,14 @@ public class MainRepository : IMainRepository
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly BlogDataProvider _blogManager;
-    private readonly CategoryRepository _categoryProvider;
+    private readonly IBlogDataProvider _blogManager;
+    private readonly ICategoryRepository _categoryProvider;
 
     public MainRepository(
         IDistributedCache distributedCache,
         IHttpContextAccessor httpContextAccessor,
-        BlogDataProvider blogManager,
-        CategoryRepository categoryProvider
+        IBlogDataProvider blogManager,
+        ICategoryRepository categoryProvider
     )
     {
         _distributedCache = distributedCache;

@@ -2,15 +2,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpotLights.Domain.Model.Identity;
+using SpotLights.Infrastructure.Interfaces.Identity;
 using SpotLights.Infrastructure.Repositories.Identity;
 
-namespace SpotLights.Infrastructure.Identity;
+namespace SpotLights.Core.Identity;
 
-public class UserManager : UserManager<UserInfo>
+public class UsersManager : UserManager<UserInfo>
 {
-    protected readonly IUserService _userProvider;
+    protected readonly IUserRepository _userProvider;
 
-    public UserManager(
+    public UsersManager(
         IUserStore<UserInfo> store,
         IOptions<IdentityOptions> optionsAccessor,
         IPasswordHasher<UserInfo> passwordHasher,
@@ -20,7 +21,7 @@ public class UserManager : UserManager<UserInfo>
         IdentityErrorDescriber errors,
         IServiceProvider services,
         ILogger<UserManager<UserInfo>> logger,
-        IUserService userProvider
+        IUserRepository userProvider
     )
         : base(
             store,
