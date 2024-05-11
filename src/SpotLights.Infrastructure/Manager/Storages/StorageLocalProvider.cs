@@ -13,7 +13,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Manager.Storages;
 
-public class StorageLocalProvider : BaseContextRepository, IStorageProvider
+internal class StorageLocalProvider : BaseContextRepository, IStorageMinioProvider
 {
     private readonly ILogger _logger;
     private readonly string _pathLocalRoot;

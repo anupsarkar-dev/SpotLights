@@ -13,7 +13,7 @@ namespace SpotLights.Interfaces;
 [Route("api/category")]
 [Authorize]
 [ApiController]
-public class CategoryController : ControllerBase
+internal class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
 

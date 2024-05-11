@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace SpotLights.Controllers;
 
 [Route("page")]
-public class PageController : Controller
+internal class PageController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMainService _mainMamager;

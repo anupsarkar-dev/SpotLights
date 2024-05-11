@@ -3,7 +3,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Identity
 {
-    public interface IUserRepository
+    internal interface IUserRepository
     {
         Task<UserInfo> FindAsync(int id);
         Task<UserDto> FirstByIdAsync(int id);

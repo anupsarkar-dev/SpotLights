@@ -6,15 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Domain.Model.Identity;
-using SpotLights.Infrastructure.Repositories.Identity;
 using SpotLights.Core.Interfaces.Identity;
-using SpotLights.Core.Identity;
+using SpotLights.Core.Provider;
 
 namespace SpotLights.Interfaces;
 
 [Route("api/user")]
 [ApiController]
-public class UserController : ControllerBase
+internal class UserController : ControllerBase
 {
     private readonly IUserService _userProvider;
 
@@ -41,7 +40,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> EditorAsync(
         [FromRoute] int? id,
         [FromBody] UserEditorDto input,
-        [FromServices] UsersManager userManager
+        [FromServices] IdentityProvider identityProvider
     )
     {
         bool isAdmin = User.IsAdmin();
@@ -65,10 +64,8 @@ public class UserController : ControllerBase
                     Bio = input.Bio,
                     Type = input.Type,
                 };
-            Microsoft.AspNetCore.Identity.IdentityResult result = await userManager.CreateAsync(
-                user,
-                input.Password!
-            );
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await identityProvider.UserManager.CreateAsync(user, input.Password!);
             if (!result.Succeeded)
             {
                 Microsoft.AspNetCore.Identity.IdentityError error = result.Errors.First();
@@ -94,15 +91,19 @@ public class UserController : ControllerBase
                 );
             }
 
-            Microsoft.AspNetCore.Identity.IdentityResult result = await userManager.UpdateAsync(
-                user
-            );
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await identityProvider.UserManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 if (!string.IsNullOrEmpty(input.Password))
                 {
-                    string token = await userManager.GeneratePasswordResetTokenAsync(user);
-                    result = await userManager.ResetPasswordAsync(user, token, input.Password);
+                    string token =
+                        await identityProvider.UserManager.GeneratePasswordResetTokenAsync(user);
+                    result = await identityProvider.UserManager.ResetPasswordAsync(
+                        user,
+                        token,
+                        input.Password
+                    );
                     if (result.Succeeded)
                         return Ok();
                 }

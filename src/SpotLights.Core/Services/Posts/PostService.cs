@@ -7,7 +7,7 @@ using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Core.Services.Posts;
 
-public class PostService : BaseContextService, IPostService
+internal class PostService : BaseContextService, IPostService
 {
     private readonly IPostRepository _postRepository;
 

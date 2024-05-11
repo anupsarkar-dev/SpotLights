@@ -13,6 +13,11 @@ using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Infrastructure.Interfaces.Options;
 using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Infrastructure.Manager.Email;
+using SpotLights.Data.Data;
+using Microsoft.AspNetCore.Identity;
+using SpotLights.Domain.Model.Identity;
+using SpotLights.Shared.Entities.Identity;
+using SpotLights.Infrastructure.Identity;
 
 namespace SpotLights.Infrastructure;
 
@@ -31,7 +36,6 @@ public static class DIExtentions
         sc.AddScoped<IOptionRepository, OptionRepository>();
         sc.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
         sc.AddScoped<IEmailManager, EmailManager>();
-        sc.AddScoped<IImportRepository, ImportRepository>();
 
         sc.AddScoped<IBlogDataProvider, BlogDataProvider>();
         sc.AddScoped<IMainRepository, MainRepository>();
@@ -46,5 +50,34 @@ public static class DIExtentions
         sc.AddMapster();
 
         return sc;
+    }
+
+    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    {
+        services.AddScoped<UserClaimsPrincipalFactory>();
+        services
+            .AddIdentityCore<UserInfo>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.ClaimsIdentity.UserIdClaimType = IdentityClaimTypes.UserId;
+                options.ClaimsIdentity.UserNameClaimType = IdentityClaimTypes.UserName;
+                options.ClaimsIdentity.EmailClaimType = IdentityClaimTypes.Email;
+                options.ClaimsIdentity.SecurityStampClaimType = IdentityClaimTypes.SecurityStamp;
+            })
+            .AddUserManager<UserManager>()
+            .AddSignInManager<SignInManager>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.AccessDeniedPath = "/account/accessdenied";
+            options.LoginPath = "/account/login";
+        });
+
+        return services;
     }
 }

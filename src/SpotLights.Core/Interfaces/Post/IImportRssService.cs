@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces.Post
 {
-    public interface IImportRssService
+    internal interface IImportRssService
     {
         ImportDto Analysis(string feedUrl);
     }

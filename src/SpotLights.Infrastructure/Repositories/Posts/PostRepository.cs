@@ -13,7 +13,7 @@ using SpotLights.Domain.Dto;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostRepository : BaseContextRepository, IPostRepository
+internal class PostRepository : BaseContextRepository, IPostRepository
 {
 
   public PostRepository(ApplicationDbContext dbContext)

@@ -12,7 +12,7 @@ namespace SpotLights.Interfaces;
 [Route("api/analytics")]
 [ApiController]
 [Authorize]
-public class AnalyticsController : ControllerBase
+internal class AnalyticsController : ControllerBase
 {
     private readonly IAnalyticsService _analyticsService;
 

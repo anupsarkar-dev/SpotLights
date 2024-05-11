@@ -9,7 +9,7 @@ using SpotLights.Domain.Dto;
 
 namespace SpotLights.Data;
 
-public class SqlServerDbContext : ApplicationDbContext
+internal class SqlServerDbContext : ApplicationDbContext
 {
     public SqlServerDbContext(DbContextOptions<SqlServerDbContext> options)
         : base(options) { }

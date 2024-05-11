@@ -4,7 +4,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Services.Posts;
 
-public class ImportRssService : IImportRssService
+internal class ImportRssService : IImportRssService
 {
     private readonly IImportRssRepository _importRssRepository;
 

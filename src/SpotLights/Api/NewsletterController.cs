@@ -13,7 +13,7 @@ namespace SpotLights.Interfaces;
 [Route("api/newsletter")]
 [ApiController]
 [Authorize]
-public class NewsletterController : ControllerBase
+internal class NewsletterController : ControllerBase
 {
     private readonly INewsletterService _newsletterProvider;
 

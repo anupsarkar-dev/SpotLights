@@ -18,7 +18,7 @@ public static class StorageExtensions
         IConfiguration configuration
     )
     {
-        services.AddScoped<IStorageProvider>(sp =>
+        services.AddScoped<IStorageMinioProvider>(sp =>
         {
             ApplicationDbContext dbContext = sp.GetRequiredService<ApplicationDbContext>();
             IConfigurationSection section = configuration.GetSection("SpotLights:Minio");
@@ -40,7 +40,7 @@ public static class StorageExtensions
                 return new StorageLocalProvider(logger, dbContext, hostEnvironment);
             }
         });
-        _ = services.AddScoped<StorageManager>();
+
         return services;
     }
 

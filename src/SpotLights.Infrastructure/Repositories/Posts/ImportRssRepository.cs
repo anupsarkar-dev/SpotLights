@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class ImportRssRepository : IImportRssRepository
+internal class ImportRssRepository : IImportRssRepository
 {
   public ImportDto Analysis(string feedUrl)
   {

@@ -8,32 +8,28 @@ using SpotLights.Shared.Extensions;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Shared.Constants;
-using SpotLights.Infrastructure.Provider;
 using SpotLights.Domain.Dto;
-using SpotLights.Core.Identity;
 using SpotLights.Core.Interfaces;
+using SpotLights.Core.Provider;
 
 namespace SpotLights.Controllers;
 
 [Route("account")]
-public class AccountController : Controller
+internal class AccountController : Controller
 {
     protected readonly ILogger _logger;
-    protected readonly UsersManager _userManager;
-    protected readonly SignInManager _signInManager;
+    protected readonly IdentityProvider _identityProvider;
     protected readonly IBlogService _blogService;
 
     public AccountController(
         ILogger<AccountController> logger,
-        UsersManager userManager,
-        SignInManager signInManager,
-        IBlogService blogManager
+        IBlogService blogManager,
+        IdentityProvider identityProvider
     )
     {
         _logger = logger;
-        _userManager = userManager;
-        _signInManager = signInManager;
         _blogService = blogManager;
+        _identityProvider = identityProvider;
     }
 
     [HttpGet]
@@ -54,11 +50,11 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            UserInfo? user = await _userManager.FindByEmailAsync(model.Email);
+            UserInfo? user = await _identityProvider.UserManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
                 Microsoft.AspNetCore.Identity.SignInResult result =
-                    await _signInManager.PasswordSignInAsync(
+                    await _identityProvider.SignInManager.PasswordSignInAsync(
                         user,
                         model.Password,
                         true,
@@ -92,10 +88,8 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             UserInfo user = new(model.UserName) { NickName = model.NickName, Email = model.Email };
-            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
-                user,
-                model.Password
-            );
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await _identityProvider.UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(
@@ -112,7 +106,7 @@ public class AccountController : Controller
     [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
-        await _signInManager.SignOutAsync();
+        await _identityProvider.SignInManager.SignOutAsync();
         return Redirect("~/");
     }
 
@@ -144,21 +138,20 @@ public class AccountController : Controller
                     Email = model.Email,
                     Type = UserType.Administrator,
                 };
-            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
-                user,
-                model.Password
-            );
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await _identityProvider.UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                var blogData = new BlogData
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    Theme = SpotLightsConstant.DefaultTheme,
-                    ItemsPerPage = SpotLightsConstant.DefaultItemsPerPage,
-                    Version = SpotLightsConstant.DefaultVersion,
-                    Logo = SpotLightsSharedConstant.DefaultLogo
-                };
+                BlogData blogData =
+                    new()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        Theme = SpotLightsConstant.DefaultTheme,
+                        ItemsPerPage = SpotLightsConstant.DefaultItemsPerPage,
+                        Version = SpotLightsConstant.DefaultVersion,
+                        Logo = SpotLightsSharedConstant.DefaultLogo
+                    };
                 await _blogService.SetAsync(blogData);
                 return Redirect("~/");
             }
@@ -171,14 +164,15 @@ public class AccountController : Controller
     [HttpGet("profile")]
     public async Task<IActionResult> Profile([FromQuery] AccountViewModel parameter)
     {
-        int userId = User.FirstUserId();
-        UserInfo user = await _userManager.FindByIdAsync(userId);
+        DefaultIdType userId = User.FirstUserId();
+        UserInfo? user = await _identityProvider.FindByIdAsync(userId);
+
         AccountProfileEditViewModel model =
             new()
             {
                 RedirectUri = parameter.RedirectUri,
                 IsProfile = true,
-                Email = user.Email,
+                Email = user!.Email,
                 NickName = user.NickName,
                 Avatar = user.Avatar,
                 Bio = user.Bio,
@@ -194,17 +188,16 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             int userId = User.FirstUserId();
-            UserInfo user = await _userManager.FindByIdAsync(userId);
+            UserInfo user = await _identityProvider.FindByIdAsync(userId);
             user.Email = model.Email;
             user.NickName = model.NickName;
             user.Avatar = model.Avatar;
             user.Bio = model.Bio;
-            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.UpdateAsync(
-                user
-            );
+            Microsoft.AspNetCore.Identity.IdentityResult result =
+                await _identityProvider.UserManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: true);
+                await _identityProvider.SignInManager.SignInAsync(user, isPersistent: true);
             }
             else
             {
@@ -232,10 +225,12 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             int userId = User.FirstUserId();
-            UserInfo user = await _userManager.FindByIdAsync(userId);
-            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            UserInfo user = await _identityProvider.FindByIdAsync(userId);
+            string token = await _identityProvider.UserManager.GeneratePasswordResetTokenAsync(
+                user
+            );
             Microsoft.AspNetCore.Identity.IdentityResult result =
-                await _userManager.ResetPasswordAsync(user, token, model.Password);
+                await _identityProvider.UserManager.ResetPasswordAsync(user, token, model.Password);
             if (result.Succeeded)
             {
                 return await Logout();

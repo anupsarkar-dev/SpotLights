@@ -4,7 +4,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Services.Blogs;
 
-public class MainService : IMainService
+internal class MainService : IMainService
 {
     private readonly IMainRepository _mainRepository;
 

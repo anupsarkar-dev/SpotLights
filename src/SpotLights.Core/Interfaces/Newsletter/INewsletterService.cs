@@ -3,7 +3,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces.Newsletter
 {
-    public interface INewsletterService : IBaseContexService
+    internal interface INewsletterService : IBaseContexService
     {
         Task AddAsync(int postId, bool success);
         Task<NewsletterDto?> FirstOrDefaultByPostIdAsync(int postId);

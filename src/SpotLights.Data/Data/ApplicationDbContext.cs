@@ -9,7 +9,7 @@ using SpotLights.Domain.Model.Storage;
 
 namespace SpotLights.Data.Data;
 
-public class ApplicationDbContext : IdentityUserContext<UserInfo, int>
+internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
 {
     public ApplicationDbContext(DbContextOptions options)
         : base(options) { }

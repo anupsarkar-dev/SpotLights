@@ -5,7 +5,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Core.Services.Blogs;
 
-public class AnalyticsService : IAnalyticsService
+internal class AnalyticsService : IAnalyticsService
 {
     private readonly IAnalyticsRepository _analyticsRepository;
 

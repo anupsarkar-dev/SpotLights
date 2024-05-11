@@ -8,7 +8,7 @@ using SpotLights.Domain.Model.Storage;
 
 namespace SpotLights.Data.Data;
 
-public class PostgresDbContext : ApplicationDbContext
+internal class PostgresDbContext : ApplicationDbContext
 {
     public PostgresDbContext(DbContextOptions options)
         : base(options) { }

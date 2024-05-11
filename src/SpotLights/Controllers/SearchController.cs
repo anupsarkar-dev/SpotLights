@@ -1,15 +1,13 @@
 using SpotLights.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using SpotLights.Infrastructure.Repositories.Blogs;
-using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Core.Interfaces.Blogs;
 using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
 [Route("search")]
-public class SearchController : Controller
+internal class SearchController : Controller
 {
     private readonly IMainService _mainMamager;
     private readonly IPostService _postProvider;

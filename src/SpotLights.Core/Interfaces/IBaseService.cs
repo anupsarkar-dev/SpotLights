@@ -2,7 +2,7 @@ using SpotLights.Domain.Base;
 
 namespace SpotLights.Core.Interfaces;
 
-public interface IBaseService<T, TKey>
+internal interface IBaseService<T, TKey>
     where T : BaseEntity<TKey>
     where TKey : IEquatable<TKey>
 {

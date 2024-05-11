@@ -5,13 +5,13 @@ using SpotLights.Domain.Model.Identity;
 using SpotLights.Infrastructure.Interfaces.Identity;
 using SpotLights.Infrastructure.Repositories.Identity;
 
-namespace SpotLights.Core.Identity;
+namespace SpotLights.Infrastructure.Identity;
 
-public class UsersManager : UserManager<UserInfo>
+internal class UserManager : UserManager<UserInfo>
 {
-    protected readonly IUserRepository _userProvider;
+    private readonly IUserRepository _userProvider;
 
-    public UsersManager(
+    public UserManager(
         IUserStore<UserInfo> store,
         IOptions<IdentityOptions> optionsAccessor,
         IPasswordHasher<UserInfo> passwordHasher,

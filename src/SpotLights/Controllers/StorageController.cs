@@ -4,16 +4,17 @@ using System.IO;
 using System.Threading.Tasks;
 using SpotLights.Shared.Constants;
 using SpotLights.Infrastructure.Interfaces.Storages;
+using SpotLights.Core.Interfaces.Provider;
 
 namespace SpotLights.Controllers;
 
-public class StorageController : ControllerBase
+internal class StorageController : ControllerBase
 {
-    private readonly IStorageProvider _storageProvider;
+    private readonly IStorageManager _manager;
 
-    public StorageController(IStorageProvider storageProvider)
+    public StorageController(IStorageManager manager)
     {
-        _storageProvider = storageProvider;
+        _manager = manager;
     }
 
     [HttpGet($"{SpotLightsConstant.StorageRowPhysicalRoot}/{{**slug}}")]
@@ -22,7 +23,7 @@ public class StorageController : ControllerBase
     public async Task<IActionResult> GetAsync([FromRoute] string slug)
     {
         MemoryStream memoryStream = new();
-        Shared.StorageDto? storage = await _storageProvider.GetAsync(
+        Shared.StorageDto? storage = await _manager.GetAsync(
             slug,
             (stream, cancellationToken) => stream.CopyToAsync(memoryStream, cancellationToken)
         );

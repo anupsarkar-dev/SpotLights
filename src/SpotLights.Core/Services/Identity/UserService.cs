@@ -5,7 +5,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Services.Identity;
 
-public class UserService : IUserService
+internal class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
 

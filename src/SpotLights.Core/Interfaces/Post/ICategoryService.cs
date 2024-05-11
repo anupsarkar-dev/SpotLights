@@ -4,7 +4,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces
 {
-    public interface ICategoryService : IBaseContexService
+    internal interface ICategoryService : IBaseContexService
     {
         Task<Category> GetCategory(int categoryId);
         Task<List<CategoryItemDto>> GetItemsAsync();

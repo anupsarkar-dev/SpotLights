@@ -1,8 +1,8 @@
 namespace SpotLights.Domain.Base;
 
-public interface IEntity { }
+internal interface IEntity { }
 
-public interface IEntity<TId> : IEntity
+internal interface IEntity<TId> : IEntity
 {
     TId Id { get; set; }
 }

@@ -3,7 +3,7 @@ using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class MarkdigRepository : IMarkdigRepository
+internal class MarkdigRepository : IMarkdigRepository
 {
     private readonly MarkdownPipeline _markdownPipeline;
 

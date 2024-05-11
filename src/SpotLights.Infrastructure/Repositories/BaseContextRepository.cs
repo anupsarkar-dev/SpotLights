@@ -5,7 +5,7 @@ using SpotLights.Infrastructure.Interfaces;
 
 namespace SpotLights.Infrastructure.Repositories;
 
-public class BaseContextRepository : IBaseContextRepository
+internal class BaseContextRepository : IBaseContextRepository
 {
     protected readonly ApplicationDbContext _context;
 

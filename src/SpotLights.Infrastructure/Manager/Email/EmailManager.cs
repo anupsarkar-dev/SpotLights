@@ -15,7 +15,7 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Manager.Email;
 
-public class EmailManager : IEmailManager
+internal class EmailManager : IEmailManager
 {
     private readonly ILogger _logger;
     private readonly IMarkdigRepository _markdigProvider;

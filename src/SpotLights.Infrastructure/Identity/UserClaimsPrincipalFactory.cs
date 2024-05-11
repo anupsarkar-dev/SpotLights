@@ -4,9 +4,9 @@ using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using System.Security.Claims;
 
-namespace SpotLights.Core.Identity;
+namespace SpotLights.Infrastructure.Identity;
 
-public class UserClaimsPrincipalFactory : UserClaimsPrincipalFactory<UserInfo>
+internal class UserClaimsPrincipalFactory : UserClaimsPrincipalFactory<UserInfo>
 {
     public UserClaimsPrincipalFactory(
         UserManager<UserInfo> userManager,

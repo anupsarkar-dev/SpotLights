@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Interfaces.Blogs
 {
-    public interface IMainRepository
+    internal interface IMainRepository
     {
         Task<MainDto> GetAsync();
         Task<List<CategoryItemDto>> GetCategoryItemesAsync();

@@ -4,7 +4,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class PostProviderService : IPostProviderService
+internal class PostProviderService : IPostProviderService
 {
     private readonly IPostRepository _postProvider;
     private readonly IMarkdigRepository _markdigProvider;

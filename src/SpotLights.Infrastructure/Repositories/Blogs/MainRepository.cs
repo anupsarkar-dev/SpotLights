@@ -14,7 +14,7 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;
 
-public class MainRepository : IMainRepository
+internal class MainRepository : IMainRepository
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IHttpContextAccessor _httpContextAccessor;

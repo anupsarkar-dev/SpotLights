@@ -10,7 +10,7 @@ namespace SpotLights.Interfaces;
 
 [Route("api/subscriber")]
 [ApiController]
-public class SubscriberController : ControllerBase
+internal class SubscriberController : ControllerBase
 {
     private readonly ISubscriberService _subscriberProvider;
 

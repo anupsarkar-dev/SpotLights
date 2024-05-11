@@ -10,7 +10,7 @@ namespace SpotLights.Interfaces;
 [Route("api/mail")]
 [ApiController]
 [Authorize]
-public class MailController : ControllerBase
+internal class MailController : ControllerBase
 {
     private readonly IEmailsService _emailManager;
 

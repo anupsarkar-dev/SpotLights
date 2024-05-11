@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace SpotLights.Controllers;
 
 [Route("post")]
-public class PostController : Controller
+internal class PostController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMainService _mainMamager;

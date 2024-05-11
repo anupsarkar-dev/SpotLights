@@ -54,12 +54,13 @@ builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProv
 
 builder.Services.AddInfrastructure();
 
-// Services
-builder.Services.AddServices();
+// Infrastructure
+builder.Services.AddRepositories();
 builder.Services.AddIdentity();
 
-// Repositories
-builder.Services.AddRepositories();
+// Core
+builder.Services.AddServices();
+builder.Services.AddProviders();
 
 builder.Services.AddCors(option =>
 {

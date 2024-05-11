@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces.Blogs
 {
-    public interface IMainService
+    internal interface IMainService
     {
         Task<MainDto> GetAsync();
         Task<List<CategoryItemDto>> GetCategoryItemesAsync();

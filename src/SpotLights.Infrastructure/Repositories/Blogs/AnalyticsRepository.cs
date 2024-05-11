@@ -6,7 +6,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Repositories.Blogs;
 
-public class AnalyticsRepository : BaseContextRepository, IAnalyticsRepository
+internal class AnalyticsRepository : BaseContextRepository, IAnalyticsRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
