@@ -52,14 +52,14 @@ builder.Services.AddStorageStaticFiles(builder.Configuration);
 
 builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
 
-builder.Services.AddInfrastructure();
-
-// Services
+// Core
 builder.Services.AddServices();
-builder.Services.AddIdentity();
+builder.Services.AddProviders();
 
-// Repositories
+// Infrastructure
+builder.Services.AddIdentity();
 builder.Services.AddRepositories();
+builder.Services.AddInfrastructure();
 
 builder.Services.AddCors(option =>
 {

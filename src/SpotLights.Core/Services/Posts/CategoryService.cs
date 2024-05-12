@@ -5,7 +5,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Services.Posts;
 
-public class CategoryService : BaseContextService, ICategoryService
+internal class CategoryService : BaseContextService, ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
 

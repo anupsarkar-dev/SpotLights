@@ -2,7 +2,7 @@ using SpotLights.Domain.Dto;
 
 namespace SpotLights.Infrastructure.Interfaces.Blogs
 {
-    public interface IBlogDataProvider
+    internal interface IBlogDataProvider
     {
         Task<bool> AnyAsync();
         Task<BlogData> GetAsync();

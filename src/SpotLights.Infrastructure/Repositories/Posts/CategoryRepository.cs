@@ -6,7 +6,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Posts;
 
-public class CategoryRepository : BaseContextRepository, ICategoryRepository
+internal class CategoryRepository : BaseContextRepository, ICategoryRepository
 {
     public CategoryRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }

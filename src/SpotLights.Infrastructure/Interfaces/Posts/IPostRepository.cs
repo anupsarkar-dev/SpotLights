@@ -5,7 +5,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Interfaces.Posts
 {
-    public interface IPostRepository : IBaseContextRepository
+    internal interface IPostRepository : IBaseContextRepository
     {
         Task<IEnumerable<PostEditorDto>> AddAsync(IEnumerable<PostEditorDto> posts, int userId);
         Task<string> AddAsync(PostEditorDto postInput, int userId);

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SpotLights.Core.Interfaces.Provider;
 using SpotLights.Helper;
 using SpotLights.Infrastructure.Interfaces.Storages;
 using SpotLights.Shared;
@@ -11,20 +12,20 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace SpotLights.Infrastructure.Manager.Storages;
+namespace SpotLights.Core.Provider;
 
-public class StorageManager
+internal class StorageProvider : IStorageProvider
 {
     private readonly ILogger _logger;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IStorageProvider _storageProvider;
+    private readonly IStorageMinioProvider _storageProvider;
     private readonly string[]? _fileExtensions;
     private readonly IContentTypeProvider _contentTypeProvider;
 
-    public StorageManager(
-        ILogger<StorageManager> logger,
+    public StorageProvider(
+        ILogger<StorageProvider> logger,
         IHttpClientFactory httpClientFactory,
-        IStorageProvider storageProvider,
+        IStorageMinioProvider storageProvider,
         IConfiguration configuration,
         IContentTypeProvider contentTypeProvider
     )

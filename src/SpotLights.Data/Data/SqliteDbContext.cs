@@ -9,7 +9,7 @@ using SpotLights.Domain.Dto;
 
 namespace SpotLights.Data;
 
-public class SqliteDbContext : ApplicationDbContext
+internal class SqliteDbContext : ApplicationDbContext
 {
     public SqliteDbContext(DbContextOptions<SqliteDbContext> options)
         : base(options) { }

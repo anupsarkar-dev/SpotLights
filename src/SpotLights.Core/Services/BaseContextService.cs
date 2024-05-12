@@ -3,7 +3,7 @@ using SpotLights.Infrastructure.Interfaces;
 
 namespace SpotLights.Core.Services
 {
-    public class BaseContextService : IBaseContexService
+    internal class BaseContextService : IBaseContexService
     {
         private readonly IBaseContextRepository _repository;
 

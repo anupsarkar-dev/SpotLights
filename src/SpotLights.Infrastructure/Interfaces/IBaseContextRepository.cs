@@ -2,7 +2,7 @@ using SpotLights.Domain.Base;
 
 namespace SpotLights.Infrastructure.Interfaces
 {
-    public interface IBaseContextRepository
+    internal interface IBaseContextRepository
     {
         Task AddAsync<T>(T entity)
             where T : BaseEntity;

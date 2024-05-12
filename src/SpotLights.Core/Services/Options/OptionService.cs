@@ -3,7 +3,7 @@ using SpotLights.Infrastructure.Interfaces.Options;
 
 namespace SpotLights.Core.Services.Options;
 
-public class OptionService : IOptionService
+internal class OptionService : IOptionService
 {
     private readonly IOptionRepository _optionRepository;
 

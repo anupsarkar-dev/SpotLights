@@ -1,12 +1,8 @@
 using SpotLights.Shared;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpotLights.Infrastructure.Interfaces.Storages;
 
-public interface IStorageProvider
+internal interface IStorageMinioProvider
 {
     Task<bool> ExistsAsync(string slug);
     Task<StorageDto?> GetCheckStoragAsync(string path);

@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace SpotLights.Infrastructure.Provider;
 
-public class BlogDataProvider : IBlogDataProvider
+internal class BlogDataProvider : IBlogDataProvider
 {
     private readonly ILogger _logger;
     private readonly IDistributedCache _distributedCache;

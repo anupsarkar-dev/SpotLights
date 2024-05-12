@@ -17,10 +17,21 @@ public static class PrincipalExtensions
         return principal.FindFirstValue(claimType);
     }
 
-    public static int FirstUserId(this ClaimsPrincipal principal)
+    public static DefaultIdType FirstUserId(this ClaimsPrincipal principal)
     {
         string userIdString = FirstValue(principal, IdentityClaimTypes.UserId);
-        return int.Parse(userIdString);
+
+        if (typeof(DefaultIdType) == typeof(int))
+        {
+            return int.Parse(userIdString);
+        }
+
+        //if (typeof(DefaultIdType) == typeof(Guid))
+        //{
+        //    return Guid.Parse(userIdString);
+        //}
+
+        throw new InvalidOperationException("Invalid DefaultIdType!");
     }
 
     public static bool IsAdmin(this ClaimsPrincipal principal)

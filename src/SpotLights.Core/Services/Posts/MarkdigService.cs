@@ -3,7 +3,7 @@ using SpotLights.Infrastructure.Interfaces.Posts;
 
 namespace SpotLights.Core.Services.Posts;
 
-public class MarkdigService : IMarkdigService
+internal class MarkdigService : IMarkdigService
 {
     private readonly IMarkdigRepository _markdigRepository;
 

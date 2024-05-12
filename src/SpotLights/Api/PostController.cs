@@ -12,6 +12,7 @@ using SpotLights.Shared.Enums;
 using SpotLights.Infrastructure.Manager.Storages;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Core.Interfaces.Post;
+using SpotLights.Core.Interfaces.Provider;
 
 namespace SpotLights.Interfaces;
 
@@ -53,7 +54,7 @@ public class PostController : ControllerBase
     [HttpPost("add")]
     [RequestSizeLimit(128 * 1024 * 1024)]
     public async Task<string> AddPostAsync(
-        [FromServices] StorageManager storageManager,
+        [FromServices] IStorageProvider storageManager,
         [FromBody] PostEditorDto post
     )
     {
@@ -76,7 +77,7 @@ public class PostController : ControllerBase
     [HttpPut("update")]
     [RequestSizeLimit(128 * 1024 * 1024)]
     public async Task UpdateAsync(
-        [FromServices] StorageManager storageManager,
+        [FromServices] IStorageProvider storageManager,
         [FromBody] PostEditorDto post
     )
     {

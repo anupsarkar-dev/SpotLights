@@ -5,7 +5,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class SubscriberService : BaseContextService, ISubscriberService
+internal class SubscriberService : BaseContextService, ISubscriberService
 {
     private readonly ISubscriberRepository _subscriberRepository;
 

@@ -1,6 +1,6 @@
 namespace SpotLights.Infrastructure.Interfaces.Posts
 {
-    public interface IMarkdigRepository
+    internal interface IMarkdigRepository
     {
         string ToHtml(string markdown);
     }

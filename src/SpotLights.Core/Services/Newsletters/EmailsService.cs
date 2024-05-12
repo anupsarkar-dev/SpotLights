@@ -5,7 +5,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class EmailsService : IEmailsService
+internal class EmailsService : IEmailsService
 {
     private readonly IEmailManager _emailManager;
 

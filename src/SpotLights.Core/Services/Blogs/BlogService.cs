@@ -4,7 +4,7 @@ using SpotLights.Infrastructure.Interfaces.Blogs;
 
 namespace SpotLights.Core.Services.Blogs;
 
-public class BlogService : IBlogService
+internal class BlogService : IBlogService
 {
     private readonly IBlogDataProvider _repo;
 

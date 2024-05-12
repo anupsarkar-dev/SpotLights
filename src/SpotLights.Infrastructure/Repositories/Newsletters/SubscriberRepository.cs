@@ -7,7 +7,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Infrastructure.Repositories.Newsletters;
 
-public class SubscriberRepository : BaseContextRepository, ISubscriberRepository
+internal class SubscriberRepository : BaseContextRepository, ISubscriberRepository
 {
     public SubscriberRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }

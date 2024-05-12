@@ -2,16 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpotLights.Domain.Model.Identity;
-using SpotLights.Infrastructure.Interfaces.Identity;
-using SpotLights.Infrastructure.Repositories.Identity;
 
-namespace SpotLights.Core.Identity;
+namespace SpotLights.Infrastructure.Identity;
 
-public class UsersManager : UserManager<UserInfo>
+public class UserManager : UserManager<UserInfo>
 {
-    protected readonly IUserRepository _userProvider;
-
-    public UsersManager(
+    public UserManager(
         IUserStore<UserInfo> store,
         IOptions<IdentityOptions> optionsAccessor,
         IPasswordHasher<UserInfo> passwordHasher,
@@ -20,8 +16,7 @@ public class UsersManager : UserManager<UserInfo>
         ILookupNormalizer keyNormalizer,
         IdentityErrorDescriber errors,
         IServiceProvider services,
-        ILogger<UserManager<UserInfo>> logger,
-        IUserRepository userProvider
+        ILogger<UserManager<UserInfo>> logger
     )
         : base(
             store,
@@ -33,13 +28,5 @@ public class UsersManager : UserManager<UserInfo>
             errors,
             services,
             logger
-        )
-    {
-        _userProvider = userProvider;
-    }
-
-    public Task<UserInfo> FindByIdAsync(int userId)
-    {
-        return _userProvider.FindAsync(userId);
-    }
+        ) { }
 }

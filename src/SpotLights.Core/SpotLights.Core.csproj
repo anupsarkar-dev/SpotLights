@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SpotLights</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
     <ProjectReference Include="..\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj" />
     <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />

@@ -14,7 +14,7 @@ using SpotLights.Shared.Enums;
 
 namespace SpotLights.Infrastructure.Manager.Storages;
 
-public class StorageMinioProvider : BaseContextRepository, IStorageProvider, IDisposable
+internal class StorageMinioProvider : BaseContextRepository, IStorageMinioProvider, IDisposable
 {
     private readonly ILogger _logger;
     private readonly string _bucketName;

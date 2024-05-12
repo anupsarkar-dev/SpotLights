@@ -2,7 +2,7 @@ using ReverseMarkdown;
 
 namespace SpotLights.Infrastructure.Provider;
 
-public class ReverseProvider
+internal class ReverseProvider
 {
     private readonly Converter _converter;
 
