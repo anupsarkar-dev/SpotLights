@@ -2,7 +2,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces.Provider
 {
-    internal interface IStorageManager
+    public interface IStorageManager
     {
         Task<bool> ExistsAsync(string slug);
         Task<StorageDto?> GetCheckStoragAsync(string path);

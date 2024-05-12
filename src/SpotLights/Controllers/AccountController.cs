@@ -10,26 +10,33 @@ using SpotLights.Shared.Entities.Identity;
 using SpotLights.Shared.Constants;
 using SpotLights.Domain.Dto;
 using SpotLights.Core.Interfaces;
-using SpotLights.Core.Provider;
+using SpotLights.Core.Interfaces.Provider;
+using SpotLights.Infrastructure.Identity;
 
 namespace SpotLights.Controllers;
 
 [Route("account")]
-internal class AccountController : Controller
+public class AccountController : Controller
 {
-    protected readonly ILogger _logger;
-    protected readonly IdentityProvider _identityProvider;
-    protected readonly IBlogService _blogService;
+    private readonly ILogger _logger;
+    private readonly IIdentityService _identityProvider;
+    private readonly IBlogService _blogService;
+    private readonly UserManager _userManager;
+    private readonly SignInManager _signInManager;
 
     public AccountController(
         ILogger<AccountController> logger,
         IBlogService blogManager,
-        IdentityProvider identityProvider
+        IIdentityService identityProvider,
+        UserManager userManager,
+        SignInManager signInManager
     )
     {
         _logger = logger;
         _blogService = blogManager;
         _identityProvider = identityProvider;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     [HttpGet]
@@ -50,11 +57,11 @@ internal class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            UserInfo? user = await _identityProvider.UserManager.FindByEmailAsync(model.Email);
+            UserInfo? user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
                 Microsoft.AspNetCore.Identity.SignInResult result =
-                    await _identityProvider.SignInManager.PasswordSignInAsync(
+                    await _signInManager.PasswordSignInAsync(
                         user,
                         model.Password,
                         true,
@@ -88,8 +95,10 @@ internal class AccountController : Controller
         if (ModelState.IsValid)
         {
             UserInfo user = new(model.UserName) { NickName = model.NickName, Email = model.Email };
-            Microsoft.AspNetCore.Identity.IdentityResult result =
-                await _identityProvider.UserManager.CreateAsync(user, model.Password);
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
+                user,
+                model.Password
+            );
             if (result.Succeeded)
             {
                 return RedirectToAction(
@@ -106,7 +115,7 @@ internal class AccountController : Controller
     [HttpGet("logout")]
     public async Task<IActionResult> Logout()
     {
-        await _identityProvider.SignInManager.SignOutAsync();
+        await _signInManager.SignOutAsync();
         return Redirect("~/");
     }
 
@@ -138,8 +147,10 @@ internal class AccountController : Controller
                     Email = model.Email,
                     Type = UserType.Administrator,
                 };
-            Microsoft.AspNetCore.Identity.IdentityResult result =
-                await _identityProvider.UserManager.CreateAsync(user, model.Password);
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.CreateAsync(
+                user,
+                model.Password
+            );
             if (result.Succeeded)
             {
                 BlogData blogData =
@@ -193,11 +204,12 @@ internal class AccountController : Controller
             user.NickName = model.NickName;
             user.Avatar = model.Avatar;
             user.Bio = model.Bio;
-            Microsoft.AspNetCore.Identity.IdentityResult result =
-                await _identityProvider.UserManager.UpdateAsync(user);
+            Microsoft.AspNetCore.Identity.IdentityResult result = await _userManager.UpdateAsync(
+                user
+            );
             if (result.Succeeded)
             {
-                await _identityProvider.SignInManager.SignInAsync(user, isPersistent: true);
+                await _signInManager.SignInAsync(user, isPersistent: true);
             }
             else
             {
@@ -226,11 +238,9 @@ internal class AccountController : Controller
         {
             int userId = User.FirstUserId();
             UserInfo user = await _identityProvider.FindByIdAsync(userId);
-            string token = await _identityProvider.UserManager.GeneratePasswordResetTokenAsync(
-                user
-            );
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
             Microsoft.AspNetCore.Identity.IdentityResult result =
-                await _identityProvider.UserManager.ResetPasswordAsync(user, token, model.Password);
+                await _userManager.ResetPasswordAsync(user, token, model.Password);
             if (result.Succeeded)
             {
                 return await Logout();

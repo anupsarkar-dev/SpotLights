@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SpotLights.Core.Interfaces;
 using SpotLights.Core.Interfaces.Blogs;
-using SpotLights.Infrastructure.Repositories.Blogs;
-using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Shared;
 using SpotLights.Shared.Enums;
 using SpotLights.Shared.Extensions;
@@ -12,7 +10,7 @@ using System.Threading.Tasks;
 namespace SpotLights.Controllers;
 
 [Route("post")]
-internal class PostController : Controller
+public class PostController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMainService _mainMamager;

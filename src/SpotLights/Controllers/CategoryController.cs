@@ -8,7 +8,7 @@ using SpotLights.Core.Interfaces.Post;
 namespace SpotLights.Controllers;
 
 [Route("category")]
-internal class CategoryController : Controller
+public class CategoryController : Controller
 {
     private readonly IMainService _mainMamager;
     private readonly IPostService _postProvider;

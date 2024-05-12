@@ -8,7 +8,7 @@ using SpotLights.Core.Interfaces.Provider;
 
 namespace SpotLights.Controllers;
 
-internal class StorageController : ControllerBase
+public class StorageController : ControllerBase
 {
     private readonly IStorageManager _manager;
 

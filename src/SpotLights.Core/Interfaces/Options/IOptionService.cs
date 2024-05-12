@@ -1,6 +1,6 @@
 namespace SpotLights.Core.Interfaces.Options
 {
-    internal interface IOptionService
+    public interface IOptionService
     {
         Task<bool> AnyKeyAsync(string key);
         Task<string?> GetByValueAsync(string key);

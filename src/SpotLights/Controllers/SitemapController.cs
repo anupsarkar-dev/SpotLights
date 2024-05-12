@@ -9,7 +9,7 @@ using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
-internal class SitemapController : ControllerBase
+public class SitemapController : ControllerBase
 {
     private readonly IPostService _postProvider;
 

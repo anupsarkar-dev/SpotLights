@@ -19,7 +19,7 @@ namespace SpotLights.Interfaces;
 [ApiController]
 [Authorize]
 [Route("api/post")]
-internal class PostController : ControllerBase
+public class PostController : ControllerBase
 {
     private readonly IPostService _postProvider;
 

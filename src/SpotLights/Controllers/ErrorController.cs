@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SpotLights.Controllers;
 
-internal class ErrorController : Controller
+public class ErrorController : Controller
 {
     protected readonly ILogger _logger;
     protected readonly IMainService _mainMamager;

@@ -14,7 +14,7 @@ namespace SpotLights.Interfaces;
 [ApiController]
 [Authorize]
 [Route("api/blog")]
-internal class BlogController : ControllerBase
+public class BlogController : ControllerBase
 {
     private readonly IBlogService _blogManager;
 

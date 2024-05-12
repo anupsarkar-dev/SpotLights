@@ -7,7 +7,7 @@ using SpotLights.Domain.Model.Identity;
 
 namespace SpotLights.Infrastructure.Identity;
 
-internal class SignInManager : SignInManager<UserInfo>
+public class SignInManager : SignInManager<UserInfo>
 {
     public SignInManager(
         UserManager<UserInfo> userManager,

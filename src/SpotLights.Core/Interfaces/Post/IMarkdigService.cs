@@ -1,6 +1,6 @@
 namespace SpotLights.Core.Interfaces
 {
-    internal interface IMarkdigService
+    public interface IMarkdigService
     {
         string ToHtml(string markdown);
     }

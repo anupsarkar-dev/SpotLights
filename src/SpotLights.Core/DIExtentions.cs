@@ -42,7 +42,7 @@ public static class DIExtentions
 
     public static IServiceCollection AddProviders(this IServiceCollection sc)
     {
-        sc.AddScoped<IdentityProvider>();
+        sc.AddScoped<IIdentityService, IdentityService>();
         sc.AddScoped<IStorageProvider, StorageProvider>();
         return sc;
     }

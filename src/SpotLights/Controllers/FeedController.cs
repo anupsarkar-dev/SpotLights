@@ -12,7 +12,7 @@ using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
-internal class FeedController : Controller
+public class FeedController : Controller
 {
   private readonly IBlogService _blogManager;
   private readonly IPostService _postProvider;

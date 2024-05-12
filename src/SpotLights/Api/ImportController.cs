@@ -13,7 +13,7 @@ namespace SpotLights.Interfaces;
 [Route("api/import")]
 [Authorize]
 [ApiController]
-internal class ImportController : ControllerBase
+public class ImportController : ControllerBase
 {
     private readonly IImportService _importManager;
 

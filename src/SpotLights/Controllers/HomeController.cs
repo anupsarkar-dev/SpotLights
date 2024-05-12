@@ -9,7 +9,7 @@ using SpotLights.Core.Interfaces.Post;
 
 namespace SpotLights.Controllers;
 
-internal class HomeController : Controller
+public class HomeController : Controller
 {
     private readonly ILogger _logger;
     private readonly IMainService _mainMamager;

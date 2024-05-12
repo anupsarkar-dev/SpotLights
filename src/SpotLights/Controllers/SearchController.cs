@@ -7,7 +7,7 @@ using SpotLights.Core.Interfaces.Post;
 namespace SpotLights.Controllers;
 
 [Route("search")]
-internal class SearchController : Controller
+public class SearchController : Controller
 {
     private readonly IMainService _mainMamager;
     private readonly IPostService _postProvider;

@@ -13,11 +13,11 @@ using SpotLights.Infrastructure.Interfaces.Newsletters;
 using SpotLights.Infrastructure.Interfaces.Options;
 using SpotLights.Infrastructure.Interfaces.Posts;
 using SpotLights.Infrastructure.Manager.Email;
-using SpotLights.Data.Data;
 using Microsoft.AspNetCore.Identity;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Shared.Entities.Identity;
 using SpotLights.Infrastructure.Identity;
+using SpotLights.Data.Data;
 
 namespace SpotLights.Infrastructure;
 

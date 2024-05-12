@@ -3,7 +3,7 @@ using SpotLights.Shared;
 
 namespace SpotLights.Core.Interfaces.Provider
 {
-    internal interface IStorageProvider
+    public interface IStorageProvider
     {
         Task<StorageDto?> UploadAsync(DateTime uploadAt, int userid, IFormFile file);
 

@@ -14,7 +14,7 @@ namespace SpotLights.Interfaces;
 [Route("api/storage")]
 [ApiController]
 [Authorize]
-internal class StorageController : ControllerBase
+public class StorageController : ControllerBase
 {
     private readonly IStorageProvider _storageProvider;
     private readonly IStorageManager _storageManager;

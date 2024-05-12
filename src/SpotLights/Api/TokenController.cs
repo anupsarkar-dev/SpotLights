@@ -6,7 +6,7 @@ namespace SpotLights.Interfaces;
 
 [Route("api/token")]
 [ApiController]
-internal class TokenController : ControllerBase
+public class TokenController : ControllerBase
 {
     [HttpGet("userinfo")]
     [Authorize]
