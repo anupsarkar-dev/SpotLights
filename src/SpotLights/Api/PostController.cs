@@ -82,7 +82,9 @@ public class PostController : ControllerBase
     )
     {
         int userId = User.FirstUserId();
+
         DateTime uploadAt = DateTime.UtcNow;
+
         if (!string.IsNullOrEmpty(post.Cover))
         {
             var coverUrl = await storageManager.UploadImagesBase64(uploadAt, userId, post.Cover);
@@ -94,7 +96,7 @@ public class PostController : ControllerBase
             post.Content
         );
         post.Content = uploadContent;
-        await _postProvider.UpdateAsync(post, userId);
+        await _postProvider.UpdateAsync(post, userId, User.IsAdmin());
     }
 
     [HttpPut("state/{id:int}")]

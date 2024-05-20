@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpotLights.Data;
+using SpotLights.Data.Data;
 
 #nullable disable
 
-namespace SpotLights.Data.Migrations.SqlServer
+namespace SpotLights.Data.Migrations
 {
-    [DbContext(typeof(SqlServerDbContext))]
-    [Migration("20240520125009_Category_add_col_ShowInMenu")]
-    partial class Category_add_col_ShowInMenu
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240520170708_Init_datababse")]
+    partial class Init_datababse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,7 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.ToTable("UserToken", (string)null);
                 });
 
-            modelBuilder.Entity("SpotLights.Domain.Dto.OptionInfo", b =>
+            modelBuilder.Entity("SpotLights.Domain.Base.BaseEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,6 +105,36 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BaseEntity");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("SpotLights.Domain.Dto.OptionInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -152,10 +182,11 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(0)
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -167,6 +198,9 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.Property<string>("Gender")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -212,8 +246,7 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(1);
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -232,29 +265,30 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("SpotLights.Domain.Model.Newsletters.Newsletter", b =>
+            modelBuilder.Entity("SpotLights.Domain.Model.Posts.PostCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                    b.HasKey("PostId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("PostCategories", (string)null);
+                });
+
+            modelBuilder.Entity("SpotLights.Domain.Model.Newsletters.Newsletter", b =>
+                {
+                    b.HasBaseType("SpotLights.Domain.Base.BaseEntity");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Success")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
@@ -263,20 +297,11 @@ namespace SpotLights.Data.Migrations.SqlServer
 
             modelBuilder.Entity("SpotLights.Domain.Model.Newsletters.Subscriber", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasBaseType("SpotLights.Domain.Base.BaseEntity");
 
                     b.Property<string>("Country")
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -291,31 +316,17 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
                     b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("SpotLights.Domain.Model.Posts.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasBaseType("SpotLights.Domain.Base.BaseEntity");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -324,18 +335,12 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.Property<bool>("ShowInMenu")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
-
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("SpotLights.Domain.Model.Posts.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasBaseType("SpotLights.Domain.Base.BaseEntity");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -344,11 +349,6 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.Property<string>("Cover")
                         .HasMaxLength(160)
                         .HasColumnType("nvarchar(160)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -374,63 +374,29 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .HasMaxLength(160)
                         .HasColumnType("nvarchar(160)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("Views")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Slug] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("SpotLights.Domain.Model.Posts.PostCategory", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("PostCategories", (string)null);
-                });
-
             modelBuilder.Entity("SpotLights.Domain.Model.Storage.Storage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasBaseType("SpotLights.Domain.Base.BaseEntity");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<long>("Length")
                         .HasColumnType("bigint");
@@ -458,8 +424,6 @@ namespace SpotLights.Data.Migrations.SqlServer
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -493,28 +457,6 @@ namespace SpotLights.Data.Migrations.SqlServer
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SpotLights.Domain.Model.Newsletters.Newsletter", b =>
-                {
-                    b.HasOne("SpotLights.Domain.Model.Posts.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("SpotLights.Domain.Model.Posts.Post", b =>
-                {
-                    b.HasOne("SpotLights.Domain.Model.Identity.UserInfo", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SpotLights.Domain.Model.Posts.PostCategory", b =>
                 {
                     b.HasOne("SpotLights.Domain.Model.Posts.Category", "Category")
@@ -534,8 +476,42 @@ namespace SpotLights.Data.Migrations.SqlServer
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("SpotLights.Domain.Model.Newsletters.Newsletter", b =>
+                {
+                    b.HasOne("SpotLights.Domain.Model.Posts.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SpotLights.Domain.Model.Posts.Post", b =>
+                {
+                    b.HasOne("SpotLights.Domain.Base.BaseEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SpotLights.Domain.Model.Posts.Post", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpotLights.Domain.Model.Identity.UserInfo", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SpotLights.Domain.Model.Storage.Storage", b =>
                 {
+                    b.HasOne("SpotLights.Domain.Base.BaseEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SpotLights.Domain.Model.Storage.Storage", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SpotLights.Domain.Model.Identity.UserInfo", "User")
                         .WithMany()
                         .HasForeignKey("UserId")

@@ -20,15 +20,7 @@ It is recommended to put the database file under the App_Data folder. The logs a
 }
 ```
 In the latest version of sql server connection, SqlClient will perform a secure connection by default, and you need to add a server certificate to the system. The example adds TrustServerCertificate=True to ignore this requirement. You can also delete this ignore and enable a secure connection.
-
-#### MySql
-``` json
-"SpotLights": {
-   "DbProvider": "MySql",
-   "ConnString": "server=mysql;user=root;password=password;database=SpotLights",
-   ...
-}
-```
+ 
 
 #### Postgres
 ``` json
@@ -43,31 +35,26 @@ In the above example, ConnString requires you to fill in the correct database ho
 
 ## When a change to an entity field requires a database migration
 
-The database migration is stored in the src/SpotLights/Data/Migrations directory. The current project is still under development. When there is a modification, this directory may be deleted for quick migration. After the project is officially released, it is no longer recommended to delete the updated database migrate.
+The database migration is stored in the src/SpotLights.Data/Migrations/[DbProvider] directory. 
 
-The following is the way to generate a new migration or delete the previous migration command. Before executing the command, please configure the corresponding DbProvider and ConnString in appsettings.json and then execute the corresponding migration command
+
+## Migration Command 
+
 ``` shell
-# Revert Migration Tool
-dotnet tool restore
 
-# Jump to project directory
-cd src/SpotLights
 
-# Sqlite
-dotnet ef migrations add Init --context SqliteDbContext --output-dir Data/Migrations/Sqlite
-dotnet ef migrations remove --context SqliteDbContext
+# Jump to root solution directory
+Solution root -> Right Click -> Open In Terminal
 
-# SqlServer
-dotnet ef migrations add Init --context SqlServerDbContext --output-dir Data/Migrations/SqlServer
-dotnet ef migrations remove --context SqlServerDbContext
+# Before proceed make sure you have dotnet-ef tools are installed in your system
+dotnet tool install --global dotnet-ef
 
-# MySql
-dotnet ef migrations add Init --context MySqlDbContext --output-dir Data/Migrations/MySql
-dotnet ef migrations remove --context MySqlDbContext
+# Create New Migration
+dotnet ef migrations add  Migration_Name   --project=src\SpotLights.Data\SpotLights.Data.csproj --startup-project=src\SpotLights\SpotLights.csproj --context ApplicationDbContext
 
-# Postgres
-dotnet ef migrations add Init --context PostgresDbContext --output-dir Data/Migrations/Postgres
-dotnet ef migrations remove --context PostgresDbContext
+# Update Database
+dotnet ef database update   --project=src\SpotLights.Data\SpotLights.Data.csproj --startup-project=src\SpotLights\SpotLights.csproj --context ApplicationDbContext
+
 ```
 
 ### Warn 

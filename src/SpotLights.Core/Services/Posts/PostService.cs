@@ -111,8 +111,8 @@ internal class PostService : BaseContextService, IPostService
         await _postRepository.StateInternalAsync(query, state);
     }
 
-    public async Task UpdateAsync(PostEditorDto postInput, int userId)
+    public async Task UpdateAsync(PostEditorDto postInput, int userId, bool isAdmin)
     {
-        await _postRepository.UpdateAsync(postInput, userId);
+        await _postRepository.UpdateAsync(postInput, userId, isAdmin);
     }
 }
