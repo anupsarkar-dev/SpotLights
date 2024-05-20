@@ -33,5 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   
 </Project>

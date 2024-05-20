@@ -12,6 +12,9 @@ internal class BaseContextRepository : IBaseContextRepository
     protected BaseContextRepository(ApplicationDbContext dbContext)
     {
         _context = dbContext;
+
+        // AsNoTracking by default
+        //_context.ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
     public async Task AddAsync<T>(T entity)

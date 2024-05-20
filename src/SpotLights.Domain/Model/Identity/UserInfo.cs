@@ -35,7 +35,7 @@ public class UserInfo : IdentityUser<DefaultIdType>
     public DateTime UpdatedAt { get; set; }
 
     [StringLength(128)]
-    public string CreatedBy { get; set; } = default!;
+    public string? CreatedBy { get; set; }
 
     // For soft delete
     public bool IsDeleted { get; set; }
