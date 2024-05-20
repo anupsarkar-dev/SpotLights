@@ -12,5 +12,6 @@ public class Category : BaseEntity
 
     [StringLength(255)]
     public string? Description { get; set; } = default!;
+    public bool IsShowInHomePage { get; set; }
     public List<PostCategory>? PostCategories { get; set; }
 }
