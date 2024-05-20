@@ -9,8 +9,6 @@ public class Storage : BaseEntity
 {
     public DefaultIdType UserId { get; set; }
     public UserInfo User { get; set; } = default!;
-    public DateTime CreatedAt { get; set; }
-    public DateTime UploadAt { get; set; }
 
     [StringLength(2048)]
     public string Slug { get; set; } = default!;
@@ -27,5 +25,8 @@ public class Storage : BaseEntity
     public string ContentType { get; set; } = default!;
 
     public StorageType Type { get; set; }
+
     //public List<StorageReference>? StorageReferences { get; set; }
+
+    public DateTime UploadAt { get; set; }
 }

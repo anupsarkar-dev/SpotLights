@@ -28,50 +28,50 @@ internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
     {
         base.OnModelCreating(modelBuilder);
 
-        _ = modelBuilder.Entity<UserInfo>(e =>
+        modelBuilder.Entity<UserInfo>(e =>
         {
-            _ = e.ToTable("Users");
-            _ = e.Property(p => p.Id).HasMaxLength(128);
-            _ = e.Property(p => p.CreatedAt).HasColumnOrder(0);
-            _ = e.Property(p => p.UpdatedAt).HasColumnOrder(1);
-            _ = e.Property(p => p.PasswordHash).HasMaxLength(256);
-            _ = e.Property(p => p.SecurityStamp).HasMaxLength(32);
-            _ = e.Property(p => p.ConcurrencyStamp).HasMaxLength(64);
-            _ = e.Property(p => p.PhoneNumber).HasMaxLength(32);
+            e.ToTable("Users");
+            e.Property(p => p.Id).HasMaxLength(128);
+            e.Property(p => p.CreatedAt).HasColumnOrder(0);
+            e.Property(p => p.UpdatedAt).HasColumnOrder(1);
+            e.Property(p => p.PasswordHash).HasMaxLength(256);
+            e.Property(p => p.SecurityStamp).HasMaxLength(32);
+            e.Property(p => p.ConcurrencyStamp).HasMaxLength(64);
+            e.Property(p => p.PhoneNumber).HasMaxLength(32);
         });
 
-        _ = modelBuilder.Entity<IdentityUserClaim<int>>(e =>
+        modelBuilder.Entity<IdentityUserClaim<int>>(e =>
         {
-            _ = e.ToTable("UserClaim");
-            _ = e.Property(p => p.ClaimType).HasMaxLength(16);
-            _ = e.Property(p => p.ClaimValue).HasMaxLength(256);
+            e.ToTable("UserClaim");
+            e.Property(p => p.ClaimType).HasMaxLength(16);
+            e.Property(p => p.ClaimValue).HasMaxLength(256);
         });
-        _ = modelBuilder.Entity<IdentityUserLogin<int>>(e =>
+        modelBuilder.Entity<IdentityUserLogin<int>>(e =>
         {
-            _ = e.ToTable("UserLogin");
-            _ = e.Property(p => p.ProviderDisplayName).HasMaxLength(128);
+            e.ToTable("UserLogin");
+            e.Property(p => p.ProviderDisplayName).HasMaxLength(128);
         });
-        _ = modelBuilder.Entity<IdentityUserToken<int>>(e =>
+        modelBuilder.Entity<IdentityUserToken<int>>(e =>
         {
-            _ = e.ToTable("UserToken");
-            _ = e.Property(p => p.Value).HasMaxLength(1024);
-        });
-
-        _ = modelBuilder.Entity<OptionInfo>(e =>
-        {
-            _ = e.ToTable("Options");
-            _ = e.HasIndex(b => b.Key).IsUnique();
+            e.ToTable("UserToken");
+            e.Property(p => p.Value).HasMaxLength(1024);
         });
 
-        _ = modelBuilder.Entity<Post>(e =>
+        modelBuilder.Entity<OptionInfo>(e =>
         {
-            _ = e.ToTable("Posts");
-            _ = e.HasIndex(b => b.Slug).IsUnique();
+            e.ToTable("Options");
+            e.HasIndex(b => b.Key).IsUnique();
         });
 
-        _ = modelBuilder.Entity<Storage>(e =>
+        modelBuilder.Entity<Post>(e =>
         {
-            _ = e.ToTable("Storages");
+            e.ToTable("Posts");
+            e.HasIndex(b => b.Slug).IsUnique();
+        });
+
+        modelBuilder.Entity<Storage>(e =>
+        {
+            e.ToTable("Storages");
         });
 
         //modelBuilder.Entity<StorageReference>(e =>
@@ -80,10 +80,10 @@ internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
         //  e.HasKey(t => new { t.StorageId, t.EntityId });
         //});
 
-        _ = modelBuilder.Entity<PostCategory>(e =>
+        modelBuilder.Entity<PostCategory>(e =>
         {
-            _ = e.ToTable("PostCategories");
-            _ = e.HasKey(t => new { t.PostId, t.CategoryId });
+            e.ToTable("PostCategories");
+            e.HasKey(t => new { t.PostId, t.CategoryId });
         });
     }
 }

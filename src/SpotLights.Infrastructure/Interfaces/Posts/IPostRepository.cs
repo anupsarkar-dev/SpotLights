@@ -9,9 +9,9 @@ namespace SpotLights.Infrastructure.Interfaces.Posts
     {
         Task<IEnumerable<PostEditorDto>> AddAsync(IEnumerable<PostEditorDto> posts, int userId);
         Task<string> AddAsync(PostEditorDto postInput, int userId);
-        Task<PostDto> FirstAsync(int id);
+        Task<PostDto> FirstAsync(DefaultIdType id);
         Task<IEnumerable<PostDto>> GetAsync();
-        Task<PostDto> GetAsync(int id);
+        Task<PostDto> GetAsync(DefaultIdType id);
         Task<IEnumerable<PostItemDto>> GetAsync(
             PublishedStatus filter,
             PostType postType,
