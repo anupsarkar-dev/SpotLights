@@ -38,7 +38,8 @@ internal class MainRepository : IMainRepository
     {
         BlogData blog = await _blogManager.GetAsync();
         MainDto main = blog.Adapt<MainDto>();
-        main.Categories = await GetCategoryItemesAsync();
+        var categories = await GetCategoryItemesAsync();
+        main.Categories = categories.Where(c => c.IsShowInHomePage);
         HttpContext? httpContext = _httpContextAccessor.HttpContext;
         if (httpContext != null)
         {
