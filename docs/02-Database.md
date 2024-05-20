@@ -1,6 +1,17 @@
 ## To change Database Provider
 Update provider and connection string in the `appsettings.json`:
 
+
+#### Microsoft SqlServer
+``` json
+"SpotLights": {
+   "DbProvider": "Mssql",
+   "ConnString": "Data Source=mssql; User Id=sa; Password=Password; Initial Catalog=SpotLights;TrustServerCertificate=True",
+   ...
+}
+```
+In the latest version of sql server connection, SqlClient will perform a secure connection by default, and you need to add a server certificate to the system. 
+
 #### SQLite
 ``` json
 "SpotLights": {
@@ -11,16 +22,6 @@ Update provider and connection string in the `appsettings.json`:
 ```
 It is recommended to put the database file under the App_Data folder. The logs and local pictures in the project will be stored in this path for persistence.
 
-#### SqlServer
-``` json
-"SpotLights": {
-   "DbProvider": "SqlServer",
-   "ConnString": "Data Source=mssql; User Id=sa; Password=Password; Initial Catalog=SpotLights;TrustServerCertificate=True",
-   ...
-}
-```
-In the latest version of sql server connection, SqlClient will perform a secure connection by default, and you need to add a server certificate to the system. The example adds TrustServerCertificate=True to ignore this requirement. You can also delete this ignore and enable a secure connection.
- 
 
 #### Postgres
 ``` json
@@ -35,14 +36,12 @@ In the above example, ConnString requires you to fill in the correct database ho
 
 ## When a change to an entity field requires a database migration
 
-The database migration is stored in the src/SpotLights.Data/Migrations/[DbProvider] directory. 
+The database migration is stored in the src/SpotLights.Data/Migrations  directory. 
 
 
 ## Migration Command 
 
 ``` shell
-
-
 # Jump to root solution directory
 Solution root -> Right Click -> Open In Terminal
 
