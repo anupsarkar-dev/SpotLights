@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Mapster;
 using SpotLights.Infrastructure.Repositories.Blogs;
 using SpotLights.Core.Interfaces;
+using SpotLights.Core.Services.Blogs;
 
 namespace SpotLights.Interfaces;
 

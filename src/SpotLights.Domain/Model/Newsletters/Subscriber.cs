@@ -6,9 +6,6 @@ namespace SpotLights.Domain.Model.Newsletters;
 
 public class Subscriber : BaseEntity
 {
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
     [EmailAddress]
     [StringLength(160)]
     public string Email { get; set; } = default!;

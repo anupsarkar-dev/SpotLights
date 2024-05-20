@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SpotLights.Data.Data;
+using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Domain.Model.Storage;
 using SpotLights.Infrastructure.Interfaces;
 using SpotLights.Infrastructure.Interfaces.Storages;
@@ -87,6 +88,7 @@ internal class StorageLocalProvider : BaseContextRepository, IStorageMinioProvid
                 Type = StorageType.Local
             };
         await AddAsync(storage);
+
         return storage.Adapt<StorageDto>();
     }
 

@@ -16,9 +16,6 @@ public class UserInfo : IdentityUser<DefaultIdType>
         UserName = userName;
     }
 
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
     [StringLength(256)]
     public string NickName { get; set; } = default!;
 
@@ -33,4 +30,13 @@ public class UserInfo : IdentityUser<DefaultIdType>
 
     public UserType Type { get; set; }
     public UserState State { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    [StringLength(128)]
+    public string CreatedBy { get; set; } = default!;
+
+    // For soft delete
+    public bool IsDeleted { get; set; }
 }

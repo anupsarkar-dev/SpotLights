@@ -7,8 +7,6 @@ namespace SpotLights.Domain.Model.Posts;
 
 public class Post : BaseEntity
 {
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
     public DefaultIdType UserId { get; set; }
     public UserInfo User { get; set; } = default!;
 
