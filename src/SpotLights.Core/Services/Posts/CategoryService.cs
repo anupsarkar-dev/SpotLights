@@ -50,8 +50,8 @@ internal class CategoryService : BaseContextService, ICategoryService
         return await _categoryRepository.SearchCategories(term);
     }
 
-    public async Task<bool> UpdateCategoryStatusToShowInHomePage(int categoryId, bool status)
+    public async Task<bool> UpdateCategoryMenusStatusByIdAsync(int categoryId, bool status)
     {
-      return await _categoryRepository.UpdateCategoryStatusToShowInHomePage(categoryId, status);
+      return await _categoryRepository.UpdateCategoryMenusStatusByIdAsync(categoryId, status);
     }
 }

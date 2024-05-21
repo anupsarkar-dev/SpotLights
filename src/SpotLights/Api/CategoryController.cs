@@ -65,11 +65,11 @@ public class CategoryController : ControllerBase
     return await _categoryService.SaveCategory(category);
   }
 
-  [HttpPost("updateStatusForHomePage/{categoryId}")]
-  public async Task<ActionResult<bool>> UpdateStatusForHomePageDisplay(int categoryId, [FromBody] bool status)
+  [HttpPut("updateCategoryMenuStatus/{categoryId}")]
+  public async Task<ActionResult<bool>> UpdateCategoryMenuStatus(int categoryId, [FromBody] bool status)
   {
     if (categoryId <= 0) return BadRequest("Invalid input request.");
 
-    return await _categoryService.UpdateCategoryStatusToShowInHomePage(categoryId, status);
+    return await _categoryService.UpdateCategoryMenusStatusByIdAsync(categoryId, status);
   }
 }

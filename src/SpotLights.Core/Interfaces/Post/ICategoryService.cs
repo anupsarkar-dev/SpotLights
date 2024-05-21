@@ -13,6 +13,6 @@ namespace SpotLights.Core.Interfaces
         Task<bool> SaveCategory(Category category);
         Task<Category> SaveCategory(string tag);
         Task<List<CategoryItemDto>> SearchCategories(string term);
-        Task<bool> UpdateCategoryStatusToShowInHomePage(int categoryId, bool status);
+        Task<bool> UpdateCategoryMenusStatusByIdAsync(int categoryId, bool status);
     }
 }

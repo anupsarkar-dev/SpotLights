@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpotLights.Data.Data;
+using SpotLights.Shared.Enums;
 
 namespace SpotLights.Data;
 
@@ -18,36 +19,37 @@ public static class DbContextExtensions
     )
     {
         var section = configuration.GetSection("SpotLights");
-        var provider = section.GetValue<string>("DbProvider");
+        var provider = section.GetValue<DbProvider>("DbProvider");
         var connectionString = section.GetValue<string>("ConnString");
 
-        if ("Sqlite".Equals(provider, StringComparison.OrdinalIgnoreCase))
+        if (provider == DbProvider.Sqlite)
         {
             var sonnectionStringBuilder = new SqliteConnectionStringBuilder(connectionString);
             var dataSourcePath = Path.Combine(
                 environment.ContentRootPath,
                 sonnectionStringBuilder.DataSource
             );
+
             var dataSourceDirectory = Path.GetDirectoryName(dataSourcePath);
+
             if (
                 !string.IsNullOrEmpty(dataSourceDirectory) && !Directory.Exists(dataSourceDirectory)
             )
+            {
                 Directory.CreateDirectory(dataSourceDirectory);
-            services.AddDbContext<ApplicationDbContext, SqliteDbContext>(
+            }
+
+            services.AddDbContext<ApplicationDbContext>(
                 o => o.UseSqlite(sonnectionStringBuilder.ToString())
             );
         }
-        else if ("SqlServer".Equals(provider, StringComparison.OrdinalIgnoreCase))
+        else if (provider == DbProvider.Mssql)
         {
-            services.AddDbContext<ApplicationDbContext, SqlServerDbContext>(
-                o => o.UseSqlServer(connectionString)
-            );
+            services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connectionString));
         }
-        else if ("Postgres".Equals(provider, StringComparison.OrdinalIgnoreCase))
+        else if (provider == DbProvider.Postgres)
         {
-            services.AddDbContext<ApplicationDbContext, PostgresDbContext>(
-                o => o.UseNpgsql(connectionString)
-            );
+            services.AddDbContext<ApplicationDbContext>(o => o.UseNpgsql(connectionString));
         }
         else
         {

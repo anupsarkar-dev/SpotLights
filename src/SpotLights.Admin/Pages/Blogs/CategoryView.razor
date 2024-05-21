@@ -18,12 +18,19 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
+        await CheckUserTypeStatus();
     }
 
     protected async Task LoadAsync()
     {
         var result = await _http.GetFromJsonAsync<List<FrontCategoryItemDto>>($"api/category/items");
         Categories = result;
+    }
+
+    protected async Task CheckUserTypeStatus()
+    {
+        var result = await _http.GetFromJsonAsync<bool>($"api/user/isAdminUser");
+        isAdminUser = result;
     }
 
     protected void CheckAll(object? checkValue)
@@ -79,7 +86,7 @@
 
     protected async Task OnShowInHomeBtnClick(int categoryId, bool status)
     {
-        var result = await _http.PutAsJsonAsync<bool>("api/category/updateStatusForHomePage/" + categoryId, status);
+        var result = await _http.PutAsJsonAsync<bool>("api/category/updateCategoryMenuStatus/" + categoryId, status);
         if (result != null && result.IsSuccessStatusCode)
         {
             var existingCategory = Categories.Find(c => c.Id == categoryId);
@@ -159,8 +166,10 @@
                         </svg>
                     </a>
 
-                  @* //TODO: restrict for admin user *@
-                  <button type="button" class="@(category.ShowInMenu?"btn btn-primary":"btn btn-outline-primary")" @onclick="()=>OnShowInHomeBtnClick(category.Id, !category.ShowInMenu)">@(category.ShowInMenu ? "Hide" : "Show")</button>
+                    @if (isAdminUser)
+                    {
+                        <button type="button" class="@(category.ShowInMenu?"btn btn-primary":"btn btn-outline-primary")" @onclick="()=>OnShowInHomeBtnClick(category.Id, !category.ShowInMenu)">@(category.ShowInMenu ? "Hide" : "Show")</button>
+                    }
                 </li>
             </Virtualize>
         </ul>

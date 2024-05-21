@@ -34,6 +34,6 @@ namespace SpotLights.Infrastructure.Interfaces.Posts
         Task StateAsync(IEnumerable<int> ids, PostState state);
         Task StateAsync(int id, PostState state);
         Task StateInternalAsync(IQueryable<Post> query, PostState state);
-        Task UpdateAsync(PostEditorDto postInput, int userId);
+        Task UpdateAsync(PostEditorDto postInput, int userId, bool isAdmin);
     }
 }

@@ -34,6 +34,6 @@ namespace SpotLights.Core.Interfaces.Post
         Task<List<PostEditorDto>> MatchTitleAsync(IEnumerable<string> titles);
         Task StateAsync(IEnumerable<int> ids, PostState state);
         Task StateAsync(int id, PostState state);
-        Task UpdateAsync(PostEditorDto postInput, int userId);
+        Task UpdateAsync(PostEditorDto postInput, int userId, bool isAdmin);
     }
 }

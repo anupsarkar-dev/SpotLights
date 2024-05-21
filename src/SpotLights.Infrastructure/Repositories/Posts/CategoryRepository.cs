@@ -79,7 +79,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
         : cats.Where(c => c.Category.ToLower().Contains(term.ToLower())).ToList();
   }
 
-  public async Task<bool> UpdateCategoryStatusToShowInHomePage(int categoryId, bool status)
+  public async Task<bool> UpdateCategoryMenusStatusByIdAsync(int categoryId, bool status)
   {
     if (categoryId <= 0) return false;
 

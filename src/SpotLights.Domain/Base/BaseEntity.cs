@@ -11,12 +11,11 @@ public abstract class BaseEntity<TId> : IEntity<TId>
 {
     public TId Id { get; set; } = default!;
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    [StringLength(128)]
-    public string CreatedBy { get; set; } = default!;
+    public string? CreatedBy { get; set; }
 
     // For soft delete
     public bool IsDeleted { get; set; }

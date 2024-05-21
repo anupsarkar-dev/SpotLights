@@ -1,18 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SpotLights.Data.Configuration.Entity;
+using SpotLights.Data.EntityConfiguration;
+using SpotLights.Data.ValueGeneration;
 using SpotLights.Domain.Dto;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Domain.Model.Storage;
+using SpotLights.Shared.Enums;
+using System.Reflection.Emit;
 
 namespace SpotLights.Data.Data;
 
 internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
 {
-    public ApplicationDbContext(DbContextOptions options)
-        : base(options) { }
+    private readonly DbProvider _provider;
+
+    public ApplicationDbContext(DbContextOptions options, IConfiguration configuration)
+        : base(options)
+    {
+        _provider = configuration.GetSection("SpotLights").GetValue<DbProvider>("DbProvider");
+    }
 
     public DbSet<OptionInfo> Options { get; set; } = default!;
     public DbSet<Post> Posts { get; set; } = default!;
@@ -24,66 +35,43 @@ internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
 
     //public DbSet<StorageReference> StorageReferences { get; set; } = default!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
 
-        modelBuilder.Entity<UserInfo>(e =>
-        {
-            e.ToTable("Users");
-            e.Property(p => p.Id).HasMaxLength(128);
-            e.Property(p => p.CreatedAt).HasColumnOrder(0);
-            e.Property(p => p.UpdatedAt).HasColumnOrder(1);
-            e.Property(p => p.PasswordHash).HasMaxLength(256);
-            e.Property(p => p.SecurityStamp).HasMaxLength(32);
-            e.Property(p => p.ConcurrencyStamp).HasMaxLength(64);
-            e.Property(p => p.PhoneNumber).HasMaxLength(32);
-        });
+        builder.ApplyConfiguration(new BaseEntityConfig(_provider));
 
-        modelBuilder.Entity<IdentityUserClaim<int>>(e =>
-        {
-            e.ToTable("UserClaim");
-            e.Property(p => p.ClaimType).HasMaxLength(16);
-            e.Property(p => p.ClaimValue).HasMaxLength(256);
-        });
-        modelBuilder.Entity<IdentityUserLogin<int>>(e =>
+        builder.ApplyConfiguration(new UserEntityConfig());
+        builder.ApplyConfiguration(new IdentityUserEntityConfig());
+
+        builder.Entity<IdentityUserLogin<int>>(e =>
         {
             e.ToTable("UserLogin");
             e.Property(p => p.ProviderDisplayName).HasMaxLength(128);
         });
-        modelBuilder.Entity<IdentityUserToken<int>>(e =>
+
+        builder.Entity<IdentityUserToken<int>>(e =>
         {
             e.ToTable("UserToken");
             e.Property(p => p.Value).HasMaxLength(1024);
         });
 
-        modelBuilder.Entity<OptionInfo>(e =>
-        {
-            e.ToTable("Options");
-            e.HasIndex(b => b.Key).IsUnique();
-        });
-
-        modelBuilder.Entity<Post>(e =>
-        {
-            e.ToTable("Posts");
-            e.HasIndex(b => b.Slug).IsUnique();
-        });
-
-        modelBuilder.Entity<Storage>(e =>
-        {
-            e.ToTable("Storages");
-        });
+        builder.ApplyConfiguration(new PostEntityConfig());
+        builder.ApplyConfiguration(new StorageEntityConfig());
+        builder.ApplyConfiguration(new PostCategoryEntityConfig());
+        builder.ApplyConfiguration(new CategoryEntityConfig());
+        builder.ApplyConfiguration(new NewsletterEntityConfig());
+        builder.ApplyConfiguration(new SubscriberEntityConfig());
+        builder.ApplyConfiguration(new OptionInfoEntityConfig());
 
         //modelBuilder.Entity<StorageReference>(e =>
         //{
         //  e.ToTable("StorageReferences");
         //  e.HasKey(t => new { t.StorageId, t.EntityId });
         //});
-
-        modelBuilder.Entity<PostCategory>(e =>
-        {
-            e.ToTable("PostCategories");
-            e.HasKey(t => new { t.PostId, t.CategoryId });
-        });
     }
 }

@@ -39,6 +39,7 @@ internal class PostRepository : BaseContextRepository, IPostRepository
         .AsNoTracking()
         .Include(pc => pc.User)
         .OrderByDescending(m => m.CreatedAt);
+
     return await query.ProjectToType<PostDto>().ToListAsync();
   }
 
@@ -109,14 +110,34 @@ internal class PostRepository : BaseContextRepository, IPostRepository
 
   public async Task<PostEditorDto> GetEditorAsync(string slug)
   {
-    IQueryable<Post> query = _context.Posts
-        .AsNoTracking()
-        .Include(m => m.PostCategories)!
-        .ThenInclude(m => m.Category)
-        //.Include(m => m.StorageReferences!.Where(s => s.Type == StorageReferenceType.Post))
-        .AsSingleQuery()
-        .Where(p => p.Slug == slug);
-    return await query.ProjectToType<PostEditorDto>().FirstAsync();
+    var query = from p in _context.Posts
+                join pc in _context.PostCategories
+                  on p.Id equals pc.PostId
+                where p.Slug == slug
+                select new PostEditorDto
+                {
+                  Id = p.Id,
+                  Title = p.Title,
+                  Slug = p.Slug,
+                  Description = p.Description,
+                  Content = p.Content,
+                  Cover = p.Cover,
+                  PublishedAt = p.PublishedAt,
+                  PostType = p.PostType,
+                  State = p.State,              
+                  Categories =  _context.Categories
+                    .Where(c => c.Id == pc.CategoryId)
+                    .Select(s => new CategoryDto
+                    {
+                      Id = s.Id,
+                      Content = s.Content
+                    }).ToList() 
+
+                };
+
+    var result = await query.AsNoTracking().FirstAsync();
+
+    return result;
   }
 
   public async Task<List<PostEditorDto>> MatchTitleAsync(IEnumerable<string> titles)
@@ -126,6 +147,7 @@ internal class PostRepository : BaseContextRepository, IPostRepository
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         .Where(p => titles.Contains(p.Title));
+
     return await query.ProjectToType<PostEditorDto>().ToListAsync();
   }
 
@@ -392,16 +414,16 @@ internal class PostRepository : BaseContextRepository, IPostRepository
     return postsInput.Adapt<IEnumerable<PostEditorDto>>();
   }
 
-  public async Task UpdateAsync(PostEditorDto postInput, int userId)
+  public async Task UpdateAsync(PostEditorDto postInput, int userId, bool isAdmin)
   {
     Post post = await _context.Posts
         .Include(m => m.PostCategories)!
         .ThenInclude(m => m.Category)
         .FirstAsync(m => m.Id == postInput.Id);
 
-    if (post.UserId != userId)
+    if (!isAdmin && post.UserId != userId)
     {
-      throw new BlogNotIitializeException();
+      throw new DomainException("You don't have permission to update this post!");
     }
 
     List<PostCategory>? postCategories = await CheckPostCategories(postInput.Categories, post.PostCategories);

@@ -1,5 +1,5 @@
 <br>
-<h3 align="center">SpotLights | Community Blog Portal </h3>
+<h3 align="center">SpotLights | Developer Community Blog Portal </h3>
 <p align="center">
     SpotLights is a self-hosted open source publishing platform written in ASP.NET and Blazor WebAssembly. 
     It can be used to quickly and easily set up a lightweight, but fully functional personal or group blog.
