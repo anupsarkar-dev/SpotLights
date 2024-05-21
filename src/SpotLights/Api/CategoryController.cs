@@ -22,6 +22,12 @@ public class CategoryController : ControllerBase
     _categoryService = categoryService;
   }
 
+  [HttpGet]
+  public async Task<IEnumerable<CategoryItemDto>> GetAll()
+  {
+    return await _categoryService.GetAllAsync();
+  }
+
   [HttpGet("items")]
   public async Task<IEnumerable<CategoryItemDto>> GetItemsAsync()
   {

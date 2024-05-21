@@ -7,6 +7,7 @@ namespace SpotLights.Infrastructure.Interfaces.Posts
     {
         Task<Category> GetCategory(int categoryId);
         Task<List<CategoryItemDto>> GetItemsAsync();
+        Task<List<CategoryItemDto>> GetAllAsync();
         Task<List<CategoryItemDto>> GetItemsExistPostAsync();
         Task<IEnumerable<Category>> GetPostCategories(int postId);
         Task<bool> SaveCategory(Category category);

@@ -13,199 +13,214 @@
 @inject CommonJsInterop _commonJsInterop
 
 <div class="bfeditor">
-  <div class="bfeditor-header">
-    <img class="bfeditor-cover" src="@PageHelper.CheckGetCoverrUrl(Post.Cover)" alt="@_localizer["cover"]">
-    <div class="bfeditor-actions">
-      <div class="container d-flex">
-        @if (string.IsNullOrEmpty(Post.Slug))
-        {
-          <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["publish"]</button>
-          <button type="button" class="btn btn-default me-auto" @onclick="() => SaveAsync()" @onclick:preventDefault>@_localizer["save"]</button>
-        }
-        else if (Post.State >= PostState.Release)
-        {
-          <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["save"]</button>
-          <button type="button" class="btn btn-default me-auto" @onclick="() => UnpublishAsync()" @onclick:preventDefault>@_localizer["unpublish"]</button>
-          <button class="btn btn-link text-white me-1" @onclick="(() => RemoveAsync(Post.Id))">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-            </svg>
-            <span class="ms-2 d-none d-lg-inline">@_localizer["delete"]</span>
-          </button>
-          <a href="/post/@Post.Slug" class="btn btn-link text-white" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
-            </svg>
-            <span class="ms-2 d-none d-lg-inline">@_localizer["view"]</span>
-          </a>
-        }
-        else
-        {
-          <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["publish"]</button>
-          <button type="button" class="btn btn-default me-auto" @onclick="() => SaveAsync()" @onclick:preventDefault>@_localizer["save"]</button>
-          <button class="btn btn-link  text-white" @onclick="(() => RemoveAsync(Post.Id))">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-            </svg>
-            <span class="ms-2 d-none d-lg-inline">@_localizer["delete"]</span>
-          </button>
-        }
-      </div>
-    </div>
-    <div class="bfeditor-header-inner">
-      <div class="container">
-        <textarea class="bfeditor-header-textarea bfeditor-header-title autosize" @bind="Post.Title" name="title" placeholder="@_localizer["post-title"]" rows="1" autofocus></textarea>
-        <textarea class="bfeditor-header-textarea bfeditor-header-desc autosize" @bind="Post.Description" name="description" placeholder="@_localizer["description"]..." rows="1"></textarea>
-        <div class="bfeditor-meta d-flex">
-          <div class="dropdown me-3">
-            <a class="bfeditor-meta-link" href="#" id="coverDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image me-1" viewBox="0 0 16 16">
-                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-              </svg>
-              @_localizer["cover"]
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="coverDropdown">
-              <li>
-                <button class="dropdown-item" type="button" @onclick="() => ChangeCoverAsync()">@_localizer["change"]</button>
-                <InputFile @ref="_inputCovereference" OnChange="@LoadCovereFile" style="display:none;" accept="image/*" />
-              </li>
-              <li>
-                <button class="dropdown-item" type="button" @onclick="() => RemoveCoverAsync()">@_localizer["reset"]</button>
-              </li>
-            </ul>
-          </div>
-          <CategoriesComponent Categories="Post.Categories" />
+    <div class="bfeditor-header">
+        <img class="bfeditor-cover" src="@PageHelper.CheckGetCoverrUrl(Post.Cover)" alt="@_localizer["cover"]">
+        <div class="bfeditor-actions">
+            <div class="container d-flex">
+                @if (string.IsNullOrEmpty(Post.Slug))
+                {
+                    <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["publish"]</button>
+                    <button type="button" class="btn btn-default me-auto" @onclick="() => SaveAsync()" @onclick:preventDefault>@_localizer["save"]</button>
+                }
+                else if (Post.State >= PostState.Release)
+                {
+                    <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["save"]</button>
+                    <button type="button" class="btn btn-default me-auto" @onclick="() => UnpublishAsync()" @onclick:preventDefault>@_localizer["unpublish"]</button>
+                    <button class="btn btn-link text-white me-1" @onclick="(() => RemoveAsync(Post.Id))">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                        <span class="ms-2 d-none d-lg-inline">@_localizer["delete"]</span>
+                    </button>
+                    <a href="/post/@Post.Slug" class="btn btn-link text-white" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
+                        </svg>
+                        <span class="ms-2 d-none d-lg-inline">@_localizer["view"]</span>
+                    </a>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-SpotLights me-3 px-4" @onclick="() => PublishAsync()">@_localizer["publish"]</button>
+                    <button type="button" class="btn btn-default me-auto" @onclick="() => SaveAsync()" @onclick:preventDefault>@_localizer["save"]</button>
+                    <button class="btn btn-link  text-white" @onclick="(() => RemoveAsync(Post.Id))">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                        <span class="ms-2 d-none d-lg-inline">@_localizer["delete"]</span>
+                    </button>
+                }
+            </div>
         </div>
-      </div>
+        <div class="bfeditor-header-inner">
+            <div class="container">
+                <textarea class="bfeditor-header-textarea bfeditor-header-title autosize" @bind="Post.Title" name="title" placeholder="@_localizer["post-title"]" rows="1" autofocus></textarea>
+                <textarea class="bfeditor-header-textarea bfeditor-header-desc autosize" @bind="Post.Description" name="description" placeholder="@_localizer["description"]..." rows="1"></textarea>
+                <div class="bfeditor-meta d-flex">
+                    <div class="dropdown me-3">
+                        <a class="bfeditor-meta-link" href="#" id="coverDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image me-1" viewBox="0 0 16 16">
+                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
+                            </svg>
+                            @_localizer["cover"]
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="coverDropdown">
+                            <li>
+                                <button class="dropdown-item" type="button" @onclick="() => ChangeCoverAsync()">@_localizer["change"]</button>
+                                <InputFile @ref="_inputCovereference" OnChange="@LoadCovereFile" style="display:none;" accept="image/*" />
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" @onclick="() => RemoveCoverAsync()">@_localizer["reset"]</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <CategoriesComponent AllCategories="Categories" Categories="Post.Categories" />
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="easymde-wrapper">
-    <textarea @ref="_textareaReference" tabindex="2" class="visually-hidden" placeholder="@_localizer["type-here"]"></textarea>
-    <InputFile @ref="_inputFileReference" OnChange="@LoadImageFiles" style="display:none;" accept="image/*" />
-  </div>
+    <div class="easymde-wrapper">
+        <textarea @ref="_textareaReference" tabindex="2" class="visually-hidden" placeholder="@_localizer["type-here"]"></textarea>
+        <InputFile @ref="_inputFileReference" OnChange="@LoadImageFiles" style="display:none;" accept="image/*" />
+    </div>
 </div>
 
 @code {
 
-  [Parameter] public PostEditorDto Post { get; set; } = default!;
-  [Parameter] public EventCallback<PostEditorDto> OnSaveCallback { get; set; }
-  [Parameter] public EventCallback<int> OnRemoveCallback { get; set; }
+    [Parameter] public PostEditorDto Post { get; set; } = default!;
+    [Parameter] public EventCallback<PostEditorDto> OnSaveCallback { get; set; }
+    [Parameter] public EventCallback<int> OnRemoveCallback { get; set; }
 
-  private ElementReference? _textareaReference;
-  private InputFile? _inputFileReference;
-  private InputFile? _inputCovereference;
+    private ElementReference? _textareaReference;
+    private InputFile? _inputFileReference;
+    private InputFile? _inputCovereference;
+    protected List<CategoryItemDto>? Categories { get; set; }
 
-  protected override async Task OnAfterRenderAsync(bool firstRender)
-  {
-    if (firstRender)
+
+    protected override async Task OnInitializedAsync()
     {
-      var element = _inputFileReference?.Element;
-      await _editorJsInterop.LoadEditorAsync(_textareaReference, element);
+        // getting all the categories
+        await GetAllCategories();
     }
-  }
 
-  public async Task SetPostInfoAsync(PostEditorDto post)
-  {
-    var headTitle = _localizer["edit"] + " - " + post.Title;
-    await _commonJsInterop.SetTitleAsync(headTitle);
-    await _editorJsInterop.SetEditorValueAsync(post.Content);
-  }
-
-  async ValueTask<string?> GetValueAsync()
-  {
-    var content = await _editorJsInterop.GetEditorValueAsync();
-    var imgsMatches = StringHelper.MarkdownImgBlobGeneratedRegex().Matches(content);
-
-    if (imgsMatches.Count > 0)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-      var contentStringBuilder = new StringBuilder(content);
-      foreach (Match match in imgsMatches)
-      {
-        var imageUrl = match.Groups[1].Value;
-        var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
-        var base64String = Convert.ToBase64String(imageBytes);
-        contentStringBuilder.Replace(imageUrl, "data:image/png;base64," + base64String);
-      }
-      content = contentStringBuilder.ToString();
+        if (firstRender)
+        {
+            var element = _inputFileReference?.Element;
+            await _editorJsInterop.LoadEditorAsync(_textareaReference, element);
+        }
     }
-    return content;
-  }
 
-  protected async Task LoadImageFiles(InputFileChangeEventArgs args)
-  {
-    var element = _inputFileReference?.Element;
-    await _editorJsInterop.WriteFrontFileAsync(element);
-  }
-
-  protected async Task SaveCoreAsync(PostState postState)
-  {
-    var content = await GetValueAsync();
-    if (string.IsNullOrEmpty(Post.Title) || string.IsNullOrEmpty(content))
+    public async Task SetPostInfoAsync(PostEditorDto post)
     {
-      _toaster.Error(_localizer["title-content-required"]);
-      return;
+        var headTitle = _localizer["edit"] + " - " + post.Title;
+        await _commonJsInterop.SetTitleAsync(headTitle);
+        await _editorJsInterop.SetEditorValueAsync(post.Content);
     }
-    Post.Content = content;
-    if (!string.IsNullOrEmpty(Post.Cover))
+
+    async ValueTask<string?> GetValueAsync()
     {
-      var coverMatche = StringHelper.BlobUrlGeneratedRegex().Match(Post.Cover);
-      if (coverMatche.Success)
-      {
-        var imageUrl = coverMatche.Value;
-        var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
-        var base64String = Convert.ToBase64String(imageBytes);
-        var dataString = "data:image/png;base64," + base64String;
-        Console.WriteLine(dataString);
-        Post.Cover = dataString;
-      }
+        var content = await _editorJsInterop.GetEditorValueAsync();
+        var imgsMatches = StringHelper.MarkdownImgBlobGeneratedRegex().Matches(content);
+
+        if (imgsMatches.Count > 0)
+        {
+            var contentStringBuilder = new StringBuilder(content);
+            foreach (Match match in imgsMatches)
+            {
+                var imageUrl = match.Groups[1].Value;
+                var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
+                var base64String = Convert.ToBase64String(imageBytes);
+                contentStringBuilder.Replace(imageUrl, "data:image/png;base64," + base64String);
+            }
+            content = contentStringBuilder.ToString();
+        }
+        return content;
     }
-    if (string.IsNullOrEmpty(Post.Description)) Post.Description = Post.Title;
-    Post.State = postState;
-    await OnSaveCallback.InvokeAsync(Post);
-  }
 
-  protected async Task SaveAsync()
-  {
-    await SaveCoreAsync(PostState.Draft);
-  }
-
-  protected async Task PublishAsync()
-  {
-    await SaveCoreAsync(PostState.Release);
-  }
-
-  protected async Task UnpublishAsync()
-  {
-    await SaveCoreAsync(PostState.Draft);
-  }
-
-  protected async Task RemoveAsync(int id)
-  {
-    if (await _jsRuntime.InvokeAsync<bool>("confirm", _localizer["confirm-delete"]))
+    protected async Task LoadImageFiles(InputFileChangeEventArgs args)
     {
-      await OnRemoveCallback.InvokeAsync(id);
+        var element = _inputFileReference?.Element;
+        await _editorJsInterop.WriteFrontFileAsync(element);
     }
-  }
 
-  protected async Task ChangeCoverAsync()
-  {
-    await _commonJsInterop.TriggerClickAsync(_inputCovereference?.Element);
-  }
+    protected async Task SaveCoreAsync(PostState postState)
+    {
+        var content = await GetValueAsync();
+        if (string.IsNullOrEmpty(Post.Title) || string.IsNullOrEmpty(content))
+        {
+            _toaster.Error(_localizer["title-content-required"]);
+            return;
+        }
+        Post.Content = content;
+        if (!string.IsNullOrEmpty(Post.Cover))
+        {
+            var coverMatche = StringHelper.BlobUrlGeneratedRegex().Match(Post.Cover);
+            if (coverMatche.Success)
+            {
+                var imageUrl = coverMatche.Value;
+                var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
+                var base64String = Convert.ToBase64String(imageBytes);
+                var dataString = "data:image/png;base64," + base64String;
+                Console.WriteLine(dataString);
+                Post.Cover = dataString;
+            }
+        }
+        if (string.IsNullOrEmpty(Post.Description)) Post.Description = Post.Title;
+        Post.State = postState;
+        await OnSaveCallback.InvokeAsync(Post);
+    }
 
-  protected async Task LoadCovereFile(InputFileChangeEventArgs args)
-  {
-    var element = _inputCovereference?.Element;
-    var blobInfo = await _commonJsInterop.GetInputFileBlobInfoAsync(element);
-    Post.Cover = blobInfo.Url;
-  }
+    protected async Task SaveAsync()
+    {
+        await SaveCoreAsync(PostState.Draft);
+    }
 
-  protected Task RemoveCoverAsync()
-  {
-    Post.Cover = null;
-    StateHasChanged();
-    return Task.CompletedTask;
-  }
+    protected async Task PublishAsync()
+    {
+        await SaveCoreAsync(PostState.Release);
+    }
+
+    protected async Task UnpublishAsync()
+    {
+        await SaveCoreAsync(PostState.Draft);
+    }
+
+    protected async Task RemoveAsync(int id)
+    {
+        if (await _jsRuntime.InvokeAsync<bool>("confirm", _localizer["confirm-delete"]))
+        {
+            await OnRemoveCallback.InvokeAsync(id);
+        }
+    }
+
+    protected async Task ChangeCoverAsync()
+    {
+        await _commonJsInterop.TriggerClickAsync(_inputCovereference?.Element);
+    }
+
+    protected async Task LoadCovereFile(InputFileChangeEventArgs args)
+    {
+        var element = _inputCovereference?.Element;
+        var blobInfo = await _commonJsInterop.GetInputFileBlobInfoAsync(element);
+        Post.Cover = blobInfo.Url;
+    }
+
+    protected Task RemoveCoverAsync()
+    {
+        Post.Cover = null;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+
+    protected async Task GetAllCategories()
+    {
+        var result = await _httpClient.GetFromJsonAsync<List<CategoryItemDto>>($"api/category");
+        Categories = result;
+    }
 }

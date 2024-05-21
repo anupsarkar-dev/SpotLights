@@ -41,6 +41,17 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
             .ToListAsync();
   }
 
+  public async Task<List<CategoryItemDto>> GetAllAsync()
+  {
+    return await _context.Categories.Select(c => new CategoryItemDto()
+    {
+      Id = c.Id,
+      Category = c.Content,
+      Description = c.Description,
+      ShowInMenu = c.ShowInMenu,
+    }).AsNoTracking().ToListAsync();
+  }
+
   public async Task<List<CategoryItemDto>> GetItemsExistPostAsync()
   {
     return await _context.PostCategories
