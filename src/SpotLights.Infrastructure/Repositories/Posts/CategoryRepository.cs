@@ -23,7 +23,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
                       m.Id,
                       m.Content,
                       m.Description,
-                      m.IsShowInHomePage
+                      m.ShowInMenu
                     }
             )
             .Select(
@@ -33,7 +33,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
                       Id = m.Key.Id,
                       Category = m.Key.Content,
                       Description = m.Key.Description,
-                      IsShowInHomePage = m.Key.IsShowInHomePage,
+                      ShowInMenu = m.Key.ShowInMenu,
                       PostCount = _context.PostCategories.Count(s => s.CategoryId == m.Key.Id)
                     }
             )
@@ -52,7 +52,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
                   m.Category.Id,
                   m.Category.Content,
                   m.Category.Description,
-                  m.Category.IsShowInHomePage
+                  m.Category.ShowInMenu
                 }
         )
         .Select(
@@ -62,7 +62,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
                   Id = m.Key.Id,
                   Category = m.Key.Content,
                   Description = m.Key.Description,
-                  IsShowInHomePage = m.Key.IsShowInHomePage,
+                  ShowInMenu = m.Key.ShowInMenu,
                   PostCount = m.Count()
                 }
         )
@@ -86,7 +86,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
     var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
     if (existingCategory is null) return false;
 
-    existingCategory.IsShowInHomePage = status;
+    existingCategory.ShowInMenu = status;
     return await _context.SaveChangesAsync() > 0;
   }
 
@@ -117,7 +117,7 @@ internal class CategoryRepository : BaseContextRepository, ICategoryRepository
 
     dbCategory.Content = category.Content;
     dbCategory.Description = category.Description;
-    dbCategory.IsShowInHomePage = category.IsShowInHomePage;
+    dbCategory.ShowInMenu = category.ShowInMenu;
     return await _context.SaveChangesAsync() > 0;
   }
 
