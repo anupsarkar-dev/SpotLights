@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SpotLights.Infrastructure.Repositories.Posts;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Core.Interfaces;
+using SpotLights.Shared.Extensions;
 
 namespace SpotLights.Interfaces;
 
@@ -22,6 +23,12 @@ public class CategoryController : ControllerBase
         _categoryService = categoryService;
     }
 
+    [HttpGet]
+    public async Task<IEnumerable<CategoryItemDto>> GetAll()
+    {
+        return await _categoryService.GetAllAsync();
+    }
+
     [HttpGet("items")]
     public async Task<IEnumerable<CategoryItemDto>> GetItemsAsync()
     {
@@ -29,16 +36,35 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task DeleteAsync([FromRoute] int id)
+    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
     {
+        if (!User.IsAdmin())
+        {
+            return StatusCode(
+                403,
+                new { error = "User does not have permission to delete category." }
+            );
+        }
+
         await _categoryService.DeleteAsync<Category>(id);
+        return Ok();
     }
 
     [HttpDelete("{idsString}")]
-    public async Task DeleteAsync([FromRoute] string idsString)
+    public async Task<IActionResult> DeleteAsync([FromRoute] string idsString)
     {
+        if (!User.IsAdmin())
+        {
+            return StatusCode(
+                403,
+                new { error = "User does not have permission to delete category." }
+            );
+        }
+
         IEnumerable<int> ids = idsString.Split(',').Select(int.Parse);
         await _categoryService.DeleteAsync<Category>(ids);
+
+        return Ok();
     }
 
     [HttpGet("{postId:int}")]
@@ -63,5 +89,17 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<bool>> SaveCategory(Category category)
     {
         return await _categoryService.SaveCategory(category);
+    }
+
+    [HttpPut("updateCategoryMenuStatus/{categoryId}")]
+    public async Task<ActionResult<bool>> UpdateCategoryMenuStatus(
+        int categoryId,
+        [FromBody] bool status
+    )
+    {
+        if (categoryId <= 0)
+            return BadRequest("Invalid input request.");
+
+        return await _categoryService.UpdateCategoryMenusStatusByIdAsync(categoryId, status);
     }
 }

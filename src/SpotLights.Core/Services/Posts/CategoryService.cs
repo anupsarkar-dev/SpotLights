@@ -1,3 +1,4 @@
+using Mapster;
 using SpotLights.Core.Interfaces;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Infrastructure.Interfaces.Posts;
@@ -25,6 +26,11 @@ internal class CategoryService : BaseContextService, ICategoryService
         return await _categoryRepository.GetItemsAsync();
     }
 
+    public async Task<List<CategoryItemDto>> GetAllAsync()
+    {
+      return await _categoryRepository.GetAllAsync();
+    }
+
     public async Task<List<CategoryItemDto>> GetItemsExistPostAsync()
     {
         return await _categoryRepository.GetItemsExistPostAsync();
@@ -48,5 +54,10 @@ internal class CategoryService : BaseContextService, ICategoryService
     public async Task<List<CategoryItemDto>> SearchCategories(string term)
     {
         return await _categoryRepository.SearchCategories(term);
+    }
+
+    public async Task<bool> UpdateCategoryMenusStatusByIdAsync(int categoryId, bool status)
+    {
+      return await _categoryRepository.UpdateCategoryMenusStatusByIdAsync(categoryId, status);
     }
 }
