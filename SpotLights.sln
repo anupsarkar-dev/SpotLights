@@ -11,7 +11,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{512E41FF-25A7-49D6-B126-EC1450E17B72}"
 	ProjectSection(SolutionItems) = preProject
 		docs\01-Authentication.md = docs\01-Authentication.md
-		docs\02-Database.md = docs\02-Database.md
 		docs\03-Logging.md = docs\03-Logging.md
 		docs\04-Localization.md = docs\04-Localization.md
 		README.md = README.md
