@@ -1,8 +1,8 @@
-## To change Database Provider
+## To change Database Provider (Choose any preferred database)
 Update provider and connection string in the `appsettings.json`:
 
 
-#### Microsoft SqlServer
+#### Microsoft Sql Server
 ``` json
 "SpotLights": {
    "DbProvider": "Mssql",
@@ -34,16 +34,27 @@ It is recommended to put the database file under the App_Data folder. The logs a
 In the above example, ConnString requires you to fill in the correct database host address username and password to connect normally
 
 
+
+## In Memory Caching Database
+Currently redis is configured and required for running the application
+
+#### Redis
+``` json
+"SpotLights": {
+   "Redis": "127.0.0.1:6379,defaultDatabase=0",
+   ...
+}
+```
+
 ## When a change to an entity field requires a database migration
 
 The database migration is stored in the src/SpotLights.Data/Migrations  directory. 
 
 
 ## Migration Command 
+Should run all the commands in root solution directory (Solution root -> Right Click -> Open In Terminal)
 
 ``` shell
-# Jump to root solution directory
-Solution root -> Right Click -> Open In Terminal
 
 # Before proceed make sure you have dotnet-ef tools are installed in your system
 dotnet tool install --global dotnet-ef

@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\SpotLights\SpotLights.csproj" />
+      <ProjectReference Include="..\..\src\SpotLights\SpotLights.Application.csproj" />
     </ItemGroup>
 
 </Project>
