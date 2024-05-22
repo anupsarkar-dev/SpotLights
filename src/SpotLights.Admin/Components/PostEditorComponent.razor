@@ -77,7 +77,18 @@
                             </li>
                         </ul>
                     </div>
-                    <CategoriesComponent AllCategories="Categories" Categories="Post.Categories" />
+      
+
+                    @if (Categories != null && Categories.Any() && Post?.Categories != null)
+                    {
+                        <CategoriesComponent AllCategories="Categories" Categories="Post.Categories" />
+                    }
+                    else
+                    {
+                        <p>Loading...</p>
+                    }
+
+
                 </div>
             </div>
         </div>
@@ -221,6 +232,6 @@
     protected async Task GetAllCategories()
     {
         var result = await _httpClient.GetFromJsonAsync<List<CategoryItemDto>>($"api/category");
-        Categories = result;
+        Categories = result ?? new();
     }
 }

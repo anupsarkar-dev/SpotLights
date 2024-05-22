@@ -111,8 +111,6 @@ internal class PostRepository : BaseContextRepository, IPostRepository
   public async Task<PostEditorDto> GetEditorAsync(string slug)
   {
     var query = from p in _context.Posts
-                join pc in _context.PostCategories
-                  on p.Id equals pc.PostId
                 where p.Slug == slug
                 select new PostEditorDto
                 {
@@ -125,12 +123,12 @@ internal class PostRepository : BaseContextRepository, IPostRepository
                   PublishedAt = p.PublishedAt,
                   PostType = p.PostType,
                   State = p.State,              
-                  Categories =  _context.Categories
-                    .Where(c => c.Id == pc.CategoryId)
+                  Categories =  _context.PostCategories.Include(s => s.Category)
+                    .Where(c => c.PostId == p.Id)
                     .Select(s => new CategoryDto
                     {
-                      Id = s.Id,
-                      Content = s.Content
+                      Id = s.Category.Id,
+                      Content = s.Category.Content
                     }).ToList() 
 
                 };

@@ -2,8 +2,8 @@
 @inject IToaster _toaster
 
 @code {
-    [Parameter] public List<CategoryDto> Categories { get; set; } = default!;
-    [Parameter] public List<CategoryItemDto> AllCategories { get; set; } = default!;
+    [Parameter] public List<CategoryDto> Categories { get; set; } = new();
+    [Parameter] public List<CategoryItemDto> AllCategories { get; set; } = new List<CategoryItemDto>();
 
     protected string Tag { get; set; } = default!;
     protected bool isShowDropdownMenu = false;
