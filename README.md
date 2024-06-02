@@ -7,6 +7,29 @@
 <br>
 
   
+## UI
+
+### Homepage
+
+![Project flow diagram](./homepage.png)
+
+
+### Blog view
+
+![Project flow diagram](./blog.png)
+
+
+### Dashboard
+
+![Project flow diagram](./dashboard.png)
+
+
+### Post manager
+
+![Project flow diagram](./dashboard2.png)
+
+
+
 
 ## Installation and Development
 If you want to customize the SpotLights, or contribute:
@@ -96,6 +119,57 @@ dotnet ef database update   --project=src\SpotLights.Data\SpotLights.Data.csproj
 
 ```
 
+
+## Project Structure
+
+![Project flow diagram](./flow.png)
+
+
+``` shell
+
+Solution
+├── SpotLights.Admin(Contains Admin Dashboard related files)
+│   ├── Webassembly dependencies
+│   ├── Views, Components, Pages
+│   └── Assests, wwwroot
+│ 
+├── SpotLights.Application (Startup Web Project)
+│   ├── Api Controller
+│   ├── View Controller
+│   └── Views
+│   
+├── SpotLights.Core
+│   ├── Services
+│   └── Views
+│
+├── SpotLights.Infrastructure
+│   ├── Repositories
+│   ├── Identity
+│   ├── Caches
+│   ├── Managers
+│   └── Providers
+│   
+├── SpotLights.Data
+│   ├── DbContext
+│   ├── Entity Configurations
+│   └── Migrations
+│
+├── SpotLights.Domain
+│   ├── Entity Model
+│   ├── Dao
+│   └── Dto
+│
+└── SpotLights.Shared
+    ├── Constants
+    ├── Enums
+    ├── Dto
+    ├── Extensions
+    ├── Viewmodels
+    ├── Resources
+    └── Helpers
+
+
+```
 ### Warn 
 Do not add or delete database migration at will. After the application generates data, random migration may cause data loss. This project will automatically apply the migration when it starts.
 

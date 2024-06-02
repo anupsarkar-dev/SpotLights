@@ -1,6 +1,6 @@
 using SpotLights.Shared;
 
-namespace SpotLights.Admin;
+namespace SpotLights.Shared.Dtos.Admin;
 
 public class FrontPostItemDto : PostItemDto
 {

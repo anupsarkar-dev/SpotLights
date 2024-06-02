@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using SpotLights.Shared.Dtos.Admin;
 using System;
 using System.Threading.Tasks;
 

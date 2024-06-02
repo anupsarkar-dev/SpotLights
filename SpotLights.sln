@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{512E41FF-2
 		docs\01-Authentication.md = docs\01-Authentication.md
 		docs\03-Logging.md = docs\03-Logging.md
 		docs\04-Localization.md = docs\04-Localization.md
+		C:\Users\Anup\OneDrive\Desktop\Spotlights\flow.png = C:\Users\Anup\OneDrive\Desktop\Spotlights\flow.png
 		README.md = README.md
 	EndProjectSection
 EndProject
