@@ -48,7 +48,8 @@ public class PostController : ControllerBase
     [HttpGet("byslug/{slug}")]
     public async Task<PostEditorDto> GetPostBySlug(string slug)
     {
-        return await _postProvider.GetEditorAsync(slug);
+        var post = await _postProvider.GetEditorAsync(slug);
+        return post;
     }
 
     [HttpPost("add")]

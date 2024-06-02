@@ -1,0 +1,98 @@
+@typeparam TItem
+@inject IJSRuntime JSRuntime
+
+<style>
+    .dropdown-menu {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
+<div class="dropdown" @onclick:stopPropagation="true">
+    <button class="btn btn-secondary dropdown-toggle" type="button" @onclick="ToggleDropdown">
+        @Title
+    </button>
+    <div class="dropdown-menu" style="display:@(IsDropdownOpen ? "block" : "none")">
+        <div class="form-group px-3 py-2">
+            <input class="form-control" @bind="NewItemText" placeholder="Add new item" @onkeypress="HandleKeyPress">
+        </div>
+        @foreach (var item in Items)
+        {
+            <div class="form-check px-3">
+                <input class="form-check-input" type="checkbox" id="@item.GetHashCode()" @onchange="e => OnItemSelected(e, item)" checked="@(SelectedItems.Contains(item))">
+                <label class="form-check-label" for="@item.GetHashCode()">
+                    @ItemTextSelector(item)
+                </label>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<TItem> Items { get; set; }
+
+    [Parameter]
+    public Func<TItem, string> ItemTextSelector { get; set; }
+
+    [Parameter]
+    public List<TItem> SelectedItems { get; set; } = new List<TItem>();
+
+    [Parameter]
+    public string Title { get; set; }
+
+    private bool IsDropdownOpen { get; set; } = false;
+    private string NewItemText { get; set; }
+
+    private void ToggleDropdown()
+    {
+        IsDropdownOpen = !IsDropdownOpen;
+    }
+
+    private void OnItemSelected(ChangeEventArgs e, TItem item)
+    {
+        var isChecked = (bool)e.Value;
+
+        if (isChecked)
+        {
+            if (!SelectedItems.Contains(item))
+            {
+                SelectedItems.Add(item);
+            }
+        }
+        else
+        {
+            if (SelectedItems.Contains(item))
+            {
+                SelectedItems.Remove(item);
+            }
+        }
+
+        SelectedItemsChanged.InvokeAsync(SelectedItems);
+    }
+
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            AddNewItem();
+        }
+    }
+
+    private void AddNewItem()
+    {
+        if (!string.IsNullOrWhiteSpace(NewItemText))
+        {
+            var newItem = (TItem)(object)NewItemText; // Adjust this line if TItem is not a string.
+            if (!Items.Contains(newItem))
+            {
+                Items.Add(newItem);
+                SelectedItems.Add(newItem);
+                SelectedItemsChanged.InvokeAsync(SelectedItems);
+            }
+            NewItemText = string.Empty;
+        }
+    }
+
+    [Parameter]
+    public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
+}

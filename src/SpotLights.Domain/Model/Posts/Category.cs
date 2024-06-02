@@ -11,6 +11,5 @@ public class Category : BaseEntity
     [StringLength(255)]
     public string? Description { get; set; } = default!;
     public List<PostCategory>? PostCategories { get; set; }
-
     public bool ShowInMenu { get; set; }
 }
