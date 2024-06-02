@@ -11,22 +11,22 @@
 
 ### Homepage
 
-![Project flow diagram](./homepage.png)
+![Project flow diagram](./docs/homepage.png)
 
 
 ### Blog view
 
-![Project flow diagram](./blog.png)
+![Project flow diagram](./docs/blog.png)
 
 
 ### Dashboard
 
-![Project flow diagram](./dashboard.png)
+![Project flow diagram](./docs/dashboard.png)
 
 
 ### Post manager
 
-![Project flow diagram](./dashboard2.png)
+![Project flow diagram](./docs/dashboard2.png)
 
 
 
@@ -122,7 +122,7 @@ dotnet ef database update   --project=src\SpotLights.Data\SpotLights.Data.csproj
 
 ## Project Structure
 
-![Project flow diagram](./flow.png)
+![Project flow diagram](./docs/flow.png)
 
 
 ``` shell
@@ -170,6 +170,42 @@ Solution
 
 
 ```
+
+
+### User Login and Registration
+On the first login, user gets redirected to the `admin/register` page to register a new account. 
+Once account created, registration page is disabled and this user becomes a blog owner.
+
+### Authentication
+The blog posts, including blog themes, are all run as public, server-side rendered MVC site. 
+
+Anything under `admin` is Blazor Web Assembly application and is guarded by custom authentication provider (`BlogAuthenticationStateProvider`). 
+User password is one-way hashed and saved in the `Authors` table on the back-end. 
+The salt used to hash password pulled from `appsettings.json` configuration file and should be updated **before** creating user account.
+
+```
+"SpotLights": {
+  ...
+  "Salt": "SECRET-CHANGE-ME!"
+}
+```
+
+
+### Serilog
+
+Logging done using [Serilog Sink File](https://github.com/serilog/serilog-sinks-file) package.
+All logs saved to the `/Logs` folder as configured in the application startup:
+
+```
+Log.Logger = new LoggerConfiguration()
+  .Enrich.FromLogContext()
+  .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+  .CreateLogger();
+
+Log.Warning("Test log");
+```
+
+
 ### Warn 
 Do not add or delete database migration at will. After the application generates data, random migration may cause data loss. This project will automatically apply the migration when it starts.
 
