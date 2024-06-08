@@ -1,10 +1,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SpotLights.Data.ValueGeneration;
+namespace SpotLights.Common.Library.Utils;
 
 public class DateTimetValueGenerator : ValueGenerator<DateTime>
 {
@@ -15,7 +12,10 @@ public class DateTimetValueGenerator : ValueGenerator<DateTime>
     return DateTime.UtcNow;
   }
 
-  public override ValueTask<DateTime> NextAsync(EntityEntry entry, CancellationToken cancellationToken = default)
+  public override ValueTask<DateTime> NextAsync(
+    EntityEntry entry,
+    CancellationToken cancellationToken = default
+  )
   {
     return ValueTask.FromResult(DateTime.UtcNow);
   }

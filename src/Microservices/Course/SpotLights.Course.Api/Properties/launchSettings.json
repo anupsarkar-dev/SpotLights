@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "http": {
+    "SpotLights.Course.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
