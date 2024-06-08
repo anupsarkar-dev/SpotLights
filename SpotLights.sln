@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 16.0.0.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Application.Web", "src\SpotLights.Application\SpotLights.Portal.Application.Web.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Application.Web", "src\Microservices\Portal\SpotLights.Application\SpotLights.Portal.Application.Web.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Admin", "src\SpotLights.Admin\SpotLights.Admin.csproj", "{ABD5820B-6A81-42C3-89C7-B324329345C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Admin", "src\Microservices\Portal\SpotLights.Admin\SpotLights.Admin.csproj", "{ABD5820B-6A81-42C3-89C7-B324329345C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Shared", "src\SpotLights.Shared\SpotLights.Portal.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Shared", "src\Microservices\Portal\SpotLights.Shared\SpotLights.Portal.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{512E41FF-25A7-49D6-B126-EC1450E17B72}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,21 +28,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{D2E9C8BA
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\Microservices\Portal\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\Microservices\Portal\SpotLights.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Core", "src\SpotLights.Core\SpotLights.Portal.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Core", "src\Microservices\Portal\SpotLights.Core\SpotLights.Portal.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Data", "src\SpotLights.Data\SpotLights.Portal.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Data", "src\Microservices\Portal\SpotLights.Data\SpotLights.Portal.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Domain", "src\SpotLights.Domain\SpotLights.Portal.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Domain", "src\Microservices\Portal\SpotLights.Domain\SpotLights.Portal.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{3985B122-94A3-44F3-8E41-25BD7E9E2FAF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blog", "Blog", "{B0B38A23-4F05-4F2D-A121-0BBACBE590DE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{B0B38A23-4F05-4F2D-A121-0BBACBE590DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{9CFBD316-905A-4F16-B405-C6AA5C80FB57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Course", "Course", "{30577662-08D5-4858-9BE1-67113A6009B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,7 @@ Global
 		{F44E6542-4A15-4D30-A16A-D4717BB78990} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{B4240118-6722-4544-BBB5-8CEBB3D23959} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{B0B38A23-4F05-4F2D-A121-0BBACBE590DE} = {3985B122-94A3-44F3-8E41-25BD7E9E2FAF}
+		{30577662-08D5-4858-9BE1-67113A6009B4} = {3985B122-94A3-44F3-8E41-25BD7E9E2FAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AA706E7-D820-4892-9F60-FCEEDC51FF5E}
