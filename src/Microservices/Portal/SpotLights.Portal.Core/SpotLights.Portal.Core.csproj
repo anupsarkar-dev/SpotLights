@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SpotLights.Portal.Application</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SpotLights.Portal.Domain\SpotLights.Portal.Domain.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Infrastructure\SpotLights.Portal.Infrastructure.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Shared\SpotLights.Portal.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

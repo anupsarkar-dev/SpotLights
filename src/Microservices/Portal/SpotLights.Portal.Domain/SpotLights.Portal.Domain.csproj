@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,8 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+ 
+
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common.Library\Common.Library\SpotLights.Common.Library.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Shared\SpotLights.Portal.Shared.csproj" />
   </ItemGroup>
 
 </Project>

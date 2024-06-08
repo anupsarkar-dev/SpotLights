@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <SelfContained>false</SelfContained>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <BlazorWebAssemblyOmitDebugProxyOutput>true</BlazorWebAssemblyOmitDebugProxyOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpotLights.Portal.Admin\SpotLights.Admin.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Core\SpotLights.Portal.Core.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Domain\SpotLights.Portal.Domain.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Shared\SpotLights.Portal.Shared.csproj" />
+    <ProjectReference Include="..\SpotLights.Portal.Themes.Standard\SpotLights.Themes.Standard.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 16.0.0.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Application.Web", "src\Microservices\Portal\SpotLights.Application\SpotLights.Portal.Application.Web.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Application", "src\Microservices\Portal\SpotLights.Portal.Application\SpotLights.Portal.Application.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Admin", "src\Microservices\Portal\SpotLights.Admin\SpotLights.Admin.csproj", "{ABD5820B-6A81-42C3-89C7-B324329345C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Admin", "src\Microservices\Portal\SpotLights.Portal.Admin\SpotLights.Admin.csproj", "{ABD5820B-6A81-42C3-89C7-B324329345C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Shared", "src\Microservices\Portal\SpotLights.Shared\SpotLights.Portal.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Shared", "src\Microservices\Portal\SpotLights.Portal.Shared\SpotLights.Portal.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{512E41FF-25A7-49D6-B126-EC1450E17B72}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,25 +28,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{D2E9C8BA
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\Microservices\Portal\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\Microservices\Portal\SpotLights.Portal.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\Microservices\Portal\SpotLights.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\Microservices\Portal\SpotLights.Portal.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Core", "src\Microservices\Portal\SpotLights.Core\SpotLights.Portal.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Core", "src\Microservices\Portal\SpotLights.Portal.Core\SpotLights.Portal.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Data", "src\Microservices\Portal\SpotLights.Data\SpotLights.Portal.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Data", "src\Microservices\Portal\SpotLights.Portal.Data\SpotLights.Portal.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Domain", "src\Microservices\Portal\SpotLights.Domain\SpotLights.Portal.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Domain", "src\Microservices\Portal\SpotLights.Portal.Domain\SpotLights.Portal.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{3985B122-94A3-44F3-8E41-25BD7E9E2FAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{B0B38A23-4F05-4F2D-A121-0BBACBE590DE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{9CFBD316-905A-4F16-B405-C6AA5C80FB57}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Course", "Course", "{30577662-08D5-4858-9BE1-67113A6009B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Course.Api", "src\Microservices\Course\SpotLights.Course.Api\SpotLights.Course.Api.csproj", "{9E7B5E96-F3F1-497E-8829-538935DE9C5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Course.Api", "src\Microservices\Course\SpotLights.Course.Api\SpotLights.Course.Api.csproj", "{9E7B5E96-F3F1-497E-8829-538935DE9C5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Course.Core", "src\Microservices\Course\SpotLights.Course.Core\SpotLights.Course.Core.csproj", "{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Course.Infrastructure", "src\Microservices\Course\SpotLights.Course.Infrastructure\SpotLights.Course.Infrastructure.csproj", "{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Course.Domain", "src\Microservices\Course\SpotLights.Course.Domain\SpotLights.Course.Domain.csproj", "{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common.Library", "Common.Library", "{D39F91F8-9219-4096-B8EC-4068385879BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Common.Library", "src\Common.Library\Common.Library\SpotLights.Common.Library.csproj", "{7E5A870F-3D9C-4A41-8498-6212946C2AA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,16 +186,64 @@ Global
 		{9E7B5E96-F3F1-497E-8829-538935DE9C5D}.Release|x64.Build.0 = Release|Any CPU
 		{9E7B5E96-F3F1-497E-8829-538935DE9C5D}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E7B5E96-F3F1-497E-8829-538935DE9C5D}.Release|x86.Build.0 = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|x64.Build.0 = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Debug|x86.Build.0 = Debug|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|x64.Build.0 = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5}.Release|x86.Build.0 = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|x64.Build.0 = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Debug|x86.Build.0 = Debug|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|x64.ActiveCfg = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|x64.Build.0 = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|x86.ActiveCfg = Release|Any CPU
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2}.Release|x86.Build.0 = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|x64.Build.0 = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Debug|x86.Build.0 = Debug|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|x64.ActiveCfg = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|x64.Build.0 = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D}.Release|x86.Build.0 = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|x64.Build.0 = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{30113938-1040-459A-A0B6-3663E9534C8B} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
-		{ABD5820B-6A81-42C3-89C7-B324329345C8} = {9CFBD316-905A-4F16-B405-C6AA5C80FB57}
+		{ABD5820B-6A81-42C3-89C7-B324329345C8} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{A0173B1A-FDC9-4E48-94E1-21D6C0B19257} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{27EB38D0-E275-4033-93B6-3ED6E6B7B442} = {8DDBCDEC-BFD8-4737-93BD-5259C3AE9CAE}
-		{7784DF02-6BCF-40A9-B327-C1F173975714} = {9CFBD316-905A-4F16-B405-C6AA5C80FB57}
+		{7784DF02-6BCF-40A9-B327-C1F173975714} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{22CDDE93-8C55-4229-A15E-426BEA28D8AC} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{EA9B0B03-128B-4932-8903-633B236A6151} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
 		{F44E6542-4A15-4D30-A16A-D4717BB78990} = {B0B38A23-4F05-4F2D-A121-0BBACBE590DE}
@@ -195,6 +251,10 @@ Global
 		{B0B38A23-4F05-4F2D-A121-0BBACBE590DE} = {3985B122-94A3-44F3-8E41-25BD7E9E2FAF}
 		{30577662-08D5-4858-9BE1-67113A6009B4} = {3985B122-94A3-44F3-8E41-25BD7E9E2FAF}
 		{9E7B5E96-F3F1-497E-8829-538935DE9C5D} = {30577662-08D5-4858-9BE1-67113A6009B4}
+		{F5431729-914B-4B5B-ACE6-AA9B14E98EA5} = {30577662-08D5-4858-9BE1-67113A6009B4}
+		{0742E998-B6BB-4963-9CF9-47C4D16AFDD2} = {30577662-08D5-4858-9BE1-67113A6009B4}
+		{856BD955-5D13-47D3-AEB9-D4EB2CAA4E3D} = {30577662-08D5-4858-9BE1-67113A6009B4}
+		{7E5A870F-3D9C-4A41-8498-6212946C2AA3} = {D39F91F8-9219-4096-B8EC-4068385879BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AA706E7-D820-4892-9F60-FCEEDC51FF5E}
