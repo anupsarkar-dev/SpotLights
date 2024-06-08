@@ -10,7 +10,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
+    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Portal.Shared.csproj" />
   </ItemGroup>
 
 </Project>

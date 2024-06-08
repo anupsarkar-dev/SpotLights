@@ -13,9 +13,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
-    <ProjectReference Include="..\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj" />
-    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
+    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Portal.Domain.csproj" />
+    <ProjectReference Include="..\SpotLights.Infrastructure\SpotLights.Portal.Infrastructure.csproj" />
+    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Portal.Shared.csproj" />
   </ItemGroup>
 
 </Project>

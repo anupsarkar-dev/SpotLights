@@ -22,9 +22,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpotLights.Admin\SpotLights.Admin.csproj" />
-    <ProjectReference Include="..\SpotLights.Core\SpotLights.Core.csproj" />
-    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
-    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
+    <ProjectReference Include="..\SpotLights.Core\SpotLights.Portal.Core.csproj" />
+    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Portal.Domain.csproj" />
+    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Portal.Shared.csproj" />
     <ProjectReference Include="..\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj" />
   </ItemGroup>
 

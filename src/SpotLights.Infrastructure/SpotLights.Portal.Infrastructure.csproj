@@ -26,8 +26,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\SpotLights.Data\SpotLights.Data.csproj" />
-    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Shared.csproj" />
+    <ProjectReference Include="..\SpotLights.Data\SpotLights.Portal.Data.csproj" />
+    <ProjectReference Include="..\SpotLights.Shared\SpotLights.Portal.Shared.csproj" />
   </ItemGroup>
   
   <ItemGroup>

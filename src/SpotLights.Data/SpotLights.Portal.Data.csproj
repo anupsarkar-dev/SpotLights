@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Domain.csproj" />
+    <ProjectReference Include="..\SpotLights.Domain\SpotLights.Portal.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

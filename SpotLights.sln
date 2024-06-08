@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 16.0.0.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Application", "src\SpotLights.Application\SpotLights.Application.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Application.Web", "src\SpotLights.Application\SpotLights.Portal.Application.Web.csproj", "{30113938-1040-459A-A0B6-3663E9534C8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Admin", "src\SpotLights.Admin\SpotLights.Admin.csproj", "{ABD5820B-6A81-42C3-89C7-B324329345C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Shared", "src\SpotLights.Shared\SpotLights.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Shared", "src\SpotLights.Shared\SpotLights.Portal.Shared.csproj", "{A0173B1A-FDC9-4E48-94E1-21D6C0B19257}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{512E41FF-25A7-49D6-B126-EC1450E17B72}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,13 +30,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{D2E9C8BA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\SpotLights.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\SpotLights.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Core", "src\SpotLights.Core\SpotLights.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Core", "src\SpotLights.Core\SpotLights.Portal.Core.csproj", "{EA9B0B03-128B-4932-8903-633B236A6151}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Data", "src\SpotLights.Data\SpotLights.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Data", "src\SpotLights.Data\SpotLights.Portal.Data.csproj", "{F44E6542-4A15-4D30-A16A-D4717BB78990}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Domain", "src\SpotLights.Domain\SpotLights.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Domain", "src\SpotLights.Domain\SpotLights.Portal.Domain.csproj", "{B4240118-6722-4544-BBB5-8CEBB3D23959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{3985B122-94A3-44F3-8E41-25BD7E9E2FAF}"
 EndProject
