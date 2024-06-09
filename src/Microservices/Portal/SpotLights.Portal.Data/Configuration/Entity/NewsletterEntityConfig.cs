@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SpotLights.Common.Library.Base;
+using SpotLights.Data.EntityConfiguration;
 using SpotLights.Domain.Model.Newsletters;
 
 namespace SpotLights.Data.Configuration.Entity
@@ -10,7 +10,7 @@ namespace SpotLights.Data.Configuration.Entity
     public void Configure(EntityTypeBuilder<Newsletter> builder)
     {
       // Apply BaseEntity configuration
-      builder.HasBaseType<BaseEntity>();
+      BaseEntityConfig.ConfigureBaseEntity<Newsletter>(builder);
     }
   }
 }

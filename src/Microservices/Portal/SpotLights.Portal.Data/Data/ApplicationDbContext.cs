@@ -1,16 +1,14 @@
-using System.Reflection.Emit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SpotLights.Common.Library.Enums;
 using SpotLights.Data.Configuration.Entity;
-using SpotLights.Data.EntityConfiguration;
 using SpotLights.Domain.Dto;
 using SpotLights.Domain.Model.Identity;
 using SpotLights.Domain.Model.Newsletters;
 using SpotLights.Domain.Model.Posts;
 using SpotLights.Domain.Model.Storage;
-using SpotLights.Shared.Enums;
 
 namespace SpotLights.Data.Data;
 
@@ -36,13 +34,9 @@ internal class ApplicationDbContext : IdentityUserContext<UserInfo, int>
 
 
 
-
-
   protected override void OnModelCreating(ModelBuilder builder)
   {
     base.OnModelCreating(builder);
-
-    builder.ApplyConfiguration(new BaseEntityConfig(_provider));
 
     builder.ApplyConfiguration(new UserEntityConfig());
     builder.ApplyConfiguration(new IdentityUserEntityConfig());

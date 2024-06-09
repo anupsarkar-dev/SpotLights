@@ -1,23 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SpotLights.Common.Library.Base;
+using SpotLights.Common.Library.Enums;
 using SpotLights.Common.Library.Utils;
-using SpotLights.Shared.Enums;
 
 namespace SpotLights.Data.EntityConfiguration;
 
-internal class BaseEntityConfig : IEntityTypeConfiguration<BaseEntity>
+public static class BaseEntityConfig
 {
-  private readonly DbProvider _provider;
-
-  public BaseEntityConfig(DbProvider provider)
+  public static void ConfigureBaseEntity<T>(
+    EntityTypeBuilder<T> builder,
+    DbProvider provider = DbProvider.Mssql
+  )
+    where T : BaseEntity
   {
-    _provider = provider;
-  }
-
-  public void Configure(EntityTypeBuilder<BaseEntity> builder)
-  {
-    switch (_provider)
+    switch (provider)
     {
       case DbProvider.Mssql:
         builder.Property(b => b.CreatedAt).HasDefaultValueSql("getdate()");

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SpotLights.Common.Library.Base;
+using SpotLights.Data.EntityConfiguration;
 
 namespace SpotLights.Course.Infrastructure.Data.EntityConfiguration.Course
 {
@@ -9,10 +10,10 @@ namespace SpotLights.Course.Infrastructure.Data.EntityConfiguration.Course
     public void Configure(EntityTypeBuilder<Domain.Model.Course> builder)
     {
       // Apply BaseEntity configuration
-      builder.HasBaseType<BaseEntity>();
+      BaseEntityConfig.ConfigureBaseEntity<Domain.Model.Course>(builder);
 
       builder.Property(c => c.CourseName).IsRequired().HasMaxLength(100);
-      builder.Property(c => c.Description).HasMaxLength(500);
+      builder.Property(c => c.Description).HasMaxLength(5000);
 
       // Configure the relationship and cascade delete
       builder

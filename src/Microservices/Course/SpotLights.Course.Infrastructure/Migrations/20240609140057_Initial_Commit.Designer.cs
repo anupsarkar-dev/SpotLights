@@ -12,7 +12,7 @@ using SpotLights.Course.Infrastructure.Data;
 namespace SpotLights.Course.Infrastructure.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20240608180622_Initial_Commit")]
+    [Migration("20240609140057_Initial_Commit")]
     partial class Initial_Commit
     {
         /// <inheritdoc />
@@ -25,13 +25,18 @@ namespace SpotLights.Course.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SpotLights.Common.Library.Base.BaseEntity", b =>
+            modelBuilder.Entity("SpotLights.Course.Domain.Model.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -42,19 +47,31 @@ namespace SpotLights.Course.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<int>("Credits")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaseEntity");
-
-                    b.UseTptMappingStrategy();
+                    b.ToTable("Course", (string)null);
                 });
 
             modelBuilder.Entity("SpotLights.Course.Domain.Model.Enrollment", b =>
@@ -81,32 +98,6 @@ namespace SpotLights.Course.Infrastructure.Migrations
                     b.ToTable("Enrollment", (string)null);
                 });
 
-            modelBuilder.Entity("SpotLights.Course.Domain.Model.Course", b =>
-                {
-                    b.HasBaseType("SpotLights.Common.Library.Base.BaseEntity");
-
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.ToTable("Course", (string)null);
-                });
-
             modelBuilder.Entity("SpotLights.Course.Domain.Model.Enrollment", b =>
                 {
                     b.HasOne("SpotLights.Course.Domain.Model.Course", "Course")
@@ -116,15 +107,6 @@ namespace SpotLights.Course.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("SpotLights.Course.Domain.Model.Course", b =>
-                {
-                    b.HasOne("SpotLights.Common.Library.Base.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("SpotLights.Course.Domain.Model.Course", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SpotLights.Course.Domain.Model.Course", b =>

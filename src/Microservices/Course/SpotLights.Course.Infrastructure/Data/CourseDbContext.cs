@@ -17,8 +17,6 @@ namespace SpotLights.Course.Infrastructure.Data
     {
       base.OnModelCreating(builder);
 
-      builder.ApplyConfiguration(new BaseEntityConfig());
-
       builder.ApplyConfiguration(new CourseEntityConfig());
       builder.ApplyConfiguration(new EnrollmentEntityConfig());
     }
