@@ -1,5 +1,3 @@
-using SpotLights.Common.Library.Base;
-
 namespace SpotLights.Course.Domain.Model;
 
 public class Enrollment

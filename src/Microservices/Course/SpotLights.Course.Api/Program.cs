@@ -1,6 +1,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using SpotLights.Course.Core.Interfaces;
+using SpotLights.Course.Core.Services;
 using SpotLights.Course.Infrastructure.Data;
+using SpotLights.Course.Infrastructure.Interfaces;
+using SpotLights.Course.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddDbContext<CourseDbContext>(option =>
 });
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SpotLights.Course.Infrastructure\SpotLights.Course.Infrastructure.csproj" />
   </ItemGroup>
 
