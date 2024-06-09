@@ -1,11 +1,10 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using SpotLights.Course.Infrastructure.Data;
+using SpotLights.Certificaion.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<CourseDbContext>(option =>
+builder.Services.AddDbContext<CertificateDbContext>(option =>
 {
   option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -37,9 +36,9 @@ void ApplyMigration()
 {
   using (var scope = app.Services.CreateScope())
   {
-    var dbContext = scope.ServiceProvider.GetRequiredService<CourseDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<CertificateDbContext>();
 
-    if (dbContext.Database.GetPendingMigrations().Count() > 0)
+    if (dbContext.Database.GetPendingMigrations().Any())
     {
       dbContext.Database.Migrate();
     }

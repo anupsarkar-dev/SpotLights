@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpotLights.Course.Api.Controllers
+namespace SpotLights.Certification.Api.Controllers
 {
   [ApiController]
   [Route("[controller]")]

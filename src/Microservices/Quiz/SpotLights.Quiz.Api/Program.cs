@@ -31,7 +31,7 @@ app.MapControllers();
 
 ApplyMigration();
 
-app.Run();
+await app.RunAsync();
 
 void ApplyMigration()
 {
