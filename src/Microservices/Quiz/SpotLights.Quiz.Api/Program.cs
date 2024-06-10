@@ -1,6 +1,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using SpotLights.Course.Core.Services;
+using SpotLights.Quiz.Core.Interfaces;
 using SpotLights.Quiz.Infrastructure.Data;
+using SpotLights.Quiz.Infrastructure.Interfaces;
+using SpotLights.Quiz.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddDbContext<QuizDbContext>(option =>
 });
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

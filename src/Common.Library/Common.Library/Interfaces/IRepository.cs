@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using SpotLights.Common.Library.Base;
 
 namespace SpotLights.Common.Library.Interfaces
@@ -20,6 +21,7 @@ namespace SpotLights.Common.Library.Interfaces
       where T : BaseEntity;
     Task<IEnumerable<T>> GetAllAsync<T>()
       where T : BaseEntity;
+
     Task<T?> GetByIdAsync<T>(int id)
       where T : BaseEntity;
     Task<bool> SaveChangesAsync();

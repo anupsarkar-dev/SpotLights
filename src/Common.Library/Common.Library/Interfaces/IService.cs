@@ -1,7 +1,10 @@
+using System.Linq.Expressions;
+using SpotLights.Common.Library.Base;
+
 namespace SpotLights.Common.Library.Interfaces;
 
 public interface IService<T>
-  where T : class
+  where T : BaseEntity
 {
   Task<bool> AddAsync(T entity);
   Task<bool> AddRangeAsync(IEnumerable<T> entities);

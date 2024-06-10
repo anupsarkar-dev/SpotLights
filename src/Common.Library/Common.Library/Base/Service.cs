@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using SpotLights.Common.Library.Interfaces;
 
 namespace SpotLights.Common.Library.Base
