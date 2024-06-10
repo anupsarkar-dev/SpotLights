@@ -8,7 +8,7 @@ namespace SpotLights.Certificaion.Infrastructure.Data
     public CertificateDbContext(DbContextOptions options)
       : base(options) { }
 
-    public DbSet<Certification.Domain.Model.Certificate> Courses { get; set; }
+    public DbSet<Certification.Domain.Model.Certificate> Certificates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SpotLights.Certificaion.Infrastructure.Data;
+using SpotLights.Certification.Core.Interfaces;
+using SpotLights.Certification.Core.Services;
+using SpotLights.Certification.Infrastructure.Interfaces;
+using SpotLights.Certification.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,8 @@ builder.Services.AddDbContext<CertificateDbContext>(option =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<ICertificationService, CertificationService>();
+builder.Services.AddScoped<ICertificationRepository, CertificatationRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
