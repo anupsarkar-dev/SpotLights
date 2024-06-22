@@ -21,13 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8DDBCDEC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Tests", "tests\SpotLights.Tests\SpotLights.Tests.csproj", "{27EB38D0-E275-4033-93B6-3ED6E6B7B442}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{D2E9C8BA-AC43-4A35-88D9-8D63D26884B8}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitignore = .gitignore
-		Dockerfile = Dockerfile
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Themes.Standard", "src\Microservices\Portal\SpotLights.Portal.Themes.Standard\SpotLights.Themes.Standard.csproj", "{7784DF02-6BCF-40A9-B327-C1F173975714}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Portal.Infrastructure", "src\Microservices\Portal\SpotLights.Portal.Infrastructure\SpotLights.Portal.Infrastructure.csproj", "{22CDDE93-8C55-4229-A15E-426BEA28D8AC}"
@@ -75,6 +68,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Certification.Domain", "src\Microservices\Certification\SpotLights.Certification.Domain\SpotLights.Certification.Domain.csproj", "{C140EA54-096D-470E-B29C-DA3B00C6E0EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Certification.Infrastructure", "src\Microservices\Certification\SpotLights.Certification.Infrastructure\SpotLights.Certification.Infrastructure.csproj", "{4971D230-B2F3-4059-8909-0ABD5003BF47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{FB503146-713C-4ED2-8A89-182A94A151C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotLights.Routing.Gateway", "src\Gateway\SpotLights.Routing.Gateway\SpotLights.Routing.Gateway.csproj", "{6176D7A8-6968-4DF1-9956-0874C368DD70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -350,6 +347,18 @@ Global
 		{4971D230-B2F3-4059-8909-0ABD5003BF47}.Release|x64.Build.0 = Release|Any CPU
 		{4971D230-B2F3-4059-8909-0ABD5003BF47}.Release|x86.ActiveCfg = Release|Any CPU
 		{4971D230-B2F3-4059-8909-0ABD5003BF47}.Release|x86.Build.0 = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|x64.Build.0 = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Debug|x86.Build.0 = Debug|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|x64.ActiveCfg = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|x64.Build.0 = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|x86.ActiveCfg = Release|Any CPU
+		{6176D7A8-6968-4DF1-9956-0874C368DD70}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -381,6 +390,7 @@ Global
 		{7A1576F8-221A-4735-8B87-B4F12C9F08ED} = {65D5500C-593D-403F-9D73-E334BE0576FE}
 		{C140EA54-096D-470E-B29C-DA3B00C6E0EB} = {65D5500C-593D-403F-9D73-E334BE0576FE}
 		{4971D230-B2F3-4059-8909-0ABD5003BF47} = {65D5500C-593D-403F-9D73-E334BE0576FE}
+		{6176D7A8-6968-4DF1-9956-0874C368DD70} = {FB503146-713C-4ED2-8A89-182A94A151C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AA706E7-D820-4892-9F60-FCEEDC51FF5E}
