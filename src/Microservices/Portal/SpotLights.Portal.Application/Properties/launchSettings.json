@@ -1,5 +1,4 @@
 {
- 
   "profiles": {
     "SpotLights": {
       "commandName": "Project",
@@ -10,6 +9,15 @@
       "dotnetRunMessages": "true",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "applicationUrl": "http://localhost:5000"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "5000"
+      },
+      "publishAllPorts": true
     }
   },
   "iisSettings": {

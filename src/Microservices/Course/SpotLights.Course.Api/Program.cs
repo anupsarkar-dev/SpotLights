@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<CourseDbContext>(option =>
 {
-  option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+  option.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)
+  );
 });
 
 builder.Services.AddControllers();
@@ -46,7 +49,7 @@ void ApplyMigration()
   {
     var dbContext = scope.ServiceProvider.GetRequiredService<CourseDbContext>();
 
-    if (dbContext.Database.GetPendingMigrations().Count() > 0)
+    if (dbContext.Database.GetPendingMigrations().Any())
     {
       dbContext.Database.Migrate();
     }

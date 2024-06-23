@@ -1,0 +1,65 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "Admin@123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+
+  spotlights-portal-app:
+    image: ${DOCKER_REGISTRY-}spotlights-portal-application
+    build:
+      context: .
+      dockerfile: src/Microservices/Portal/SpotLights.Portal.Application/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+
+  ms-course-api:
+    image: ${DOCKER_REGISTRY-}course-api
+    build:
+      context: .
+      dockerfile: src/Microservices/Course/SpotLights.Course.Api/Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+
+  ms-quiz-api:
+    image: ${DOCKER_REGISTRY-}quiz-api
+    build:
+      context: .
+      dockerfile: src/Microservices/Quiz/SpotLights.Quiz.Api/Dockerfile
+    ports:
+      - "5002:5002"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+
+  ms-certification-api:
+    image: ${DOCKER_REGISTRY-}certification-api
+    build:
+      context: .
+      dockerfile: src/Microservices/Certification/SpotLights.Certification.Api/Dockerfile
+    ports:
+      - "5003:5003"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - sqlserver
+
+ 

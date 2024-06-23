@@ -3,22 +3,26 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 5002
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Microservices/Course/SpotLights.Course.Api/SpotLights.Course.Api.csproj", "src/Microservices/Course/SpotLights.Course.Api/"]
-RUN dotnet restore "./src/Microservices/Course/SpotLights.Course.Api/SpotLights.Course.Api.csproj"
+COPY ["src/Microservices/Quiz/SpotLights.Quiz.Api/SpotLights.Quiz.Api.csproj", "src/Microservices/Quiz/SpotLights.Quiz.Api/"]
+COPY ["src/Microservices/Quiz/SpotLights.Quiz.Core/SpotLights.Quiz.Core.csproj", "src/Microservices/Quiz/SpotLights.Quiz.Core/"]
+COPY ["src/Microservices/Quiz/SpotLights.Quiz.Infrastructure/SpotLights.Quiz.Infrastructure.csproj", "src/Microservices/Quiz/SpotLights.Quiz.Infrastructure/"]
+COPY ["src/Microservices/Quiz/SpotLights.Quiz.Domain/SpotLights.Quiz.Domain.csproj", "src/Microservices/Quiz/SpotLights.Quiz.Domain/"]
+COPY ["src/Common.Library/Common.Library/SpotLights.Common.Library.csproj", "src/Common.Library/Common.Library/"]
+RUN dotnet restore "./src/Microservices/Quiz/SpotLights.Quiz.Api/SpotLights.Quiz.Api.csproj"
 COPY . .
-WORKDIR "/src/src/Microservices/Course/SpotLights.Course.Api"
-RUN dotnet build "./SpotLights.Course.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/Microservices/Quiz/SpotLights.Quiz.Api"
+RUN dotnet build "./SpotLights.Quiz.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SpotLights.Course.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./SpotLights.Quiz.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SpotLights.Course.Api.dll"]
+ENTRYPOINT ["dotnet", "SpotLights.Quiz.Api.dll"]

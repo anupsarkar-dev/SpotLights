@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<QuizDbContext>(option =>
 {
-  option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+  option.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)
+  );
 });
 
 builder.Services.AddControllers();
