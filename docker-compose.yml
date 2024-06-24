@@ -13,16 +13,26 @@ services:
     ports:
       - "6379:6379"
 
+  spotlights-routing-gateway:
+    image: ${DOCKER_REGISTRY-}spotlights-routing-gateway
+    build:
+      context: .
+      dockerfile: src/Gateway/SpotLights.Routing.Gateway/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - ms-course-api
+      - ms-quiz-api
+      - ms-certification-api
+ 
 
   spotlights-portal-app:
     image: ${DOCKER_REGISTRY-}spotlights-portal-application
     build:
       context: .
       dockerfile: src/Microservices/Portal/SpotLights.Portal.Application/Dockerfile
-    ports:
-      - "5000:5000"
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
     depends_on:
       - sqlserver
 
@@ -31,8 +41,6 @@ services:
     build:
       context: .
       dockerfile: src/Microservices/Course/SpotLights.Course.Api/Dockerfile
-    ports:
-      - "5001:5001"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
@@ -43,8 +51,6 @@ services:
     build:
       context: .
       dockerfile: src/Microservices/Quiz/SpotLights.Quiz.Api/Dockerfile
-    ports:
-      - "5002:5002"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
@@ -55,8 +61,6 @@ services:
     build:
       context: .
       dockerfile: src/Microservices/Certification/SpotLights.Certification.Api/Dockerfile
-    ports:
-      - "5003:5003"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:

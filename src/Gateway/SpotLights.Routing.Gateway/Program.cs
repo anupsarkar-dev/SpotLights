@@ -16,7 +16,11 @@ if (builder.Environment.IsProduction())
 }
 else
 {
-  builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+  builder.Configuration.AddJsonFile(
+    "ocelot.production.json",
+    optional: false,
+    reloadOnChange: true
+  );
 }
 
 builder.Services.AddOcelot(builder.Configuration);
