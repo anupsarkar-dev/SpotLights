@@ -73,10 +73,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotLights.Routing.Gateway"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5163F8F1-6F8A-4034-AB31-1E739D1744DC}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.dcproj = docker-compose.dcproj
 		.env = .env
+		docker-compose.dcproj = docker-compose.dcproj
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestration", "Orchestration", "{10F307F6-0A4D-497F-ADF3-BEF123B4ED95}"
+	ProjectSection(SolutionItems) = preProject
+		orchestration\ms-certification-api-deployment.yaml = orchestration\ms-certification-api-deployment.yaml
+		orchestration\ms-certification-api-service.yaml = orchestration\ms-certification-api-service.yaml
+		orchestration\ms-course-api-deployment.yaml = orchestration\ms-course-api-deployment.yaml
+		orchestration\ms-course-api-service.yaml = orchestration\ms-course-api-service.yaml
+		orchestration\ms-quiz-api-deployment.yaml = orchestration\ms-quiz-api-deployment.yaml
+		orchestration\ms-quiz-api-service.yaml = orchestration\ms-quiz-api-service.yaml
+		orchestration\spotlights-portal-app-deployment.yaml = orchestration\spotlights-portal-app-deployment.yaml
+		orchestration\spotlights-portal-app-service.yaml = orchestration\spotlights-portal-app-service.yaml
+		orchestration\spotlights-routing-gateway-deployment.yaml = orchestration\spotlights-routing-gateway-deployment.yaml
+		orchestration\spotlights-routing-gateway-service.yaml = orchestration\spotlights-routing-gateway-service.yaml
 	EndProjectSection
 EndProject
 Global

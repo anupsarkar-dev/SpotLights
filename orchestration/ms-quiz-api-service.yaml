@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\Anup\AppData\Local\Microsoft\WinGet\Links\kompose.exe convert -o orchestration
+    kompose.version: 1.31.2 (a92241f79)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ms-quiz-api
+  name: ms-quiz-api
+spec:
+  ports:
+    - name: "5002"
+      port: 5002
+      targetPort: 80
+  selector:
+    io.kompose.service: ms-quiz-api
+status:
+  loadBalancer: {}

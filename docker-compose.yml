@@ -14,10 +14,12 @@ services:
       - "6379:6379"
 
   spotlights-routing-gateway:
-    image: ${DOCKER_REGISTRY-}spotlights-routing-gateway
+    image: anupsarkar/spotlights-routing-gateway
     build:
       context: .
       dockerfile: src/Gateway/SpotLights.Routing.Gateway/Dockerfile
+    ports:
+      - "4000:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
@@ -27,40 +29,48 @@ services:
  
 
   spotlights-portal-app:
-    image: ${DOCKER_REGISTRY-}spotlights-portal-application
+    image: anupsarkar/spotlights-portal-application
     build:
       context: .
       dockerfile: src/Microservices/Portal/SpotLights.Portal.Application/Dockerfile
+    ports:
+      - "5000:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     depends_on:
       - sqlserver
 
   ms-course-api:
-    image: ${DOCKER_REGISTRY-}course-api
+    image: anupsarkar/spotlights-course-api
     build:
       context: .
       dockerfile: src/Microservices/Course/SpotLights.Course.Api/Dockerfile
+    ports:
+      - "5001:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - sqlserver
 
   ms-quiz-api:
-    image: ${DOCKER_REGISTRY-}quiz-api
+    image: anupsarkar/spotlights-quiz-api
     build:
       context: .
       dockerfile: src/Microservices/Quiz/SpotLights.Quiz.Api/Dockerfile
+    ports:
+      - "5002:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - sqlserver
 
   ms-certification-api:
-    image: ${DOCKER_REGISTRY-}certification-api
+    image: anupsarkar/spotlights-certification-api
     build:
       context: .
       dockerfile: src/Microservices/Certification/SpotLights.Certification.Api/Dockerfile
+    ports:
+      - "5003:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     depends_on:

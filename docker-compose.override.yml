@@ -2,9 +2,9 @@ services:
   spotlights-routing-gateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:4000
+      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "4000:4000"
+      - "4000:80"
     volumes:
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
